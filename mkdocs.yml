@@ -18,7 +18,7 @@ theme:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: grey          # Change this to try: teal, blue grey, deep purple, green
+      primary: black         # Change this to try: teal, blue grey, deep purple, green
       accent: deep purple          # Change this to try: amber, deep orange, light green
       toggle:
         icon: material/brightness-7
@@ -27,7 +27,7 @@ theme:
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: grey          # Keep same as light mode
+      primary: black           # Keep same as light mode
       accent: deep purple          # Keep same as light mode
       toggle:
         icon: material/brightness-4
@@ -74,19 +74,19 @@ nav:
     - By Role: commands/by-role.md
     - Quick Reference: commands/quick-reference.md
     - Product:
-      - Create Story: commands/product/create-story.md
-      - Create Epic: commands/product/create-epic.md
+      - Create Story: commands/create-story.md
+      - Create Epic: commands/create-epic.md
     - Development:
-      - Create Task Plan: commands/development/create-task-plan.md
-      - Start Task: commands/development/start-task.md
-      - Verify Task: commands/development/verify-task.md
-      - Complete Task: commands/development/complete-task.md
-      - Sync Task: commands/development/sync-task.md
+      - Create Task Plan: commands/create-task-plan.md
+      - Start Task: commands/start-task.md
+      - Verify Task: commands/verify-task.md
+      - Complete Task: commands/complete-task.md
+      - Sync Task: commands/sync-task.md
     - Quality:
-      - Create Unit Tests: commands/quality/create-unit-tests.md
-      - Create Integration Tests: commands/quality/create-integration-tests.md
-      - Create E2E Tests: commands/quality/create-e2e-tests.md
-      - Review Code: commands/quality/review-code.md
+      - Create Unit Tests: commands/create-unit-tests.md
+      - Create Integration Tests: commands/create-integration-tests.md
+      - Create E2E Tests: commands/create-e2e-tests.md
+      - Review Code: commands/review-code.md
 
   - Roles:
     - roles/index.md

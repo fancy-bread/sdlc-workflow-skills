@@ -44,7 +44,7 @@ The AI reads these instructions and executes them contextually based on your spe
 
 ### 2. AI Reads the Command File
 
-Cursor loads `development/start-task.md` and understands the workflow.
+Cursor loads `start-task.md` and understands the workflow.
 
 ### 3. AI Gathers Context
 
@@ -274,7 +274,7 @@ Commands are markdown files. Edit them to match your workflow.
 ...
 ```
 
-Save in `.cursor/commands/development/complete-task.md`
+Save in `.cursor/commands/complete-task.md`
 
 **Keep it declarative** - Describe *what* to achieve, not *how*.
 

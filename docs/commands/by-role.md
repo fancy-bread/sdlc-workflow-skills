@@ -14,10 +14,10 @@ Find commands relevant to your role.
 ## Product Manager
 
 **Daily:**
-- [`/create-story`](product/create-story.md) - Create user stories from ideas
+- [`/create-story`](create-story.md) - Create user stories from ideas
 
 **Weekly:**
-- [`/create-epic`](product/create-epic.md) - Define major initiatives
+- [`/create-epic`](create-epic.md) - Define major initiatives
 
 [View role guide →](../roles/product-manager.md)
 
@@ -26,17 +26,17 @@ Find commands relevant to your role.
 ## Software Engineer (IC)
 
 **Daily:**
-- [`/start-task`](development/start-task.md) - Begin implementation
-- [`/complete-task`](development/complete-task.md) - Create PR
+- [`/start-task`](start-task.md) - Begin implementation
+- [`/complete-task`](complete-task.md) - Create PR
 
 **Weekly:**
-- [`/create-task-plan`](development/create-task-plan.md) - Design before coding
-- [`/create-unit-tests`](quality/create-unit-tests.md) - Add test coverage
+- [`/create-task-plan`](create-task-plan.md) - Design before coding
+- [`/create-unit-tests`](create-unit-tests.md) - Add test coverage
 
 **Occasional:**
-- [`/verify-task`](development/verify-task.md) - Pre-completion check
-- [`/sync-task`](development/sync-task.md) - Update after merge
-- [`/create-integration-tests`](quality/create-integration-tests.md) - Integration coverage
+- [`/verify-task`](verify-task.md) - Pre-completion check
+- [`/sync-task`](sync-task.md) - Update after merge
+- [`/create-integration-tests`](create-integration-tests.md) - Integration coverage
 
 [View role guide →](../roles/engineer.md)
 
@@ -47,13 +47,13 @@ Find commands relevant to your role.
 **All IC commands, plus:**
 
 **Daily:**
-- [`/review-code`](quality/review-code.md) - Review PRs with AI assistance
+- [`/review-code`](review-code.md) - Review PRs with AI assistance
 
 **Weekly:**
-- [`/create-integration-tests`](quality/create-integration-tests.md) - System integration
+- [`/create-integration-tests`](create-integration-tests.md) - System integration
 
 **Occasional:**
-- [`/create-e2e-tests`](quality/create-e2e-tests.md) - Critical path testing
+- [`/create-e2e-tests`](create-e2e-tests.md) - Critical path testing
 
 [View role guide →](../roles/engineer.md)
 
@@ -64,8 +64,8 @@ Find commands relevant to your role.
 **All Senior commands, plus:**
 
 **Weekly:**
-- [`/create-epic`](product/create-epic.md) - Technical initiatives
-- [`/create-task-plan`](development/create-task-plan.md) - System design
+- [`/create-epic`](create-epic.md) - Technical initiatives
+- [`/create-task-plan`](create-task-plan.md) - System design
 
 **Occasional:**
 - Cross-team coordination using most commands
@@ -78,15 +78,15 @@ Find commands relevant to your role.
 ## QA Engineer
 
 **Daily:**
-- [`/create-e2e-tests`](quality/create-e2e-tests.md) - User journey testing
+- [`/create-e2e-tests`](create-e2e-tests.md) - User journey testing
 
 **Weekly:**
-- [`/create-integration-tests`](quality/create-integration-tests.md) - Integration coverage
-- [`/create-unit-tests`](quality/create-unit-tests.md) - Component testing
+- [`/create-integration-tests`](create-integration-tests.md) - Integration coverage
+- [`/create-unit-tests`](create-unit-tests.md) - Component testing
 
 **Occasional:**
-- [`/start-task`](development/start-task.md) - Test automation work
-- [`/complete-task`](development/complete-task.md) - Submit test code
+- [`/start-task`](start-task.md) - Test automation work
+- [`/complete-task`](complete-task.md) - Submit test code
 
 [View role guide →](../roles/qa.md)
 

@@ -84,15 +84,15 @@ Begin development on a task with proper setup and pre-flight checks.
 - [ ] Work checklist posted to issue
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/development/start-task.md)**
+**[View Full Command →](../implementations/cursor/commands/start-task.md)**
 
 ---
 
 ## Used By
 
-- **[IC Engineer](../../roles/engineer.md)** - Every task (primary)
-- **[Senior Engineer](../../roles/engineer.md)** - Complex features
-- **[QA Engineer](../../roles/qa.md)** - Test automation work
+- **[IC Engineer](../roles/engineer.md)** - Every task (primary)
+- **[Senior Engineer](../roles/engineer.md)** - Complex features
+- **[QA Engineer](../roles/qa.md)** - Test automation work
 
 ---
 

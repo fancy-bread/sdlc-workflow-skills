@@ -84,14 +84,14 @@ Create an epic and its child stories from a plan document.
 - [ ] Plan attached as comment
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/product/create-epic.md)**
+**[View Full Command →](../implementations/cursor/commands/create-epic.md)**
 
 ---
 
 ## Used By
 
-- **[Product Manager](../../roles/product-manager.md)** - Major initiatives
-- **[Staff Engineer](../../roles/engineer.md)** - Technical initiatives
+- **[Product Manager](../roles/product-manager.md)** - Major initiatives
+- **[Staff Engineer](../roles/engineer.md)** - Technical initiatives
 
 ---
 

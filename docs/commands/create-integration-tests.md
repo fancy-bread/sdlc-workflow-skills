@@ -92,15 +92,15 @@ Generate tests for component interactions and integrations.
 - [ ] Cleanup working
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/quality/create-integration-tests.md)**
+**[View Full Command →](../implementations/cursor/commands/create-integration-tests.md)**
 
 ---
 
 ## Used By
 
-- **[All Engineers](../../roles/engineer.md)** - Complex features
-- **[Senior Engineer](../../roles/engineer.md)** - System integration
-- **[QA Engineer](../../roles/qa.md)** - Primary
+- **[All Engineers](../roles/engineer.md)** - Complex features
+- **[Senior Engineer](../roles/engineer.md)** - System integration
+- **[QA Engineer](../roles/qa.md)** - Primary
 
 ---
 

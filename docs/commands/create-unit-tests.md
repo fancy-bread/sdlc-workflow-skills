@@ -89,14 +89,14 @@ Generate comprehensive unit tests for code components.
 - [ ] Coverage adequate
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/quality/create-unit-tests.md)**
+**[View Full Command →](../implementations/cursor/commands/create-unit-tests.md)**
 
 ---
 
 ## Used By
 
-- **[All Engineers](../../roles/engineer.md)** - Weekly (with code)
-- **[QA Engineer](../../roles/qa.md)** - Test automation
+- **[All Engineers](../roles/engineer.md)** - Weekly (with code)
+- **[QA Engineer](../roles/qa.md)** - Test automation
 
 ---
 

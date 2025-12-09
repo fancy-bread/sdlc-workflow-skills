@@ -100,21 +100,21 @@ AI-assisted code review analyzing quality, security, and best practices.
 - [ ] Recommendation made
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/quality/review-code.md)**
+**[View Full Command →](../implementations/cursor/commands/review-code.md)**
 
 ---
 
 ## Used By
 
-- **[Senior Engineer](../../roles/engineer.md)** - Daily reviews
-- **[Staff Engineer](../../roles/engineer.md)** - Architecture review
+- **[Senior Engineer](../roles/engineer.md)** - Daily reviews
+- **[Staff Engineer](../roles/engineer.md)** - Architecture review
 
 ---
 
 ## Related Commands
 
-**Create PR:** [`/complete-task`](../development/complete-task.md) - Submit code
-**Verify:** [`/verify-task`](../development/verify-task.md) - Pre-review check
+**Create PR:** [`/complete-task`](complete-task.md) - Submit code
+**Verify:** [`/verify-task`](verify-task.md) - Pre-review check
 **Tests:** [`/create-unit-tests`](create-unit-tests.md) - Add test coverage
 
 ---

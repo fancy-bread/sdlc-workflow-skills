@@ -12,10 +12,10 @@ title: QA Engineer
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
-| [`/create-e2e-tests`](../commands/quality/create-e2e-tests.md) | Daily | Generate end-to-end tests |
-| [`/create-integration-tests`](../commands/quality/create-integration-tests.md) | Weekly | Generate integration tests |
-| [`/create-unit-tests`](../commands/quality/create-unit-tests.md) | Weekly | Generate unit tests |
-| [`/start-task`](../commands/development/start-task.md) | Occasional | Test automation work |
+| [`/create-e2e-tests`](../commands/create-e2e-tests.md) | Daily | Generate end-to-end tests |
+| [`/create-integration-tests`](../commands/create-integration-tests.md) | Weekly | Generate integration tests |
+| [`/create-unit-tests`](../commands/create-unit-tests.md) | Weekly | Generate unit tests |
+| [`/start-task`](../commands/start-task.md) | Occasional | Test automation work |
 
 [See all commands for your role →](../commands/by-role.md#qa-engineer)
 

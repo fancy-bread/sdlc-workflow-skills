@@ -86,15 +86,15 @@ Commit changes, push to remote, create pull request, and transition issue to "Co
 - [ ] Pushed to remote
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/development/complete-task.md)**
+**[View Full Command →](../implementations/cursor/commands/complete-task.md)**
 
 ---
 
 ## Used By
 
-- **[IC Engineer](../../roles/engineer.md)** - Every task (primary)
-- **[Senior Engineer](../../roles/engineer.md)** - Every task
-- **[QA Engineer](../../roles/qa.md)** - Test automation
+- **[IC Engineer](../roles/engineer.md)** - Every task (primary)
+- **[Senior Engineer](../roles/engineer.md)** - Every task
+- **[QA Engineer](../roles/qa.md)** - Test automation
 
 ---
 

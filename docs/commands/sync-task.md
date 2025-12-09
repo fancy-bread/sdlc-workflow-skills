@@ -73,13 +73,13 @@ Update issue tracker after PR is merged to main branch.
 - [ ] Issue closed
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/development/sync-task.md)**
+**[View Full Command →](../implementations/cursor/commands/sync-task.md)**
 
 ---
 
 ## Used By
 
-- **[All Engineers](../../roles/engineer.md)** - After PR merge
+- **[All Engineers](../roles/engineer.md)** - After PR merge
 
 ---
 

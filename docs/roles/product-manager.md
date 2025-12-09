@@ -12,8 +12,8 @@ title: Product Manager
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
-| [`/create-story`](../commands/product/create-story.md) | Daily | Create user stories with AI-generated acceptance criteria |
-| [`/create-epic`](../commands/product/create-epic.md) | Weekly | Create epics from plan documents |
+| [`/create-story`](../commands/create-story.md) | Daily | Create user stories with AI-generated acceptance criteria |
+| [`/create-epic`](../commands/create-epic.md) | Weekly | Create epics from plan documents |
 
 [See all commands for your role →](../commands/by-role.md#product-manager)
 

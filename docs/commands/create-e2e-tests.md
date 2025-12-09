@@ -95,14 +95,14 @@ Generate end-to-end tests for complete user journeys.
 - [ ] Test reliable
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/quality/create-e2e-tests.md)**
+**[View Full Command →](../implementations/cursor/commands/create-e2e-tests.md)**
 
 ---
 
 ## Used By
 
-- **[QA Engineer](../../roles/qa.md)** - Primary (daily)
-- **[Senior Engineer](../../roles/engineer.md)** - Critical paths
+- **[QA Engineer](../roles/qa.md)** - Primary (daily)
+- **[Senior Engineer](../roles/engineer.md)** - Critical paths
 
 ---
 

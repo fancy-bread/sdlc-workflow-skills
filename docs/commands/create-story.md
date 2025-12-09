@@ -82,21 +82,21 @@ Create a new story in the issue tracker from a feature request or requirement.
 - [ ] Linked to epic if applicable
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/product/create-story.md)**
+**[View Full Command →](../implementations/cursor/commands/create-story.md)**
 
 ---
 
 ## Used By
 
-- **[Product Manager](../../roles/product-manager.md)** - Primary (daily)
-- **[Staff Engineer](../../roles/engineer.md)** - Technical initiatives
+- **[Product Manager](../roles/product-manager.md)** - Primary (daily)
+- **[Staff Engineer](../roles/engineer.md)** - Technical initiatives
 
 ---
 
 ## Related Commands
 
 **Scale up:** [`/create-epic`](create-epic.md) - Create epic
-**Plan:** [`/create-task-plan`](../development/create-task-plan.md) - Design implementation
+**Plan:** [`/create-task-plan`](create-task-plan.md) - Design implementation
 
 ---
 

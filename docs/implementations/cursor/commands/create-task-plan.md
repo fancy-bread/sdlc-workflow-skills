@@ -92,13 +92,13 @@ Create a detailed technical implementation plan for a story.
 - [ ] Plan document created
 ```
 
-**[View Full Command →](../../../../implementations/cursor/commands/development/create-task-plan.md)**
+**[View Full Command →](../../../implementations/cursor/commands/create-task-plan.md)**
 
 ---
 
 ## Used By
 
-- **[Software Engineers](../../../../roles/engineer.md)** - Every story
+- **[Software Engineers](../../../roles/engineer.md)** - Every story
 
 ---
 
@@ -109,5 +109,5 @@ Create a detailed technical implementation plan for a story.
 
 ---
 
-[:octicons-arrow-left-24: Back to Commands](../../../../commands/index.md)
+[:octicons-arrow-left-24: Back to Commands](../../../commands/index.md)
 

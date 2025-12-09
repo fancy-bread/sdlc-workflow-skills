@@ -12,14 +12,14 @@ title: Software Engineer
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
-| [`/create-task-plan`](../commands/development/create-task-plan.md) | Every story | Design implementation |
-| [`/start-task`](../commands/development/start-task.md) | Daily | Begin implementation |
-| [`/complete-task`](../commands/development/complete-task.md) | Daily | Commit, push, create PR |
-| [`/verify-task`](../commands/development/verify-task.md) | As needed | Pre-completion checks |
-| [`/sync-task`](../commands/development/sync-task.md) | After merge | Update issue status |
-| [`/create-unit-tests`](../commands/quality/create-unit-tests.md) | Weekly | Generate unit tests |
-| [`/create-integration-tests`](../commands/quality/create-integration-tests.md) | Weekly | Generate integration tests |
-| [`/review-code`](../commands/quality/review-code.md) | Daily | AI-assisted code review |
+| [`/create-task-plan`](../commands/create-task-plan.md) | Every story | Design implementation |
+| [`/start-task`](../commands/start-task.md) | Daily | Begin implementation |
+| [`/complete-task`](../commands/complete-task.md) | Daily | Commit, push, create PR |
+| [`/verify-task`](../commands/verify-task.md) | As needed | Pre-completion checks |
+| [`/sync-task`](../commands/sync-task.md) | After merge | Update issue status |
+| [`/create-unit-tests`](../commands/create-unit-tests.md) | Weekly | Generate unit tests |
+| [`/create-integration-tests`](../commands/create-integration-tests.md) | Weekly | Generate integration tests |
+| [`/review-code`](../commands/review-code.md) | Daily | AI-assisted code review |
 
 [See all commands →](../commands/by-role.md)
 

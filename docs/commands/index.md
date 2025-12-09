@@ -17,8 +17,8 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-story`](product/create-story.md)** | Product Manager | Create user stories with AI-generated acceptance criteria |
-| **[`/create-epic`](product/create-epic.md)** | Product Manager | Create epics from plan documents |
+| **[`/create-story`](create-story.md)** | Product Manager | Create user stories with AI-generated acceptance criteria |
+| **[`/create-epic`](create-epic.md)** | Product Manager | Create epics from plan documents |
 
 ---
 
@@ -26,11 +26,11 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-task-plan`](development/create-task-plan.md)** | Engineer | Create technical implementation design |
-| **[`/start-task`](development/start-task.md)** | Engineer | Begin implementation with branch and context |
-| **[`/verify-task`](development/verify-task.md)** | Engineer | Pre-completion verification |
-| **[`/complete-task`](development/complete-task.md)** | Engineer | Commit, push, create PR |
-| **[`/sync-task`](development/sync-task.md)** | Engineer | Update issue after PR merge |
+| **[`/create-task-plan`](create-task-plan.md)** | Engineer | Create technical implementation design |
+| **[`/start-task`](start-task.md)** | Engineer | Begin implementation with branch and context |
+| **[`/verify-task`](verify-task.md)** | Engineer | Pre-completion verification |
+| **[`/complete-task`](complete-task.md)** | Engineer | Commit, push, create PR |
+| **[`/sync-task`](sync-task.md)** | Engineer | Update issue after PR merge |
 
 ---
 
@@ -38,10 +38,10 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-unit-tests`](quality/create-unit-tests.md)** | Engineer, QA | Generate unit tests |
-| **[`/create-integration-tests`](quality/create-integration-tests.md)** | Engineer, QA | Generate integration tests |
-| **[`/create-e2e-tests`](quality/create-e2e-tests.md)** | QA | Generate end-to-end tests |
-| **[`/review-code`](quality/review-code.md)** | Senior Engineer | AI-assisted code review |
+| **[`/create-unit-tests`](create-unit-tests.md)** | Engineer, QA | Generate unit tests |
+| **[`/create-integration-tests`](create-integration-tests.md)** | Engineer, QA | Generate integration tests |
+| **[`/create-e2e-tests`](create-e2e-tests.md)** | QA | Generate end-to-end tests |
+| **[`/review-code`](review-code.md)** | Senior Engineer | AI-assisted code review |
 
 ---
 

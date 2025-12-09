@@ -86,14 +86,14 @@ Pre-completion verification to ensure task meets all requirements.
 - [ ] Ready for PR
 ```
 
-**[View Full Command →](../../implementations/cursor/commands/development/verify-task.md)**
+**[View Full Command →](../implementations/cursor/commands/verify-task.md)**
 
 ---
 
 ## Used By
 
-- **[All Engineers](../../roles/engineer.md)** - Before completing tasks
-- **[QA Engineer](../../roles/qa.md)** - Verification workflow
+- **[All Engineers](../roles/engineer.md)** - Before completing tasks
+- **[QA Engineer](../roles/qa.md)** - Verification workflow
 
 ---
 
@@ -101,7 +101,7 @@ Pre-completion verification to ensure task meets all requirements.
 
 **Before:** [`/start-task`](start-task.md) - Begin work
 **After:** [`/complete-task`](complete-task.md) - Create PR
-**Test:** [`/create-unit-tests`](../quality/create-unit-tests.md) - Add tests
+**Test:** [`/create-unit-tests`](create-unit-tests.md) - Add tests
 
 ---
 

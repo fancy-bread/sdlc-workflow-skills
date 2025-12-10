@@ -63,7 +63,7 @@ At key decision points, AI asks for your approval (plans, major changes).
 
 ---
 
-## 20+ Available Commands
+## Available Commands
 
 ### 📦 Product (2 commands)
 
@@ -133,6 +133,16 @@ Test and review code.
 |---------|--------------|---------|
 | `/review-code` | AI code review | `/review-code for PR #42` |
 | `/fix-linting` | Fixes linter errors | `/fix-linting` |
+
+---
+
+### 🔧 Utilities (1 command)
+
+System and integration management.
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/mcp-status` | Check MCP server authentication status | `/mcp-status` |
 
 ---
 

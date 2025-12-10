@@ -4,7 +4,7 @@ title: Commands Reference
 
 # Command Reference
 
-**All 11 essential commands for AI-assisted development.**
+**All 12 commands for AI-assisted development.**
 
 Quick access to every command with usage examples and previews of actual command files.
 
@@ -42,6 +42,14 @@ Quick access to every command with usage examples and previews of actual command
 | **[`/create-integration-tests`](create-integration-tests.md)** | Engineer, QA | Generate integration tests |
 | **[`/create-e2e-tests`](create-e2e-tests.md)** | QA | Generate end-to-end tests |
 | **[`/review-code`](review-code.md)** | Senior Engineer | AI-assisted code review |
+
+---
+
+## Utilities (1 command)
+
+| Command | Used By | What It Does |
+|---------|---------|--------------|
+| **[`/mcp-status`](mcp-status.md)** | All Roles | Check MCP server authentication status |
 
 ---
 

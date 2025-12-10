@@ -87,6 +87,8 @@ nav:
       - Create Integration Tests: commands/create-integration-tests.md
       - Create E2E Tests: commands/create-e2e-tests.md
       - Review Code: commands/review-code.md
+    - Utilities:
+      - MCP Status: commands/mcp-status.md
 
   - Roles:
     - roles/index.md

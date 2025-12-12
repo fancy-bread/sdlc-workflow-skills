@@ -12,8 +12,9 @@ title: Product Manager
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
-| [`/create-story`](../commands/create-story.md) | Daily | Create user stories with AI-generated acceptance criteria |
-| [`/create-epic`](../commands/create-epic.md) | Weekly | Create epics from plan documents |
+| [`/create-task`](../commands/create-task.md) | Daily | Create user stories, bugs, and other tasks with AI-generated content |
+| [`/create-task`](../commands/create-task.md) | Weekly | Create epics from plan documents |
+| [`/breakdown-tasks`](../commands/breakdown-tasks.md) | Per epic/large task | Break down large tasks into well-defined subtasks |
 
 [See all commands for your role →](../commands/by-role.md#product-manager)
 
@@ -23,11 +24,13 @@ title: Product Manager
 
 ```bash
 # Morning: Define work
-/create-story for new feature requests
-/create-story for customer feedback
+/create-task --type=story for new feature requests
+/create-task --type=story for customer feedback
+/create-task --type=bug [bug description]
 
 # Weekly: Plan major initiatives
-/create-epic from product-plan.md
+/create-task --type=epic from product-plan.md
+/breakdown-tasks EPIC-123
 
 # Continuous: Keep backlog groomed and ready
 ```
@@ -38,7 +41,7 @@ title: Product Manager
 
 **Natural language, contextual execution:**
 
-You: `/create-story for user login with email and password`
+You: `/create-task --type=story for user login with email and password`
 
 AI:
 - Reads your project context
@@ -55,7 +58,7 @@ AI:
 ### 1. Create Your First Story
 
 ```bash
-/create-story for [feature description]
+/create-task --type=story for [feature description]
 ```
 
 AI will generate title, description, acceptance criteria, and create it in your issue tracker.
@@ -63,17 +66,26 @@ AI will generate title, description, acceptance criteria, and create it in your 
 ### 2. Plan an Epic
 
 ```bash
-/create-epic from requirements.md
+/create-task --type=epic from requirements.md
 ```
 
-AI reads your plan document and generates epic with child stories.
+AI reads your plan document and generates epic.
+
+### 3. Break Down Large Task into Subtasks
+
+```bash
+/breakdown-tasks TASK-123
+```
+
+AI analyzes the task and generates well-defined subtasks following INVEST criteria. This is critical for proper sprint planning.
 
 ---
 
 ## Best Practices
 
 ✅ **Be specific** - Detailed feature descriptions get better stories
-✅ **Document** - Write epic plans before `/create-epic`
+✅ **Document** - Write epic plans before `/create-task --type=epic`
+✅ **Break down tasks** - Use `/breakdown-tasks` to ensure proper task decomposition before sprint planning
 
 ---
 

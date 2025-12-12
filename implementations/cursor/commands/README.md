@@ -71,8 +71,8 @@ Define and create work items.
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
-| `/create-story` | Creates story in issue tracker with context | `/create-story for OAuth login` |
-| `/create-epic` | Creates epic from phase plan document | `/create-epic from phase-one.md` |
+| `/create-task` | Creates task in tracker with specified type (epic, story, bug, task, etc.) | `/create-task --type=story for OAuth login`<br>`/create-task --type=epic from phase-one.md`<br>`/create-task --type=bug login fails`<br><br>*Also supports natural language: `/create-task story for ...`* |
+| `/breakdown-tasks` | Breaks down large task into well-defined subtasks | `/breakdown-tasks TASK-123`<br><br>*Critical Scrum planning activity - ensures proper task decomposition* |
 
 ---
 
@@ -93,7 +93,7 @@ Estimate, prioritize, and plan work.
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
-| `/create-task-plan` | Creates detailed technical design | `/create-task-plan for AUTH-10` |
+| `/create-plan` | Creates detailed technical design | `/create-plan for AUTH-10` |
 | `/refine-plan` | Updates existing plan | `/refine-plan for AUTH-10` |
 
 ---
@@ -105,9 +105,7 @@ Implement and ship features.
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/start-task` | Begins development (branch, context) | `/start-task AUTH-123` |
-| `/verify-task` | Pre-completion quality check | `/verify-task AUTH-123` |
 | `/complete-task` | Commits, pushes, creates PR | `/complete-task AUTH-123` |
-| `/sync-task` | Updates issue after PR merge | `/sync-task AUTH-123` |
 
 ---
 
@@ -119,9 +117,7 @@ Test and review code.
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
-| `/create-unit-tests` | Generates unit tests | `/create-unit-tests for AuthService` |
-| `/create-integration-tests` | Generates integration tests | `/create-integration-tests for API` |
-| `/create-e2e-tests` | Generates end-to-end tests | `/create-e2e-tests for checkout` |
+| `/create-test` | Generates unit tests (adapts for backend/frontend) | `/create-test --type=unit for AuthService` |
 | `/run-tests` | Executes test suite | `/run-tests` |
 | `/watch-tests` | Continuous test execution | `/watch-tests` |
 | `/fix-failing-tests` | Diagnoses and fixes failures | `/fix-failing-tests` |
@@ -177,13 +173,11 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 /plan-sprint 23
 
 # Development (per story)
-/create-task-plan for AUTH-10
+/create-plan for AUTH-10
 /start-task AUTH-10
 /run-tests
 /complete-task AUTH-10
 
-# After merge
-/sync-task AUTH-10
 ```
 
 ### Kanban Flow
@@ -195,13 +189,11 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 /prioritize-backlog
 
 # Development (per story)
-/create-task-plan for AUTH-10
+/create-plan for AUTH-10
 /start-task AUTH-10
 /run-tests
 /complete-task AUTH-10
 
-# After merge
-/sync-task AUTH-10
 ```
 
 **Key difference:** Scrum plans sprints upfront. Kanban refines continuously.
@@ -216,7 +208,7 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 | **Who**: Team activity | **Who**: Individual developer |
 | **When**: Sprint/refinement | **When**: Before coding |
 | **Output**: Prioritized backlog | **Output**: `.plans/` file |
-| **Commands**: `/estimate-stories`, `/plan-sprint` | **Commands**: `/create-task-plan` |
+| **Commands**: `/estimate-stories`, `/plan-sprint` | **Commands**: `/create-plan` |
 
 ### Scrum vs Kanban
 
@@ -296,7 +288,7 @@ Save in `.cursor/commands/complete-task.md`
 | **Command fails** | Verify MCP servers connected (Settings → MCP) |
 | **Jira errors** | Check story exists, you have permissions |
 | **GitHub errors** | Verify token has `repo` scope, check write access |
-| **Plan not found** | Run `/create-task-plan` first |
+| **Plan not found** | Run `/create-plan` first |
 
 [Detailed troubleshooting →](../README.md#troubleshooting)
 
@@ -308,18 +300,16 @@ Save in `.cursor/commands/complete-task.md`
 
 ```bash
 # Create work
-/create-story for [feature]
+/create-task --type=story for [feature]
+/create-task --type=bug [description]
 
 # Plan
-/create-task-plan for [TASK-123]
+/create-plan for [TASK-123]
 
 # Develop
 /start-task [TASK-123]
 /run-tests
 /complete-task [TASK-123]
-
-# After merge
-/sync-task [TASK-123]
 ```
 
 **Scrum Planning:** `/estimate-stories` → `/plan-sprint`

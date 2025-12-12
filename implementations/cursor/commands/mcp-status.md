@@ -58,7 +58,7 @@ Configured servers:
 
 - **Start of day** - Verify connections before beginning work
 - **After inactivity** - MCP servers may disconnect after timeout
-- **Before critical commands** - Ensure integrations are ready for commands like `/start-task`, `/create-story`, etc.
+- **Before critical commands** - Ensure integrations are ready for commands like `/start-task`, `/create-task`, etc.
 - **Troubleshooting** - When other commands fail with authentication errors
 
 ## Error Handling

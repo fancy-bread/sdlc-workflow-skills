@@ -100,8 +100,7 @@ Commit changes, push to remote, create pull request, and transition issue to "Co
 
 ## Related Commands
 
-**Before:** [`/verify-task`](verify-task.md) - Pre-completion verification
-**After:** [`/sync-task`](sync-task.md) - Update after PR merge
+**Before:** [`/start-task`](start-task.md) - Begin implementation
 **See also:** [`/start-task`](start-task.md) - Begin work
 
 ---

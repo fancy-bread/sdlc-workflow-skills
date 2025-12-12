@@ -167,7 +167,7 @@ Add command library to your Cursor workspace.
 
 ### 3. Start Using
 
-Invoke your first command: `/create-story for [your feature]`
+Invoke your first command: `/create-task --type=story for [your feature]`
 
 [:octicons-arrow-right-24: Full Setup Guide](getting-started.md){ .md-button .md-button--primary }
 

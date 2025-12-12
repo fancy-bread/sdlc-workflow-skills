@@ -16,24 +16,23 @@ title: Quick Reference
 ```
 agentic-software-development/
 ├── Product (2)
-│   ├── /create-story
-│   └── /create-epic
+│   ├── /create-task
+│   └── /breakdown-tasks
 │
-├── Development (5)
-│   ├── /create-task-plan
+├── Development (3)
+│   ├── /create-plan
 │   ├── /start-task
-│   ├── /verify-task
-│   ├── /complete-task
-│   └── /sync-task
+│   └── /complete-task
 │
-└── Quality (4)
-    ├── /create-unit-tests
-    ├── /create-integration-tests
-    ├── /create-e2e-tests
+└── Quality (2)
+    ├── /create-test
     └── /review-code
+│
+└── Utilities (1)
+    └── /mcp-status
 ```
 
-**11 commands total**
+**8 commands total**
 
 ---
 
@@ -41,10 +40,16 @@ agentic-software-development/
 
 ```bash
 # Create user story
-/create-story for [feature description]
+/create-task --type=story for [feature description]
 
 # Create epic from plan
-/create-epic from [plan-file.md]
+/create-task --type=epic from [plan-file.md]
+
+# Break down large task into subtasks
+/breakdown-tasks TASK-123
+
+# Create bug
+/create-task --type=bug [description]
 ```
 
 ---
@@ -53,19 +58,13 @@ agentic-software-development/
 
 ```bash
 # Design implementation
-/create-task-plan for TASK-123
+/create-plan for TASK-123
 
 # Start work
 /start-task TASK-123
 
-# Pre-flight check (optional)
-/verify-task TASK-123
-
 # Ship it
 /complete-task TASK-123
-
-# Update after merge
-/sync-task TASK-123
 ```
 
 ---
@@ -74,12 +73,19 @@ agentic-software-development/
 
 ```bash
 # Write tests
-/create-unit-tests for ClassName
-/create-integration-tests for FeatureName
-/create-e2e-tests for [user journey]
+/create-test --type=unit for ClassName
 
 # Review code
 /review-code for PR #42
+```
+
+---
+
+## Utilities
+
+```bash
+# Check MCP server status
+/mcp-status
 ```
 
 ---
@@ -88,22 +94,21 @@ agentic-software-development/
 
 **Product Manager:**
 ```bash
-/create-story for [feature]
-/create-epic from [plan.md]
+/create-task --type=story for [feature]
+/create-task --type=epic from [plan.md]
+/breakdown-tasks TASK-123
 ```
 
 **Engineer (Daily):**
 ```bash
-/create-task-plan for TASK-123
+/create-plan for TASK-123
 /start-task TASK-123
 /complete-task TASK-123
 ```
 
 **QA:**
 ```bash
-/create-e2e-tests for [user journey]
-/create-integration-tests for FeatureName
-/create-unit-tests for ClassName
+/create-test --type=unit for ClassName
 ```
 
 ---

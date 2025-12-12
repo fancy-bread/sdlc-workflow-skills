@@ -4,7 +4,7 @@ title: Commands Reference
 
 # Command Reference
 
-**All 12 commands for AI-assisted development.**
+**All 8 commands for AI-assisted development.**
 
 Quick access to every command with usage examples and previews of actual command files.
 
@@ -17,8 +17,10 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-story`](create-story.md)** | Product Manager | Create user stories with AI-generated acceptance criteria |
-| **[`/create-epic`](create-epic.md)** | Product Manager | Create epics from plan documents |
+| **[`/create-task`](create-task.md)** | Product Manager, Engineer, QA | Create tasks with specified type (epic, story, bug, task, etc.) |
+| **[`/breakdown-tasks`](breakdown-tasks.md)** | Product Manager, Scrum Master | Break down large tasks into well-defined subtasks |
+
+*Note: Legacy commands `/create-story` and `/create-epic` have been replaced by `/create-task`. Use `/create-task --type=story` or `/create-task --type=epic` instead.*
 
 ---
 
@@ -26,11 +28,9 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-task-plan`](create-task-plan.md)** | Engineer | Create technical implementation design |
+| **[`/create-plan`](create-plan.md)** | Engineer | Create technical implementation design |
 | **[`/start-task`](start-task.md)** | Engineer | Begin implementation with branch and context |
-| **[`/verify-task`](verify-task.md)** | Engineer | Pre-completion verification |
 | **[`/complete-task`](complete-task.md)** | Engineer | Commit, push, create PR |
-| **[`/sync-task`](sync-task.md)** | Engineer | Update issue after PR merge |
 
 ---
 
@@ -38,9 +38,7 @@ Quick access to every command with usage examples and previews of actual command
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
-| **[`/create-unit-tests`](create-unit-tests.md)** | Engineer, QA | Generate unit tests |
-| **[`/create-integration-tests`](create-integration-tests.md)** | Engineer, QA | Generate integration tests |
-| **[`/create-e2e-tests`](create-e2e-tests.md)** | QA | Generate end-to-end tests |
+| **[`/create-test`](create-test.md)** | Engineer, QA | Generate unit tests (adapts for backend/frontend) |
 | **[`/review-code`](review-code.md)** | Senior Engineer | AI-assisted code review |
 
 ---
@@ -64,6 +62,7 @@ Quick access to every command with usage examples and previews of actual command
 ## How Commands Work
 
 Commands are markdown files that tell AI agents what to achieve. The AI reads your:
+
 - Project structure and code
 - Issue tracker (Jira/ADO)
 - Implementation plans

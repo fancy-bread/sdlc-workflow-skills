@@ -49,7 +49,7 @@ cp -r implementations/cursor/commands/* ~/.cursor/commands/
 ### 3. Use Commands
 
 ```
-/create-story for user authentication
+/create-task --type=story for user authentication
 /generate-implementation-plan for PROJ-123
 /start-task PROJ-123
 /complete-task PROJ-123
@@ -61,11 +61,12 @@ cp -r implementations/cursor/commands/* ~/.cursor/commands/
 
 ## Available Commands
 
-**11 essential commands:**
+**8 essential commands:**
 
-- **Product (2):** Create stories and epics
-- **Development (5):** Plan, build, and ship features
-- **Quality (4):** Write tests and review code
+- **Product (2):** Create tasks and break down large tasks
+- **Development (3):** Plan, build, and ship features
+- **Quality (2):** Write tests and review code
+- **Utilities (1):** Check MCP status
 
 [View all commands →](https://fancybread-com.github.io/agentic-software-development/commands/)
 

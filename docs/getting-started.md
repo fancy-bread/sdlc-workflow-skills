@@ -93,7 +93,7 @@ cp -r /path/to/this/repo/implementations/cursor/commands/* .cursor/commands/
 Open Cursor Chat (`Cmd/Ctrl + L`) and run:
 
 ```
-/create-story for user profile page with avatar upload
+/create-task --type=story for user profile page with avatar upload
 ```
 
 AI will:
@@ -111,16 +111,13 @@ AI will:
 
 ```bash
 # Plan
-/create-task-plan for PROJ-123
+/create-plan for PROJ-123
 
 # Build
 /start-task PROJ-123
 
 # Ship
 /complete-task PROJ-123
-
-# Close
-/sync-task PROJ-123
 ```
 
 ---

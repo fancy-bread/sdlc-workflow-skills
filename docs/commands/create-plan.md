@@ -1,8 +1,8 @@
 ---
-title: /create-task-plan
+title: /create-plan
 ---
 
-# /create-task-plan
+# /create-plan
 
 Create technical implementation design before coding.
 
@@ -23,7 +23,7 @@ Reads story, analyzes codebase, generates detailed implementation plan with file
 ## Usage
 
 ```bash
-/create-task-plan for TASK-123
+/create-plan for TASK-123
 ```
 
 ---
@@ -31,7 +31,7 @@ Reads story, analyzes codebase, generates detailed implementation plan with file
 ## Example
 
 ```
-You: /create-task-plan for AUTH-456
+You: /create-plan for AUTH-456
 
 AI:
 ✓ Reading AUTH-456: Add OAuth login
@@ -52,7 +52,7 @@ Plan includes:
 ## Command Definition
 
 ```markdown
-# Generate Implementation Plan
+# Create Plan
 
 ## Overview
 Create a detailed technical implementation plan for a story.
@@ -92,22 +92,24 @@ Create a detailed technical implementation plan for a story.
 - [ ] Plan document created
 ```
 
-**[View Full Command →](../../../implementations/cursor/commands/create-task-plan.md)**
+**[View Full Command →](../implementations/cursor/commands/create-plan.md)**
 
 ---
 
 ## Used By
 
-- **[Software Engineers](../../../roles/engineer.md)** - Every story
+- **[IC Engineer](../roles/engineer.md)** - Every story
+- **[Senior Engineer](../roles/engineer.md)** - Complex features
+- **[Staff Engineer](../roles/engineer.md)** - System design
 
 ---
 
 ## Related Commands
 
 **Execute:** [`/start-task`](start-task.md) - Begin implementation
-**Verify:** [`/verify-task`](verify-task.md) - Pre-completion check
+**Complete:** [`/complete-task`](complete-task.md) - Finish and create PR
 
 ---
 
-[:octicons-arrow-left-24: Back to Commands](../../../commands/index.md)
+[:octicons-arrow-left-24: Back to Commands](../index.md)
 

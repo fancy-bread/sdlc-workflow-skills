@@ -74,18 +74,14 @@ nav:
     - By Role: commands/by-role.md
     - Quick Reference: commands/quick-reference.md
     - Product:
-      - Create Story: commands/create-story.md
-      - Create Epic: commands/create-epic.md
+      - Create Task: commands/create-task.md
+      - Breakdown Tasks: commands/breakdown-tasks.md
     - Development:
-      - Create Task Plan: commands/create-task-plan.md
+      - Create Plan: commands/create-plan.md
       - Start Task: commands/start-task.md
-      - Verify Task: commands/verify-task.md
       - Complete Task: commands/complete-task.md
-      - Sync Task: commands/sync-task.md
     - Quality:
-      - Create Unit Tests: commands/create-unit-tests.md
-      - Create Integration Tests: commands/create-integration-tests.md
-      - Create E2E Tests: commands/create-e2e-tests.md
+      - Create Test: commands/create-test.md
       - Review Code: commands/review-code.md
     - Utilities:
       - MCP Status: commands/mcp-status.md

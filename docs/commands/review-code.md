@@ -114,8 +114,7 @@ AI-assisted code review analyzing quality, security, and best practices.
 ## Related Commands
 
 **Create PR:** [`/complete-task`](complete-task.md) - Submit code
-**Verify:** [`/verify-task`](verify-task.md) - Pre-review check
-**Tests:** [`/create-unit-tests`](create-unit-tests.md) - Add test coverage
+**Tests:** [`/create-test`](create-test.md) - Add test coverage
 
 ---
 

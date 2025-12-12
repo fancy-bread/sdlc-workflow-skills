@@ -7,8 +7,8 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 ### Product
 | Command | Usage |
 |---------|-------|
-| `/create-story` | Create Jira/ADO story |
-| `/create-epic` | Create epic from document |
+| `/create-task` | Create task in tracker (story, epic, bug, task, etc.) |
+| `/breakdown-tasks` | Break down large task into subtasks |
 
 ### Planning
 | Command | Usage |
@@ -17,23 +17,19 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 | `/prioritize-backlog` | Prioritize work |
 | `/plan-sprint` | Plan sprint (Scrum) |
 | `/refine-backlog` | Refine backlog (Kanban) |
-| `/create-task-plan` | Create technical plan |
+| `/create-plan` | Create technical plan |
 | `/refine-plan` | Update existing plan |
 
 ### Development
 | Command | Usage |
 |---------|-------|
 | `/start-task` | Start working on story |
-| `/verify-task` | Check before completion |
 | `/complete-task` | Create PR and push |
-| `/sync-task` | Update status after merge |
 
 ### Testing
 | Command | Usage |
 |---------|-------|
-| `/create-unit-tests` | Generate unit tests |
-| `/create-integration-tests` | Generate integration tests |
-| `/create-e2e-tests` | Generate E2E tests |
+| `/create-test` | Generate unit tests (adapts for backend/frontend) |
 | `/run-tests` | Execute test suite |
 | `/watch-tests` | Run tests on file changes |
 | `/fix-failing-tests` | Fix test failures |
@@ -72,7 +68,7 @@ For Cursor Team/Enterprise:
 ```
 /estimate-stories in EPIC-1
 /plan-sprint 23
-/create-task-plan for PROJ-123
+/create-plan for PROJ-123
 /start-task PROJ-123
 /complete-task PROJ-123
 ```
@@ -80,7 +76,7 @@ For Cursor Team/Enterprise:
 **Kanban:**
 ```
 /refine-backlog
-/create-task-plan for PROJ-123
+/create-plan for PROJ-123
 /start-task PROJ-123
 /complete-task PROJ-123
 ```

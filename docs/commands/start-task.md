@@ -4,7 +4,7 @@ title: /start-task
 
 # /start-task
 
-Begin implementation of a task with AI assistance.
+Begin implementation of a task with proper setup, pre-flight checks, and standardized workflow.
 
 | | |
 |---|---|
@@ -16,7 +16,7 @@ Begin implementation of a task with AI assistance.
 
 ## What It Does
 
-Creates feature branch, reads implementation plan, starts implementing code with tests.
+Performs MCP validation, reads implementation plan, creates feature branch with standardized naming, automatically transitions story to "In Progress" if needed, and begins implementing code with tests following the plan.
 
 ---
 
@@ -31,17 +31,89 @@ Creates feature branch, reads implementation plan, starts implementing code with
 ## Example
 
 ```
-You: /start-task AUTH-456
+You: /start-task FB-6
 
 AI:
-✓ Story AUTH-456: Add OAuth login
-✓ Plan: .plans/AUTH-456-oauth-login.plan.md
-✓ Creating branch: auth-456
+✓ MCP status validation passed
+✓ Story FB-6: File watching for workspace commands
+✓ Plan: .plans/FB-6-file-watching.plan.md
+✓ Story transitioned to "In Progress"
+✓ Creating branch: feat/FB-6
+✓ Branch created and checked out
+✓ Work checklist posted to issue
 ✓ Reading plan...
-✓ Implementing OAuth service...
+✓ Analyzing codebase...
+✓ Implementing file watching service...
 ✓ Writing tests...
-✓ Ready for your review
+✓ Committed: feat: add file watching (FB-6)
+✓ Ready for continued development
 ```
+
+---
+
+## Definitions
+
+- **{TASK_KEY}**: Story/Issue ID from the issue tracker (e.g., `FB-6`, `PROJ-123`, `KAN-42`)
+- **Branch Name Format**: Use short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
+  - Short format is recommended: `feat/FB-6` (not `feat/FB-6-file-watching-workspace-commands`)
+  - **Important**: Be consistent within a project - use the same format for all branches
+
+---
+
+## Prerequisites
+
+Before proceeding, the command verifies:
+
+1. **MCP Status Validation**: All MCP servers (Atlassian, GitHub) are connected and authorized
+2. **Plan File**: Plan document exists at `.plans/{TASK_KEY}-*.plan.md`
+3. **Story Status**: Story can be transitioned to "In Progress" (auto-transitioned if needed)
+4. **Story Assignment**: Story is assigned to current user
+
+---
+
+## Steps
+
+1. **Pre-flight checks**
+   - Validates MCP server connections (Atlassian, GitHub)
+   - Reads plan from `.plans/{TASK_KEY}-*.plan.md` (uses most recently modified if multiple match)
+   - Automatically transitions story to "In Progress" if not already there
+   - Verifies story assignment
+
+2. **Set up development environment**
+   - Determines branch type prefix (feat/fix/chore/refactor) based on task type
+   - Checks if branch already exists (asks user if found)
+   - Creates branch with short format: `{type}/{TASK_KEY}` (e.g., `feat/FB-6`)
+   - Posts work checklist comment to issue immediately after branch creation
+
+3. **Implement according to plan**
+   - Reads and understands complete plan
+   - Analyzes existing codebase for patterns
+   - Implements changes following plan specifications
+   - Writes tests alongside code
+   - Commits logical units of work as progress is made
+
+---
+
+## Tools
+
+The command uses explicit MCP and filesystem tools:
+
+- **MCP Atlassian**: Get issue, transitions, transition issue, add comments (with CloudId acquisition guidance)
+- **MCP GitHub**: List branches, create branch
+- **Filesystem**: Read plan files, create/modify code files
+- **Codebase**: Search for similar implementations, grep for patterns
+- **Terminal**: Git commands for branch management and commits
+
+---
+
+## Key Features
+
+- **Auto-transition**: Automatically moves story to "In Progress" if not already there
+- **Branch existence check**: Detects existing branches and handles conflicts
+- **Plan file selection**: Uses most recently modified plan if multiple exist
+- **Short branch format**: Consistent `{type}/{TASK_KEY}` naming
+- **Incremental commits**: Commits logical units as work progresses
+- **Error handling**: Clear STOP conditions with specific error messages
 
 ---
 
@@ -55,33 +127,33 @@ Preview of actual command:
 ## Overview
 Begin development on a task with proper setup and pre-flight checks.
 
+## Definitions
+- {TASK_KEY}: Story/Issue ID
+- Branch Name Format: Short format {type}/{TASK_KEY}
+
+## Prerequisites
+- MCP status validation
+- Plan file exists
+- Story can be transitioned to "In Progress"
+
 ## Steps
-1. **Pre-flight checks**
-   - Verify integrations are authorized
-   - Read plan from `.plans/{TASK_KEY}-*.plan.md`
-   - Verify story is in "In Progress"
-   - Confirm story is assigned to current user
+1. Pre-flight checks (MCP validation, plan file, story status)
+2. Set up development environment (branch creation, issue updates)
+3. Implement according to plan (with detailed sub-steps)
 
-2. **Set up development environment**
-   - Create feature branch `{task-key}`
-   - Check out branch locally
-   - Add work checklist comment to issue
+## Tools
+- MCP Tools (Atlassian, GitHub)
+- Filesystem Tools
+- Codebase Tools
+- Terminal Tools
 
-3. **Begin implementation**
-   - Review plan and understand requirements
-   - Analyze existing codebase
-   - Start implementing changes
-   - Create/modify files per plan
-   - Write tests alongside code
-
-## Pre-flight Checklist
-- [ ] All integrations authorized
-- [ ] Plan file exists and is readable
-- [ ] Story status is "In Progress"
-- [ ] Story assigned to current user
-- [ ] Feature branch created
-- [ ] Branch checked out locally
-- [ ] Work checklist posted to issue
+## Guidance
+- Role: Software engineer
+- Instruction: Execute workflow steps
+- Context: Task tracking, plan documents, MCP integrations
+- Examples: Branch names, commit messages, issue comments
+- Constraints: Unit tests required, conventional commits, branch naming
+- Output: Development work with incremental commits
 ```
 
 **[View Full Command →](../implementations/cursor/commands/start-task.md)**
@@ -104,4 +176,3 @@ Begin development on a task with proper setup and pre-flight checks.
 ---
 
 [:octicons-arrow-left-24: Back to Commands](../index.md)
-

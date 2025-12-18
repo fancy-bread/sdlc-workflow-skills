@@ -13,12 +13,7 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 ### Planning
 | Command | Usage |
 |---------|-------|
-| `/estimate-stories` | Estimate effort |
-| `/prioritize-backlog` | Prioritize work |
-| `/plan-sprint` | Plan sprint (Scrum) |
-| `/refine-backlog` | Refine backlog (Kanban) |
-| `/create-plan` | Create technical plan |
-| `/refine-plan` | Update existing plan |
+| `/create-plan` | Create technical implementation plan |
 
 ### Development
 | Command | Usage |
@@ -26,20 +21,16 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 | `/start-task` | Start working on story |
 | `/complete-task` | Create PR and push |
 
-### Testing
+### Quality
 | Command | Usage |
 |---------|-------|
 | `/create-test` | Generate unit tests (adapts for backend/frontend) |
-| `/run-tests` | Execute test suite |
-| `/watch-tests` | Run tests on file changes |
-| `/fix-failing-tests` | Fix test failures |
-| `/check-coverage` | Analyze coverage |
+| `/review-code` | AI code review |
 
-### Code Quality
+### Utilities
 | Command | Usage |
 |---------|-------|
-| `/review-code` | AI code review |
-| `/fix-linting` | Fix linting errors |
+| `/mcp-status` | Check MCP server authentication status |
 
 ## Installation
 
@@ -64,30 +55,31 @@ For Cursor Team/Enterprise:
 
 ## Example Workflow
 
-**Scrum:**
+**Development Cycle:**
 ```
-/estimate-stories in EPIC-1
-/plan-sprint 23
+/create-task --type=story for [feature]
+/breakdown-tasks EPIC-123  # If breaking down large work
 /create-plan for PROJ-123
 /start-task PROJ-123
+/create-test --type=unit for [component]  # As needed
 /complete-task PROJ-123
+/review-code for PR #42
 ```
 
-**Kanban:**
+**Epic to Story Flow:**
 ```
-/refine-backlog
-/create-plan for PROJ-123
-/start-task PROJ-123
-/complete-task PROJ-123
+/create-task --type=epic from phase-one.md
+/breakdown-tasks EPIC-123
+/create-plan for STORY-10
+/start-task STORY-10
+/complete-task STORY-10
 ```
 
 ## Command Files
 
-Commands are organized in subdirectories:
-- `product/` - Story and epic creation
-- `planning/` - Estimation, prioritization, sprint planning
-- `development/` - Task execution workflow
-- `quality/` - Testing and code quality
+All commands are markdown files in the `commands/` directory:
+- Each `.md` file contains instructions that Cursor's AI interprets to execute the workflow
+- Commands adapt to your project's structure, frameworks, and conventions
 
 Each `.md` file contains instructions that Cursor's AI interprets to execute the workflow.
 

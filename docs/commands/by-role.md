@@ -89,11 +89,13 @@ Find commands relevant to your role.
 | Command | PM | IC | Senior | Staff+ | QA |
 |---------|----|----|--------|--------|----|
 | `/create-task` | ●●● | ●● | ●● | ●●● | ●● |
+| `/breakdown-tasks` | ●● | - | - | ●● | - |
 | `/create-plan` | - | ●●● | ●●● | ●●● | - |
 | `/start-task` | - | ●●● | ●●● | ●●● | ●● |
 | `/complete-task` | - | ●●● | ●●● | ●●● | ●● |
 | `/create-test` | - | ●●● | ●●● | ●●● | ●●● |
 | `/review-code` | - | - | ●●● | ●●● | - |
+| `/mcp-status` | ○ | ○ | ○ | ○ | ○ |
 
 **Legend:** ●●● Daily | ●● Weekly | ○ Occasional | - Not typical
 

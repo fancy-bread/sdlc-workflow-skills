@@ -24,17 +24,24 @@ Quick access to every command with usage examples and previews of actual command
 
 ---
 
-## Development (5 commands)
+## Planning (1 command)
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
 | **[`/create-plan`](create-plan.md)** | Engineer | Create technical implementation design |
+
+---
+
+## Development (2 commands)
+
+| Command | Used By | What It Does |
+|---------|---------|--------------|
 | **[`/start-task`](start-task.md)** | Engineer | Begin implementation with branch and context |
 | **[`/complete-task`](complete-task.md)** | Engineer | Commit, push, create PR |
 
 ---
 
-## Quality (4 commands)
+## Quality (2 commands)
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|

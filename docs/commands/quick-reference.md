@@ -19,14 +19,16 @@ agentic-software-development/
 │   ├── /create-task
 │   └── /breakdown-tasks
 │
-├── Development (3)
-│   ├── /create-plan
+├── Planning (1)
+│   └── /create-plan
+│
+├── Development (2)
 │   ├── /start-task
 │   └── /complete-task
 │
-└── Quality (2)
-    ├── /create-test
-    └── /review-code
+├── Quality (2)
+│   ├── /create-test
+│   └── /review-code
 │
 └── Utilities (1)
     └── /mcp-status

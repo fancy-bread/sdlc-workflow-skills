@@ -72,33 +72,21 @@ Define and create work items.
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/create-task` | Creates task in tracker with specified type (epic, story, bug, task, etc.) | `/create-task --type=story for OAuth login`<br>`/create-task --type=epic from phase-one.md`<br>`/create-task --type=bug login fails`<br><br>*Also supports natural language: `/create-task story for ...`* |
-| `/breakdown-tasks` | Breaks down large task into well-defined subtasks | `/breakdown-tasks TASK-123`<br><br>*Critical Scrum planning activity - ensures proper task decomposition* |
+| `/breakdown-tasks` | Breaks down large task into well-defined subtasks | `/breakdown-tasks TASK-123`<br><br>*Critical planning activity - ensures proper task decomposition* |
 
 ---
 
-### 📋 Planning (6 commands)
+### 📋 Planning (1 command)
 
-Estimate, prioritize, and plan work.
-
-**Product Planning** (Scrum & Kanban)
-
-| Command | What It Does | Example |
-|---------|--------------|---------|
-| `/estimate-stories` | Analyzes and estimates effort | `/estimate-stories in EPIC-1` |
-| `/prioritize-backlog` | Ranks stories by value/urgency | `/prioritize-backlog` |
-| `/plan-sprint` | Selects stories for sprint (Scrum) | `/plan-sprint 23` |
-| `/refine-backlog` | Continuous grooming (Kanban) | `/refine-backlog` |
-
-**Technical Planning** (Developer activity)
+Create technical implementation plans.
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/create-plan` | Creates detailed technical design | `/create-plan for AUTH-10` |
-| `/refine-plan` | Updates existing plan | `/refine-plan for AUTH-10` |
 
 ---
 
-### 🛠️ Development (4 commands)
+### 🛠️ Development (2 commands)
 
 Implement and ship features.
 
@@ -109,26 +97,14 @@ Implement and ship features.
 
 ---
 
-### ✅ Quality (9 commands)
+### ✅ Quality (2 commands)
 
 Test and review code.
-
-**Testing**
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/create-test` | Generates unit tests (adapts for backend/frontend) | `/create-test --type=unit for AuthService` |
-| `/run-tests` | Executes test suite | `/run-tests` |
-| `/watch-tests` | Continuous test execution | `/watch-tests` |
-| `/fix-failing-tests` | Diagnoses and fixes failures | `/fix-failing-tests` |
-| `/check-coverage` | Analyzes code coverage | `/check-coverage` |
-
-**Code Quality**
-
-| Command | What It Does | Example |
-|---------|--------------|---------|
 | `/review-code` | AI code review | `/review-code for PR #42` |
-| `/fix-linting` | Fixes linter errors | `/fix-linting` |
 
 ---
 
@@ -164,83 +140,80 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 
 ## Complete Workflows
 
-### Scrum Cycle
+### Development Cycle
 
 ```bash
-# Sprint Planning
-/estimate-stories in EPIC-1
-/prioritize-backlog
-/plan-sprint 23
-
-# Development (per story)
+# Create and plan work
+/create-task --type=story for [feature]
+/breakdown-tasks EPIC-123  # If breaking down large work
 /create-plan for AUTH-10
+
+# Development
 /start-task AUTH-10
-/run-tests
+/create-test --type=unit for [component]  # As needed during implementation
 /complete-task AUTH-10
 
+# Review
+/review-code for PR #42
 ```
 
-### Kanban Flow
+### Epic to Story Flow
 
 ```bash
-# Continuous
-/refine-backlog
-/estimate-stories (as needed)
-/prioritize-backlog
+# Create epic and break it down
+/create-task --type=epic from phase-one.md
+/breakdown-tasks EPIC-123
 
-# Development (per story)
+# Plan and implement each story
 /create-plan for AUTH-10
 /start-task AUTH-10
-/run-tests
 /complete-task AUTH-10
-
 ```
-
-**Key difference:** Scrum plans sprints upfront. Kanban refines continuously.
 
 ## Key Concepts
 
-### Two Types of Planning
+### Planning and Development Flow
 
-| Product Planning | Dev Planning |
-|------------------|--------------|
-| **What**: Estimate & prioritize | **What**: Technical design |
-| **Who**: Team activity | **Who**: Individual developer |
-| **When**: Sprint/refinement | **When**: Before coding |
-| **Output**: Prioritized backlog | **Output**: `.plans/` file |
-| **Commands**: `/estimate-stories`, `/plan-sprint` | **Commands**: `/create-plan` |
+1. **Task Creation**: Use `/create-task` to create epics, stories, bugs, or tasks in your issue tracker
+2. **Task Breakdown**: Use `/breakdown-tasks` to decompose large tasks into manageable subtasks
+3. **Technical Planning**: Use `/create-plan` to create detailed implementation plans before coding
+4. **Implementation**: Use `/start-task` and `/complete-task` to implement work
+5. **Quality**: Use `/create-test` and `/review-code` to ensure code quality
 
-### Scrum vs Kanban
+### Task Types
 
-| Aspect | Scrum | Kanban |
-|--------|-------|--------|
-| **Cadence** | Fixed sprints | Continuous flow |
-| **Planning** | Upfront (`/plan-sprint`) | Ongoing (`/refine-backlog`) |
-| **Commitment** | Sprint scope | WIP limits |
-| **Metrics** | Velocity | Lead/cycle time |
+Commands support different task types from your issue tracker:
+- **Epic**: High-level initiatives containing multiple stories
+- **Story**: User-facing features or functionality
+- **Bug**: Defects that need fixing
+- **Task**: Technical work or chores
 
-**Same commands work for both.** Choose based on your process.
+The `/create-task` command adapts its workflow based on task type, ensuring appropriate validation and structure for each.
 
 ## How Commands Work: An Example
 
-You type: `/estimate-stories in EPIC-1`
+You type: `/start-task AUTH-123`
 
 **What happens:**
 
-1. **AI reads command file** - Understands what "estimate stories" means
-2. **Gathers context** - Fetches stories from Jira, analyzes codebase
-3. **Applies intelligence** - Compares to similar past work, identifies complexity
-4. **Presents findings** - Shows estimates with reasoning
-5. **Executes decision** - Updates Jira after your approval
+1. **AI reads command file** - Understands the start-task workflow
+2. **Gathers context** - Fetches story from Jira, reads implementation plan, checks codebase
+3. **Validates prerequisites** - Checks MCP connections, verifies plan exists, ensures story status
+4. **Sets up environment** - Creates feature branch, transitions story to "In Progress"
+5. **Implements work** - Follows the plan, writes code and tests matching project patterns
+6. **Commits progress** - Makes logical commits using conventional format
 
 **Output:**
 ```
-Found 5 stories in EPIC-1:
-- AUTH-10: 5 points (similar to past OAuth work)
-- AUTH-11: 3 points (straightforward)
-- AUTH-12: 8 points (new integration, unknown API)
+✓ MCP servers connected
+✓ Plan file found: .plans/AUTH-123-user-authentication.plan.md
+✓ Story AUTH-123 transitioned to "In Progress"
+✓ Branch created: feat/AUTH-123
+✓ Implementation started...
 
-Approve these estimates?
+[Code changes made following the plan]
+[Tests written]
+[Documentation updated]
 ```
 
 **This is context-aware automation, not scripted automation.**
@@ -285,10 +258,11 @@ Save in `.cursor/commands/complete-task.md`
 | Problem | Fix |
 |---------|-----|
 | **Command not found** | Restart Cursor. Check `.cursor/commands/` or `~/.cursor/commands/` |
-| **Command fails** | Verify MCP servers connected (Settings → MCP) |
+| **Command fails** | Verify MCP servers connected (use `/mcp-status` or Settings → MCP) |
 | **Jira errors** | Check story exists, you have permissions |
 | **GitHub errors** | Verify token has `repo` scope, check write access |
-| **Plan not found** | Run `/create-plan` first |
+| **Plan not found** | Run `/create-plan` first before `/start-task` |
+| **Story missing detail** | Commands will ask for clarification if information is insufficient |
 
 [Detailed troubleshooting →](../README.md#troubleshooting)
 
@@ -302,18 +276,24 @@ Save in `.cursor/commands/complete-task.md`
 # Create work
 /create-task --type=story for [feature]
 /create-task --type=bug [description]
+/breakdown-tasks [EPIC-123]
 
 # Plan
 /create-plan for [TASK-123]
 
 # Develop
 /start-task [TASK-123]
-/run-tests
+/create-test --type=unit for [component]
 /complete-task [TASK-123]
+
+# Review
+/review-code for PR #42
+
+# Utilities
+/mcp-status
 ```
 
-**Scrum Planning:** `/estimate-stories` → `/plan-sprint`
-**Kanban Planning:** `/refine-backlog` → `/prioritize-backlog`
+**Typical Flow:** `/create-task` → `/breakdown-tasks` → `/create-plan` → `/start-task` → `/complete-task`
 
 ---
 

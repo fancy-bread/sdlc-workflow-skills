@@ -149,7 +149,7 @@ AI will:
 
 ## Next Steps
 
-- **[View All Commands](commands/index.md)** - Browse 11 available commands
+- **[View All Commands](commands/index.md)** - Browse 8 available commands
 - **[Find Your Role](roles/index.md)** - See which commands you need
 - **[Quick Reference](commands/quick-reference.md)** - Command cheat sheet
 

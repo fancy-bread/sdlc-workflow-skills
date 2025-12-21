@@ -61,10 +61,11 @@ cp -r implementations/cursor/commands/* ~/.cursor/commands/
 
 ## Available Commands
 
-**8 essential commands:**
+**9 essential commands:**
 
-- **Product (2):** Create tasks and break down large tasks
-- **Development (3):** Plan, build, and ship features
+- **Product (2):** Create tasks and decompose large tasks
+- **Planning (2):** Refine tasks and create technical implementation plans
+- **Development (2):** Build and ship features
 - **Quality (2):** Write tests and review code
 - **Utilities (1):** Check MCP status
 
@@ -92,7 +93,7 @@ You → /command → Cursor AI → MCP → Services (Jira, GitHub)
 📚 **[Full Documentation](https://fancybread-com.github.io/agentic-software-development)**
 
 - [Getting Started](https://fancybread-com.github.io/agentic-software-development/getting-started/) - 3-step setup
-- [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 8 commands
+- [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 9 commands
 - [Role Guides](https://fancybread-com.github.io/agentic-software-development/roles/) - Product Manager, Engineer, QA
 - [Methodology](https://fancybread-com.github.io/agentic-software-development/core/methodology/) - Core principles
 

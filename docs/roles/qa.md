@@ -40,6 +40,7 @@ title: QA Engineer
 You: `/create-test --type=unit for CheckoutService`
 
 AI:
+
 - Detects backend/frontend context
 - Analyzes code structure
 - Generates comprehensive unit tests
@@ -98,31 +99,4 @@ AI detects backend/frontend context and generates comprehensive unit tests with 
 - **Test early** - Write tests before features ship
 - **Test continuously** - Add regression tests for every bug
 
----
-
-## Working with Other Roles
-
-**With Engineers:**
-- Review PRs for testability
-- Pair on test strategy
-- Share coverage reports
-
-**With Product Manager:**
-- Verify acceptance criteria met
-- Report quality metrics
-- Identify edge cases
-
-**With DevOps:**
-- Integrate tests in CI/CD
-- Monitor production issues
-- Performance testing
-
----
-
-## Resources
-
-- **[All Commands](../commands/index.md)** - Complete reference
-- **[Quick Reference](../commands/quick-reference.md)** - Cheat sheet
-- **[Getting Started](../getting-started.md)** - Setup guide
-- **[How It Works](../getting-started.md#how-it-works)** - Core concepts
 

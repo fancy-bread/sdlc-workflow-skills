@@ -8,7 +8,7 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 | Command | Usage |
 |---------|-------|
 | `/create-task` | Create task in tracker (story, epic, bug, task, etc.) |
-| `/breakdown-tasks` | Break down large task into subtasks |
+| `/decompose-task` | Decompose large task into subtasks |
 
 ### Planning
 | Command | Usage |
@@ -58,7 +58,7 @@ For Cursor Team/Enterprise:
 **Development Cycle:**
 ```
 /create-task --type=story for [feature]
-/breakdown-tasks EPIC-123  # If breaking down large work
+/decompose-task EPIC-123  # If breaking down large work
 /create-plan for PROJ-123
 /start-task PROJ-123
 /create-test --type=unit for [component]  # As needed
@@ -69,7 +69,7 @@ For Cursor Team/Enterprise:
 **Epic to Story Flow:**
 ```
 /create-task --type=epic from phase-one.md
-/breakdown-tasks EPIC-123
+/decompose-task EPIC-123
 /create-plan for STORY-10
 /start-task STORY-10
 /complete-task STORY-10

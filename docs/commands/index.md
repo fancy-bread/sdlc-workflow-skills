@@ -4,7 +4,7 @@ title: Commands Reference
 
 # Command Reference
 
-**All 8 commands for AI-assisted development.**
+**All 9 commands for AI-assisted development.**
 
 Quick access to every command with usage examples and previews of actual command files.
 
@@ -18,16 +18,16 @@ Quick access to every command with usage examples and previews of actual command
 | Command | Used By | What It Does |
 |---------|---------|--------------|
 | **[`/create-task`](create-task.md)** | Product Manager, Engineer, QA | Create tasks with specified type (epic, story, bug, task, etc.) |
-| **[`/breakdown-tasks`](breakdown-tasks.md)** | Product Manager, Scrum Master | Break down large tasks into well-defined subtasks |
+| **[`/decompose-task`](decompose-task.md)** | Product Manager, Scrum Master | Decompose large tasks into well-defined subtasks |
 
-*Note: Legacy commands `/create-story` and `/create-epic` have been replaced by `/create-task`. Use `/create-task --type=story` or `/create-task --type=epic` instead.*
 
 ---
 
-## Planning (1 command)
+## Planning (2 commands)
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
+| **[`/refine-task`](refine-task.md)** | Product Manager, Scrum Master | Refine tasks to meet Definition of Ready with story points |
 | **[`/create-plan`](create-plan.md)** | Engineer | Create technical implementation design |
 
 ---

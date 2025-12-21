@@ -288,7 +288,7 @@ The command adapts its workflow based on the task type.
 
 ## Related Commands
 
-**For Epics:** [`/breakdown-tasks`](breakdown-tasks.md) - Break epic into stories
+**For Epics:** [`/decompose-task`](decompose-task.md) - Decompose epic into stories
 
 **For Development:** [`/create-plan`](create-plan.md) - Plan implementation
 

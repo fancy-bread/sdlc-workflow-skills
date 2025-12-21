@@ -653,7 +653,7 @@ Note: Assumed scope includes only authentication service, not related services.
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
 - Validation logic: See "Intelligent Information Validation" section below for detailed validation patterns and examples
 - Plan file format: See `create-plan.md` for plan file structure
-- Epic breakdown: See `breakdown-tasks.md` for breaking down epics into stories
+- Epic breakdown: See `decompose-task.md` for breaking down epics into stories
 
 ### Output
 1. **Created Task**: Task created in issue tracker with:

@@ -17,9 +17,10 @@ title: Quick Reference
 agentic-software-development/
 ├── Product (2)
 │   ├── /create-task
-│   └── /breakdown-tasks
+│   └── /decompose-task
 │
-├── Planning (1)
+├── Planning (2)
+│   ├── /refine-task
 │   └── /create-plan
 │
 ├── Development (2)
@@ -34,7 +35,7 @@ agentic-software-development/
     └── /mcp-status
 ```
 
-**8 commands total**
+**9 commands total**
 
 ---
 
@@ -47,8 +48,8 @@ agentic-software-development/
 # Create epic from plan
 /create-task --type=epic from [plan-file.md]
 
-# Break down large task into subtasks
-/breakdown-tasks TASK-123
+# Decompose large task into subtasks
+/decompose-task TASK-123
 
 # Create bug
 /create-task --type=bug [description]
@@ -56,12 +57,19 @@ agentic-software-development/
 
 ---
 
+## Planning
+
+```bash
+# Refine task for sprint planning
+/refine-task TASK-123
+
+# Design implementation
+/create-plan for TASK-123
+```
+
 ## Development
 
 ```bash
-# Design implementation
-/create-plan for TASK-123
-
 # Start work
 /start-task TASK-123
 
@@ -98,11 +106,13 @@ agentic-software-development/
 ```bash
 /create-task --type=story for [feature]
 /create-task --type=epic from [plan.md]
-/breakdown-tasks TASK-123
+/decompose-task TASK-123
+/refine-task TASK-123
 ```
 
 **Engineer (Daily):**
 ```bash
+/refine-task TASK-123  # During backlog refinement
 /create-plan for TASK-123
 /start-task TASK-123
 /complete-task TASK-123

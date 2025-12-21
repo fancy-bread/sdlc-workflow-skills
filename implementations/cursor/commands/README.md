@@ -72,16 +72,17 @@ Define and create work items.
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/create-task` | Creates task in tracker with specified type (epic, story, bug, task, etc.) | `/create-task --type=story for OAuth login`<br>`/create-task --type=epic from phase-one.md`<br>`/create-task --type=bug login fails`<br><br>*Also supports natural language: `/create-task story for ...`* |
-| `/breakdown-tasks` | Breaks down large task into well-defined subtasks | `/breakdown-tasks TASK-123`<br><br>*Critical planning activity - ensures proper task decomposition* |
+| `/decompose-task` | Decomposes large task into well-defined subtasks | `/decompose-task TASK-123`<br><br>*Critical planning activity - ensures proper task decomposition* |
 
 ---
 
-### 📋 Planning (1 command)
+### 📋 Planning (2 commands)
 
-Create technical implementation plans.
+Refine tasks and create technical implementation plans.
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
+| `/refine-task` | Refines task to meet Definition of Ready with story points | `/refine-task FB-15` |
 | `/create-plan` | Creates detailed technical design | `/create-plan for AUTH-10` |
 
 ---
@@ -145,7 +146,7 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 ```bash
 # Create and plan work
 /create-task --type=story for [feature]
-/breakdown-tasks EPIC-123  # If breaking down large work
+/decompose-task EPIC-123  # If decomposing large work
 /create-plan for AUTH-10
 
 # Development
@@ -162,7 +163,7 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 ```bash
 # Create epic and break it down
 /create-task --type=epic from phase-one.md
-/breakdown-tasks EPIC-123
+/decompose-task EPIC-123
 
 # Plan and implement each story
 /create-plan for AUTH-10
@@ -175,10 +176,11 @@ cp -r implementations/cursor/commands/* .cursor/commands/
 ### Planning and Development Flow
 
 1. **Task Creation**: Use `/create-task` to create epics, stories, bugs, or tasks in your issue tracker
-2. **Task Breakdown**: Use `/breakdown-tasks` to decompose large tasks into manageable subtasks
-3. **Technical Planning**: Use `/create-plan` to create detailed implementation plans before coding
-4. **Implementation**: Use `/start-task` and `/complete-task` to implement work
-5. **Quality**: Use `/create-test` and `/review-code` to ensure code quality
+2. **Task Breakdown**: Use `/decompose-task` to decompose large tasks into manageable subtasks
+3. **Backlog Refinement**: Use `/refine-task` to ensure tasks meet Definition of Ready (before sprint planning)
+4. **Technical Planning**: Use `/create-plan` to create detailed implementation plans before coding
+5. **Implementation**: Use `/start-task` and `/complete-task` to implement work
+6. **Quality**: Use `/create-test` and `/review-code` to ensure code quality
 
 ### Task Types
 
@@ -276,7 +278,7 @@ Save in `.cursor/commands/complete-task.md`
 # Create work
 /create-task --type=story for [feature]
 /create-task --type=bug [description]
-/breakdown-tasks [EPIC-123]
+/decompose-task [EPIC-123]
 
 # Plan
 /create-plan for [TASK-123]
@@ -293,7 +295,7 @@ Save in `.cursor/commands/complete-task.md`
 /mcp-status
 ```
 
-**Typical Flow:** `/create-task` → `/breakdown-tasks` → `/create-plan` → `/start-task` → `/complete-task`
+**Typical Flow:** `/create-task` → `/decompose-task` → `/create-plan` → `/start-task` → `/complete-task`
 
 ---
 

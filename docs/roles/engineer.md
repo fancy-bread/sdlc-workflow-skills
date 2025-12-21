@@ -12,6 +12,7 @@ title: Software Engineer
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
+| [`/refine-task`](../commands/refine-task.md) | Per task (backlog refinement) | Refine tasks to meet Definition of Ready |
 | [`/create-plan`](../commands/create-plan.md) | Every story | Design implementation |
 | [`/start-task`](../commands/start-task.md) | Daily | Begin implementation |
 | [`/complete-task`](../commands/complete-task.md) | Daily | Commit, push, create PR |
@@ -25,6 +26,9 @@ title: Software Engineer
 ## Typical Day
 
 ```bash
+# Backlog refinement (weekly)
+/refine-task PROJ-456
+
 # Plan
 /create-plan for PROJ-456
 
@@ -40,23 +44,7 @@ title: Software Engineer
 
 ## Getting Started
 
-### 1. Plan Implementation
-
-```bash
-/create-plan for TASK-123
-```
-
-### 2. Build
-
-```bash
-/start-task TASK-123
-```
-
-### 3. Ship
-
-```bash
-/complete-task TASK-123
-```
+See the [**Typical Day**](#typical-day) workflow above for a complete example. For detailed setup, see the [Getting Started guide](../getting-started.md).
 
 ---
 
@@ -67,12 +55,4 @@ title: Software Engineer
 - **Review code** - Use `/review-code` for quality
 - **Keep PRs focused** - One story per PR
 
----
-
-## Resources
-
-- **[All Commands](../commands/index.md)** - Complete reference
-- **[Quick Reference](../commands/quick-reference.md)** - Cheat sheet
-- **[Getting Started](../getting-started.md)** - Setup guide
-- **[How It Works](../getting-started.md#how-it-works)** - Core concepts
 

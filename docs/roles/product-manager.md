@@ -12,9 +12,9 @@ title: Product Manager
 
 | Command | Frequency | What It Does |
 |---------|-----------|--------------|
-| [`/create-task`](../commands/create-task.md) | Daily | Create user stories, bugs, and other tasks with AI-generated content |
-| [`/create-task`](../commands/create-task.md) | Weekly | Create epics from plan documents |
-| [`/breakdown-tasks`](../commands/breakdown-tasks.md) | Per epic/large task | Break down large tasks into well-defined subtasks |
+| [`/create-task`](../commands/create-task.md) | Daily/Weekly | Create user stories, bugs, tasks (daily) or epics from plan documents (weekly) |
+| [`/decompose-task`](../commands/decompose-task.md) | Per epic/large task | Decompose large tasks into well-defined subtasks |
+| [`/refine-task`](../commands/refine-task.md) | Per task (backlog refinement) | Refine tasks to meet Definition of Ready with story points |
 
 [See all commands for your role →](../commands/by-role.md#product-manager)
 
@@ -30,26 +30,12 @@ title: Product Manager
 
 # Weekly: Plan major initiatives
 /create-task --type=epic from product-plan.md
-/breakdown-tasks EPIC-123
+/decompose-task EPIC-123
 
-# Continuous: Keep backlog groomed and ready
+# Backlog refinement: Prepare tasks for sprint planning
+/refine-task TASK-123
+/refine-task TASK-124
 ```
-
----
-
-## How You Work with AI
-
-**Natural language, contextual execution:**
-
-You: `/create-task --type=story for user login with email and password`
-
-AI:
-- Reads your project context
-- Generates comprehensive story with acceptance criteria
-- Creates in Jira/ADO
-- Links to parent epic if applicable
-
-**No scripts. No templates. Just instructions.**
 
 ---
 
@@ -74,7 +60,7 @@ AI reads your plan document and generates epic.
 ### 3. Break Down Large Task into Subtasks
 
 ```bash
-/breakdown-tasks TASK-123
+/decompose-task TASK-123
 ```
 
 AI analyzes the task and generates well-defined subtasks following INVEST criteria. This is critical for proper sprint planning.
@@ -83,31 +69,9 @@ AI analyzes the task and generates well-defined subtasks following INVEST criter
 
 ## Best Practices
 
-✅ **Be specific** - Detailed feature descriptions get better stories
-✅ **Document** - Write epic plans before `/create-task --type=epic`
-✅ **Break down tasks** - Use `/breakdown-tasks` to ensure proper task decomposition before sprint planning
+- **Be specific** - Detailed feature descriptions get better stories
+- **Document** - Write epic plans before `/create-task --type=epic`
+- **Decompose tasks** - Use `/decompose-task` to ensure proper task decomposition before sprint planning
+- **Refine backlog** - Use `/refine-task` during backlog refinement to ensure all tasks meet Definition of Ready before sprint planning
 
----
-
-## Working with Other Roles
-
-**With Scrum Master:**
-- You prioritize, they facilitate
-
-**With Engineers:**
-- Review implementation plans
-- Clarify acceptance criteria
-
-**With Stakeholders:**
-- Translate requests to stories
-- Show prioritization rationale
-
----
-
-## Resources
-
-- **[All Commands](../commands/index.md)** - Complete reference
-- **[Quick Reference](../commands/quick-reference.md)** - Cheat sheet
-- **[Getting Started](../getting-started.md)** - Setup guide
-- **[How It Works](../getting-started.md#how-it-works)** - Core concepts
 

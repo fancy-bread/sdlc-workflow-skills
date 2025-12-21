@@ -75,9 +75,11 @@ nav:
     - Quick Reference: commands/quick-reference.md
     - Product:
       - Create Task: commands/create-task.md
-      - Breakdown Tasks: commands/breakdown-tasks.md
-    - Development:
+      - Decompose Task: commands/decompose-task.md
+    - Planning:
+      - Refine Task: commands/refine-task.md
       - Create Plan: commands/create-plan.md
+    - Development:
       - Start Task: commands/start-task.md
       - Complete Task: commands/complete-task.md
     - Quality:
@@ -95,6 +97,8 @@ nav:
   - Reference:
     - MCP Setup: implementations/cursor/mcp-setup.md
     - Command Files: implementations/cursor/commands/README.md
+
+  - Releases: releases.md
 
 # Plugins
 plugins:

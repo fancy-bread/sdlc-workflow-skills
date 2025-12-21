@@ -67,24 +67,16 @@ First time you use Jira commands, Cursor will prompt OAuth authorization.
 
 ## Step 2: Install Commands
 
-Copy command files to Cursor:
+Download the latest release and install command files to Cursor.
 
-**Global (all projects):**
+[**View installation instructions →**](releases.md#installation)
 
-```bash
-cd /path/to/this/repo
-cp -r implementations/cursor/commands/* ~/.cursor/commands/
-```
+**Quick summary:**
 
-**Per-project:**
-
-```bash
-cd /path/to/your/project
-mkdir -p .cursor/commands
-cp -r /path/to/this/repo/implementations/cursor/commands/* .cursor/commands/
-```
-
-**Restart Cursor** after installing.
+1. Download the latest release from the [Releases page](releases.md)
+2. Extract the archive
+3. Copy `cursor/commands/*` to `~/.cursor/commands/` (global) or `.cursor/commands/` (per-project)
+4. Restart Cursor
 
 ---
 
@@ -149,7 +141,7 @@ AI will:
 
 ## Next Steps
 
-- **[View All Commands](commands/index.md)** - Browse 8 available commands
+- **[View All Commands](commands/index.md)** - Browse 9 available commands
 - **[Find Your Role](roles/index.md)** - See which commands you need
 - **[Quick Reference](commands/quick-reference.md)** - Command cheat sheet
 

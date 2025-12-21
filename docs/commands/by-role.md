@@ -18,7 +18,8 @@ Find commands relevant to your role.
 
 **Weekly:**
 - [`/create-task`](create-task.md) - Create epics from plan documents
-- [`/breakdown-tasks`](breakdown-tasks.md) - Break down large tasks into subtasks (before sprint planning)
+- [`/decompose-task`](decompose-task.md) - Decompose large tasks into subtasks (before sprint planning)
+- [`/refine-task`](refine-task.md) - Refine tasks to meet Definition of Ready (during backlog refinement)
 
 [View role guide →](../roles/product-manager.md)
 
@@ -31,6 +32,7 @@ Find commands relevant to your role.
 - [`/complete-task`](complete-task.md) - Create PR
 
 **Weekly:**
+- [`/refine-task`](refine-task.md) - Refine tasks during backlog refinement
 - [`/create-plan`](create-plan.md) - Design before coding
 - [`/create-test`](create-test.md) - Add test coverage
 
@@ -89,7 +91,8 @@ Find commands relevant to your role.
 | Command | PM | IC | Senior | Staff+ | QA |
 |---------|----|----|--------|--------|----|
 | `/create-task` | ●●● | ●● | ●● | ●●● | ●● |
-| `/breakdown-tasks` | ●● | - | - | ●● | - |
+| `/decompose-task` | ●● | - | - | ●● | - |
+| `/refine-task` | ●● | ●● | ●● | - | - |
 | `/create-plan` | - | ●●● | ●●● | ●●● | - |
 | `/start-task` | - | ●●● | ●●● | ●●● | ●● |
 | `/complete-task` | - | ●●● | ●●● | ●●● | ●● |

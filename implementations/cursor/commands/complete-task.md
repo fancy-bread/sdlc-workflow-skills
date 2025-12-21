@@ -64,11 +64,12 @@ Before proceeding, verify:
      - **If push fails (e.g., authentication, network, conflicts), STOP and report the error.**
      - **If branch doesn't exist on remote, it will be created on first push.**
 
-3. **Create pull request (CI/CD runs as gate after PR creation)**
-   - **Note**: CI/CD is a PR gate. Local tests passing is the prerequisite to PR creation. CI/CD will run automatically after PR is created.
-   - Create PR first (see Step 4), then CI/CD will run as a gate on the PR
+3. **Create pull request (optional)**
+   - **Note**: PR creation is optional. You may skip this step if you prefer to create the PR manually or if it's not needed.
+   - **If creating PR:** CI/CD is a PR gate. Local tests passing is the prerequisite to PR creation. CI/CD will run automatically after PR is created.
+   - **If skipping PR:** Proceed directly to Step 5 (Update issue) after pushing.
 
-4. **Create pull request**
+4. **Create pull request (if proceeding with PR creation)**
    - **After pushing, get the latest commit SHA:**
      - Use `run_terminal_cmd`: `git rev-parse HEAD` to get current commit SHA
      - Or use `mcp_github_list_commits` with `sha` = branch name to get latest commit
@@ -83,7 +84,7 @@ Before proceeding, verify:
    - **Check if PR already exists:**
      - Use `mcp_github_pull_request_read` with `method="get"` to check for existing PRs
      - If PR exists, update it instead of creating new one
-   - Create completed checklist comment for the issue:
+   - Create completed checklist comment for the issue (include PR link if PR was created):
      ```
      ## Completed Checklist
 
@@ -94,7 +95,9 @@ Before proceeding, verify:
      - [x] Linting errors fixed
      - [x] All tests passing locally
      - [x] Changes committed and pushed
-     - [x] PR created
+     - [x] PR created (if applicable)
+
+     Pull Request: {PR_URL} (only if PR was created)
      ```
    - Create PR with:
      - Title: `{type}: {description} ({TASK_KEY})` (matching commit message)
@@ -116,8 +119,12 @@ Before proceeding, verify:
      - Note status in PR body or comments as needed
 
 5. **Update issue**
-   - Add PR link as a comment to the issue
-     - Format: `Pull Request: {PR_URL}`
+   - **If PR was created:**
+     - Add PR link as a comment to the issue
+       - Format: `Pull Request: {PR_URL}`
+   - **If PR was not created:**
+     - Add comment indicating changes are committed and pushed, ready for review
+       - Format: `Changes committed and pushed to branch {type}/{TASK_KEY}. Ready for review.`
    - **Transition issue to "Code Review" status:**
      - First, get available transitions using `mcp_Atlassian-MCP-Server_getTransitionsForJiraIssue`
      - Find transition to "Code Review" status
@@ -191,12 +198,13 @@ Before proceeding, verify:
 - [ ] Commit message follows convention
 - [ ] Changes committed
 - [ ] Pushed to remote
-- [ ] PR created
-- [ ] CI/CD checks running (as PR gate)
+- [ ] PR created (optional - may be skipped)
+- [ ] If PR created: CI/CD checks running (as PR gate)
 - [ ] Completed checklist added to issue
-- [ ] PR created with plan summary
-- [ ] PR linked to issue
-- [ ] PR link added to issue comment
+- [ ] If PR created: PR created with plan summary
+- [ ] If PR created: PR linked to issue
+- [ ] If PR created: PR link added to issue comment
+- [ ] Issue updated with status (PR link or commit/push confirmation)
 - [ ] Issue transitioned to "Code Review"
 
 ## Guidance
@@ -208,8 +216,8 @@ Act as a **software engineer** responsible for completing development work on a 
 Execute the complete-task workflow to finalize development work on a specified task. This includes:
 1. Performing prerequisite validation checks
 2. Preparing and committing changes following conventions
-3. Pushing changes and verifying automated checks
-4. Creating a pull request with proper documentation
+3. Pushing changes to remote
+4. Optionally creating a pull request with proper documentation (may be skipped)
 5. Updating the issue tracker with completion status
 
 ### Context
@@ -256,7 +264,7 @@ Implements user authentication feature as specified in PROJ-123.
 Closes PROJ-123
 ```
 
-**Example Completed Checklist Comment:**
+**Example Completed Checklist Comment (with PR):**
 ```
 ## Completed Checklist
 
@@ -267,9 +275,25 @@ Closes PROJ-123
 - [x] Linting errors fixed
 - [x] All tests passing locally
 - [x] Changes committed and pushed
+- [x] PR created
 - [x] Automated checks passing
 
 Pull Request: https://github.com/owner/repo/pull/42
+```
+
+**Example Completed Checklist Comment (without PR):**
+```
+## Completed Checklist
+
+- [x] Plan reviewed and implemented
+- [x] Code changes completed
+- [x] Unit tests written and passing
+- [x] Documentation updated
+- [x] Linting errors fixed
+- [x] All tests passing locally
+- [x] Changes committed and pushed to branch feat/FB-6
+
+Ready for review.
 ```
 
 ### Constraints
@@ -285,10 +309,11 @@ Pull Request: https://github.com/owner/repo/pull/42
    - **Important**: Be consistent - use short format for all branches
 4. **Test Requirements**: All tests must pass locally before committing. Do not commit failing tests.
 5. **Linting**: All linting errors must be fixed before committing. If errors cannot be fixed automatically, STOP and ask for guidance.
-6. **CI/CD as PR Gate**: CI/CD runs automatically after PR creation as a gate. Local tests passing is the prerequisite to PR creation. Monitor CI/CD status after PR is created.
-7. **Plan Summary**: PR body must include extracted sections from `.plans/{TASK_KEY}-*.plan.md` (Story, Context, Scope, Acceptance Criteria, Implementation Steps summary). If plan file doesn't exist, note this in PR body.
-8. **Plan File Selection**: If multiple files match the pattern `.plans/{TASK_KEY}-*.plan.md`, use the most recently modified file. Report which file was selected.
-9. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
+6. **PR Creation is Optional**: PR creation is optional. You may skip PR creation if you prefer to create it manually or if it's not needed. If creating PR:
+   - CI/CD runs automatically after PR creation as a gate. Local tests passing is the prerequisite to PR creation. Monitor CI/CD status after PR is created.
+   - PR body must include extracted sections from `.plans/{TASK_KEY}-*.plan.md` (Story, Context, Scope, Acceptance Criteria, Implementation Steps summary). If plan file doesn't exist, note this in PR body.
+7. **Plan File Selection**: If multiple files match the pattern `.plans/{TASK_KEY}-*.plan.md`, use the most recently modified file. Report which file was selected.
+8. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
@@ -300,8 +325,7 @@ Pull Request: https://github.com/owner/repo/pull/42
 ### Output
 1. **Committed Changes**: All changes committed with conventional commit format
 2. **Pushed Branch**: Branch pushed to remote repository
-3. **Verified Status**: Automated checks verified (passing or non-blocking)
-4. **Pull Request**: PR created with plan summary, verification status, and issue link
-5. **Updated Issue**: Issue updated with completed checklist, PR link, and transitioned to "Code Review" status
+3. **Pull Request (optional)**: If PR creation was chosen, PR created with plan summary, verification status, and issue link. CI/CD checks will run automatically.
+4. **Updated Issue**: Issue updated with completed checklist, status information (PR link if created, or commit/push confirmation if PR skipped), and transitioned to "Code Review" status
 
 All outputs should be verified and any failures should be reported immediately with specific error details.

@@ -115,20 +115,35 @@ jobs:
 
       - name: Remove auto-generated source archives
         run: |
+          set -e
           TAG_NAME=${GITHUB_REF#refs/tags/}
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
           VERSION="${TAG_NAME#v}"
 
-          # Get list of assets and filter for source archives
           # GitHub creates source archives with names like: repo-name-version.tar.gz
-          gh release view "$TAG_NAME" --json assets | \
-            jq -r --arg pattern "^${REPO_NAME}-${VERSION}\\.(tar\\.gz|zip)$" '.assets[] | select(.name | test($pattern)) | .name' | \
-            while IFS= read -r asset || [ -n "$asset" ]; do
+          # Match assets that start with repo-name-version and end with .tar.gz or .zip
+          # but exclude our custom archives (commands-*.tar.gz and commands-*.zip)
+
+          # Get all assets and filter for source archives
+          ASSETS_JSON=$(gh release view "$TAG_NAME" --json assets)
+
+          # Extract asset names matching the pattern, excluding our custom archives
+          SOURCE_ARCHIVES=$(echo "$ASSETS_JSON" | jq -r --arg repo "$REPO_NAME" --arg version "$VERSION" \
+            '.assets[] | select(.name | startswith($repo + "-" + $version) and (.name | endswith(".tar.gz") or .name | endswith(".zip")) and (.name | startswith("commands-") | not)) | .name')
+
+          if [ -n "$SOURCE_ARCHIVES" ]; then
+            echo "Found source archives to remove:"
+            echo "$SOURCE_ARCHIVES"
+            echo ""
+            echo "$SOURCE_ARCHIVES" | while IFS= read -r asset; do
               if [ -n "$asset" ]; then
                 echo "Removing source archive: $asset"
-                gh release delete-asset "$TAG_NAME" "$asset" --yes || true
+                gh release delete-asset "$TAG_NAME" "$asset" --yes || echo "Failed to remove $asset (may not exist)"
               fi
             done
+          else
+            echo "No auto-generated source archives found to remove"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

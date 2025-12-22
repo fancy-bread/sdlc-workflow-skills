@@ -93,6 +93,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Remove auto-generated source archives
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"  # Extract repo name (e.g., "agentic-software-development")
+          VERSION="${TAG_NAME#v}"  # Remove 'v' prefix (e.g., "1.0.0")
+
+          # GitHub automatically creates source code archives with pattern: {repo-name}-{version}.{ext}
+          # We want to remove these, keeping only our custom "commands-{version}.{ext}" archives
+          echo "Checking for auto-generated source archives to remove..."
+
+          # Get list of auto-generated assets and remove them
+          gh release view "$TAG_NAME" --json assets | \
+            jq -r --arg pattern "^${REPO_NAME}-${VERSION}" '.assets[] | select(.name | test($pattern)) | .name' | \
+            while IFS= read -r asset; do
+              if [ -n "$asset" ]; then
+                echo "Removing auto-generated archive: $asset"
+                gh release delete-asset "$TAG_NAME" "$asset" --yes || true
+              fi
+            done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update releases documentation
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}

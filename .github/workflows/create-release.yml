@@ -98,15 +98,23 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.notes }}
-          files: ${{ steps.archive.outputs.tar_name }} ${{ steps.archive.outputs.zip_name }}
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload release assets
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          TAR_NAME="${{ steps.archive.outputs.tar_name }}"
+          ZIP_NAME="${{ steps.archive.outputs.zip_name }}"
+
+          gh release upload "$TAG_NAME" "$TAR_NAME" "$ZIP_NAME" --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Remove auto-generated source archives
         run: |
-          set -e
           TAG_NAME=${GITHUB_REF#refs/tags/}
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
           VERSION="${TAG_NAME#v}"

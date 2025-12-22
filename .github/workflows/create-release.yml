@@ -115,7 +115,6 @@ jobs:
 
       - name: Remove auto-generated source archives
         run: |
-          set -e
           TAG_NAME=${GITHUB_REF#refs/tags/}
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
           VERSION="${TAG_NAME#v}"
@@ -125,20 +124,24 @@ jobs:
           # but exclude our custom archives (commands-*.tar.gz and commands-*.zip)
 
           # Get all assets and filter for source archives
-          ASSETS_JSON=$(gh release view "$TAG_NAME" --json assets)
+          ASSETS_JSON=$(gh release view "$TAG_NAME" --json assets 2>/dev/null || echo '{"assets":[]}')
 
           # Extract asset names matching the pattern, excluding our custom archives
           SOURCE_ARCHIVES=$(echo "$ASSETS_JSON" | jq -r --arg repo "$REPO_NAME" --arg version "$VERSION" \
-            '.assets[] | select(.name | startswith($repo + "-" + $version) and (.name | endswith(".tar.gz") or .name | endswith(".zip")) and (.name | startswith("commands-") | not)) | .name')
+            '.assets[] | select(.name | startswith($repo + "-" + $version) and (.name | endswith(".tar.gz") or .name | endswith(".zip")) and (.name | startswith("commands-") | not)) | .name' 2>/dev/null || echo "")
 
           if [ -n "$SOURCE_ARCHIVES" ]; then
             echo "Found source archives to remove:"
             echo "$SOURCE_ARCHIVES"
             echo ""
-            echo "$SOURCE_ARCHIVES" | while IFS= read -r asset; do
-              if [ -n "$asset" ]; then
-                echo "Removing source archive: $asset"
-                gh release delete-asset "$TAG_NAME" "$asset" --yes || echo "Failed to remove $asset (may not exist)"
+            # Process each asset name (handle case where last line doesn't end with newline)
+            echo "$SOURCE_ARCHIVES" | while IFS= read -r asset || [ -n "$asset" ]; do
+              [ -z "$asset" ] && continue
+              echo "Removing source archive: $asset"
+              if gh release delete-asset "$TAG_NAME" "$asset" --yes 2>&1; then
+                echo "✓ Successfully removed: $asset"
+              else
+                echo "✗ Failed to remove: $asset (may not exist or already removed)"
               fi
             done
           else
@@ -197,9 +200,10 @@ jobs:
                   content = f.read()
 
               # Update Latest Release section
-              # Pattern to match from "## Latest Release" to "---" separator (handles empty or with content)
-              latest_pattern = r'(## Latest Release\n\n)(?:<!--.*?-->\n\n|.*?)(\n---)'
-              content = re.sub(latest_pattern, r'\1' + release_entry + r'\2', content, flags=re.DOTALL)
+              # Replace everything from "## Latest Release" through "---" separator
+              # Normalize to have exactly one blank line after the heading, then the release entry
+              latest_pattern = r'(## Latest Release\n)\n*(---)'
+              content = re.sub(latest_pattern, r'\1\n' + release_entry + r'\2', content, flags=re.DOTALL)
 
               # Handle Release History section
               # First, remove any existing entries for this tag to prevent duplicates

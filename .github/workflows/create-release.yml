@@ -119,16 +119,13 @@ jobs:
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
           VERSION="${TAG_NAME#v}"
 
-          ASSETS_TO_REMOVE=$(gh release view "$TAG_NAME" --json assets | \
-            jq -r --arg pattern "^${REPO_NAME}-${VERSION}" '.assets[] | select(.name | test($pattern)) | .name' || echo "")
-
-          if [ -n "$ASSETS_TO_REMOVE" ]; then
-            echo "$ASSETS_TO_REMOVE" | while IFS= read -r asset; do
+          gh release view "$TAG_NAME" --json assets | \
+            jq -r --arg pattern "^${REPO_NAME}-${VERSION}" '.assets[] | select(.name | test($pattern)) | .name' | \
+            while IFS= read -r asset; do
               if [ -n "$asset" ]; then
                 gh release delete-asset "$TAG_NAME" "$asset" --yes || true
               fi
             done
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -137,6 +134,12 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure git for documentation commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update releases documentation
         run: |
@@ -209,8 +212,6 @@ jobs:
 
       - name: Commit documentation updates
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/releases.md
           if ! git diff --staged --quiet; then
             git commit -m "docs: Add release ${{ github.ref_name }} to releases page"

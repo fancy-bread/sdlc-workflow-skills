@@ -74,4 +74,4 @@ All Jira commands work with ADO—AI translates automatically.
 
 ---
 
-[:octicons-arrow-left-24: Back to Getting Started](../../getting-started.md)
+[:octicons-arrow-left-24: Back to Getting Started](getting-started.md)

@@ -125,11 +125,11 @@ Choose where you want commands available:
 
 ```bash
 # Option 1: Global (all projects)
-cp -r implementations/cursor/commands/* ~/.cursor/commands/
+cp -r commands/* ~/.cursor/commands/
 
 # Option 2: Per-project
 mkdir -p .cursor/commands
-cp -r implementations/cursor/commands/* .cursor/commands/
+cp -r commands/* .cursor/commands/
 
 # Option 3: Team (Cursor Enterprise)
 # Use Cursor Dashboard → Team Content → Commands
@@ -230,7 +230,7 @@ Commands connect to your tools via **adapters**:
 | **Version Control** | GitHub, GitLab | Create branches, PRs |
 | **Plan Storage** | Filesystem | Store plans in `.plans/` |
 
-**Configuration:** Set up via MCP servers. [Setup guide →](../mcp-setup.md)
+**Configuration:** Set up via MCP servers. [Setup guide →](docs/mcp-setup.md)
 
 ---
 
@@ -301,7 +301,7 @@ Save in `.cursor/commands/complete-task.md`
 
 ## Learn More
 
-- [Setup Guide](../mcp-setup.md) - Configure MCP servers
+- [Setup Guide](docs/mcp-setup.md) - Configure MCP servers
 - [Implementation Guide](../README.md) - Cursor-specific details
 - [Core Methodology](../../../core/index.md) - Understand the approach
 - [Workflows](../../../core/workflows/) - Detailed workflow guides

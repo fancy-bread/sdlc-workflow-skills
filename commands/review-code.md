@@ -445,7 +445,7 @@ Process:
      1. Add URL validation in auth/service.ts
      2. Whitelist allowed callback domains
      3. Reject URLs not matching whitelist pattern
-   - **Location**: implementations/cursor/commands/auth/service.ts:45
+   - **Location**: src/auth/service.ts:45
    - **Contract Reference**: Definition of Done - "OAuth2 flow validates callback URLs"
 
 ### Warnings 🟡
@@ -455,7 +455,7 @@ Process:
      1. Extract timeout to configuration file
      2. Add environment variable SESSION_TIMEOUT_HOURS
      3. Update session creation to use config value
-   - **Location**: implementations/cursor/commands/auth/session.ts:12
+   - **Location**: src/auth/session.ts:12
    - **Contract Reference**: Blueprint Architecture - "Session management must be configurable"
 
 ---
@@ -470,7 +470,7 @@ Process:
      2. Add OAUTH_CLIENT_SECRET to .env file
      3. Load secret from environment variable
      4. Add .env to .gitignore if not already present
-   - **Location**: implementations/cursor/commands/auth/config.ts:8
+   - **Location**: src/auth/config.ts:8
    - **Boundary Reference**: Tier 3 - "NEVER commit secrets, API keys, tokens, or .env files"
 
 ---

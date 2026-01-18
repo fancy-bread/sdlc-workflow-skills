@@ -61,7 +61,7 @@ First time you use Jira commands, Cursor will prompt OAuth authorization.
 
     Replace `your-organization-name` with your ADO organization.
 
-[Detailed MCP setup →](implementations/cursor/mcp-setup.md)
+[Detailed MCP setup →](mcp-setup.md)
 
 ---
 
@@ -75,7 +75,7 @@ Download the latest release and install command files to Cursor.
 
 1. Download the latest release from the [Releases page](releases.md)
 2. Extract the archive
-3. Copy `cursor/commands/*` to `~/.cursor/commands/` (global) or `.cursor/commands/` (per-project)
+3. Copy `commands/*` to `~/.cursor/commands/` (global) or `.cursor/commands/` (per-project)
 4. Restart Cursor
 
 ---

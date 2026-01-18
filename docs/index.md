@@ -178,4 +178,4 @@ Invoke your first command: `/create-task --type=story for [your feature]`
 - **[Commands Reference](commands/index.md)** - All 9 commands with previews
 - **[Role Guides](roles/index.md)** - Commands organized by role
 - **[How It Works](getting-started.md#how-it-works)** - Core principles
-- **[Setup Instructions](implementations/cursor/mcp-setup.md)** - Detailed configuration
+- **[Setup Instructions](mcp-setup.md)** - Detailed configuration

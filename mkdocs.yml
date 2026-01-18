@@ -95,8 +95,8 @@ nav:
     - QA: roles/qa.md
 
   - Reference:
-    - MCP Setup: implementations/cursor/mcp-setup.md
-    - Command Files: implementations/cursor/commands/README.md
+    - MCP Setup: mcp-setup.md
+    - Command Files: command-files.md
 
   - Releases: releases.md
 
@@ -165,7 +165,7 @@ extra:
       name: GitHub Repository
 
 # Copyright
-copyright: Copyright &copy; 2024
+copyright: Copyright &copy; 2026
 
 # Extra CSS/JS (optional)
 extra_css:

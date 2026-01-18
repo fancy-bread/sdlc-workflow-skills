@@ -31,7 +31,7 @@
 ### Command Structure
 - **Format:** Markdown files (`.md`) stored in `.cursor/commands/` or `~/.cursor/commands/`
 - **Not MDC format:** Plain markdown, no YAML frontmatter
-- **Location:** `implementations/cursor/commands/` (source), `.cursor/commands/` (installed)
+- **Location:** `commands/` (source), `.cursor/commands/` (installed)
 
 ### Documentation Stack
 - **Site Generator:** MkDocs 1.6+
@@ -113,14 +113,15 @@ Documentation **MUST**:
 ```yaml
 directory_map:
   # Command Implementations (Source of Truth)
-  implementations/cursor/commands:
+  commands:
     "*.md": "Command definitions - markdown instructions for AI agents"
     README.md: "Command documentation and usage guide"
   
   # User-Facing Documentation
   docs:
-    commands: "User-facing command documentation (mirrors implementations)"
-    implementations/cursor: "Cursor-specific setup and command docs"
+    commands: "User-facing command documentation (mirrors commands/)"
+    mcp-setup.md: "MCP server configuration"
+    command-files.md: "Command install and canonical source"
     roles: "Role-based command guides (PM, Engineer, QA)"
     getting-started.md: "Setup instructions for new users"
     index.md: "Documentation home page with hero section"
@@ -269,7 +270,7 @@ get_article(slug: "agents-md-spec")
 
 ### Key Files to Read
 
-- **Command Source:** Read `@implementations/cursor/commands/<command>.md`
+- **Command Source:** Read `@commands/<command>.md`
 - **Documentation:** Read `@docs/commands/<command>.md`
 - **MCP Schemas:** Read `@mcps/<server>/tools/<tool>.json` before calling tools
 - **Setup Guide:** Read `@docs/getting-started.md` for user onboarding flow
@@ -289,7 +290,7 @@ get_article(slug: "agents-md-spec")
 
 ### When Documenting
 
-1. **Mirror Structure** - `docs/commands/` mirrors `implementations/cursor/commands/`
+1. **Mirror Structure** - `docs/commands/` mirrors `commands/`
 2. **User-Facing Language** - Docs use "you" and imperative ("Run this command")
 3. **Implementation Language** - Commands use "AI agent" perspective ("Fetch task", "Validate prerequisites")
 4. **Cross-Reference** - Link related commands and patterns
@@ -430,7 +431,7 @@ This section captures accumulated wisdom from implementation experience. Update 
 
 ### Documentation Best Practices
 
-- **Mirror Structure:** Keep `docs/commands/` and `implementations/cursor/commands/` in sync
+- **Mirror Structure:** Keep `docs/commands/` and `commands/` in sync
 - **User vs Agent Language:** Docs for users, commands for agents - different perspective
 - **Link Validation Important:** Broken links erode trust, validate in CI/CD
 

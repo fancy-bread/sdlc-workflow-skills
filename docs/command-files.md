@@ -2,9 +2,9 @@
 
 Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to trigger workflows.
 
-**Canonical command definitions** (the markdown files Cursor executes) live in the repo at **`implementations/cursor/commands/`**. Those files are the source of truth. This page describes how to install and use them.
+**Canonical command definitions** (the markdown files Cursor executes) live in the repo at **`commands/`**. Those files are the source of truth. This page describes how to install and use them.
 
-**User-oriented documentation** (what each command does, usage, examples) is in [Commands](../../../commands/index.md).
+**User-oriented documentation** (what each command does, usage, examples) is in [Commands](commands/index.md).
 
 ---
 
@@ -42,25 +42,25 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 
 ## Installation
 
-Copy the command files from **`implementations/cursor/commands/`** (at the repository root) into Cursor's commands directory.
+Copy the command files from **`commands/`** (at the repository root) into Cursor's commands directory.
 
 ### Option 1: Project Commands
 
 ```bash
-cp -r implementations/cursor/commands/* /path/to/project/.cursor/commands/
+cp -r commands/* /path/to/project/.cursor/commands/
 ```
 
 ### Option 2: Global Commands
 
 ```bash
-cp -r implementations/cursor/commands/* ~/.cursor/commands/
+cp -r commands/* ~/.cursor/commands/
 ```
 
 ### Option 3: Team Commands
 
 For Cursor Team/Enterprise:
 1. Go to [Cursor Dashboard → Team Content → Commands](https://cursor.com/dashboard?tab=team-content&section=commands)
-2. Create team commands from the files in `implementations/cursor/commands/`
+2. Create team commands from the files in `commands/`
 3. Commands auto-sync to team members
 
 ---
@@ -91,13 +91,13 @@ For Cursor Team/Enterprise:
 
 ## Command File Format
 
-Each `.md` file in `implementations/cursor/commands/` contains structured instructions (Definitions, Prerequisites, Steps, Tools, Guidance) that Cursor's AI interprets to run the workflow. Commands are plain markdown—no compilation. They adapt to your project's structure, frameworks, and conventions.
+Each `.md` file in `commands/` contains structured instructions (Definitions, Prerequisites, Steps, Tools, Guidance) that Cursor's AI interprets to run the workflow. Commands are plain markdown—no compilation. They adapt to your project's structure, frameworks, and conventions.
 
 ---
 
 ## Configuration
 
-Commands require MCP servers for Jira/ADO and GitHub. See [MCP Setup](../mcp-setup.md).
+Commands require MCP servers for Jira/ADO and GitHub. See [MCP Setup](mcp-setup.md).
 
 ---
 

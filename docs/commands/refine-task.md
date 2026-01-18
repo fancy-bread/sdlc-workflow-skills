@@ -149,5 +149,5 @@ Use `/refine-task` when:
 
 ---
 
-**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/implementations/cursor/commands/refine-task.md)**
+**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/refine-task.md)**
 

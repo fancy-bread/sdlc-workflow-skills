@@ -123,6 +123,16 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the 9 commands onl
 - **When**: Stakeholder reviews findings
 - **Then**: Audit report is readable, well-structured, and actionable for next steps
 
+**Scenario: Audit validates ASDLC artifact lifecycle**
+- **Given**: Commands claim to implement ASDLC artifacts (Spec, PBI, AGENTS.md)
+- **When**: Audit analyzes artifact creation, consumption, and evolution
+- **Then**: Each artifact has clear owner commands (create, read, update), lifecycle is validated
+
+**Scenario: Recommendations are prioritized**
+- **Given**: Multiple gaps and misalignments identified
+- **When**: Synthesizing recommendations
+- **Then**: Recommendations are ordered by: Critical (blocks FB-18) > High (ASDLC core) > Medium (nice-to-have), with rationale
+
 ### Expected Outcomes
 
 **Likely Findings**:

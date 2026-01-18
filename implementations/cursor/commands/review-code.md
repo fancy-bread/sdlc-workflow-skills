@@ -1,7 +1,7 @@
 # Review Code
 
 ## Overview
-Perform comprehensive AI-assisted code review on a pull request or branch changes.
+Perform adversarial AI-assisted code review on a pull request or branch changes using Builder/Critic separation with dual-contract validation (Spec + Constitution).
 
 ## Definitions
 
@@ -12,6 +12,9 @@ Perform comprehensive AI-assisted code review on a pull request or branch change
 - **{BRANCH_NAME}**: Branch name to review (e.g., `feat/FB-12`, `main`, `develop`)
   - Can be local branch or remote branch
   - Format: `{type}/{TASK_KEY}` for feature branches (consistent with other commands)
+- **{FEATURE_DOMAIN}**: Kebab-case feature name for Spec lookup (e.g., `user-authentication`, `command-audit`)
+  - Determines which Spec to read from `specs/{FEATURE_DOMAIN}/spec.md`
+  - May be extracted from branch name, PR title, or Jira issue context
 - **PR (Pull Request)**: A GitHub pull request containing proposed changes to merge into a branch
   - Referenced using {PR_KEY} format (e.g., PR-12, #12, or 12)
   - Contains changes, metadata, comments, and review history
@@ -23,38 +26,44 @@ Perform comprehensive AI-assisted code review on a pull request or branch change
   - Shows line-by-line changes in files
   - Indicates what was added (+), removed (-), or modified
   - Essential for understanding the scope of changes
-- **Review Categories**: Classification system for organizing code review findings:
-  - **Critical Issues** 🔴: Security vulnerabilities, data loss risks, breaking changes, critical bugs
-  - **Major Issues** 🟡: Performance problems, design flaws, missing tests, poor error handling
-  - **Minor Issues** 🟢: Style violations, documentation gaps, code smells, minor optimizations
-  - **Suggestions** 💡: Best practices, refactoring ideas, alternative approaches
-- **Severity Levels**: How to assign severity to findings:
-  - **Critical**: Issues that must be fixed before merging (security, data loss, breaking changes)
-  - **Major**: Issues that should be addressed but may not block merging (performance, design, tests)
-  - **Minor**: Issues that are nice to fix (style, documentation, code quality)
-  - **Suggestion**: Optional improvements (best practices, optimizations, refactoring)
-- **Review Report Format**: Structured output containing:
-  - Summary of findings by category
-  - Detailed findings with file paths and line references
-  - Specific suggestions for improvement
-  - Approval recommendation (approve, request changes, or comment)
+- **Builder Agent**: The agent context that retrieves data, reads files, and packages context (no judgment)
+- **Critic Agent**: Fresh context session that performs validation, identifies violations, and judges quality
+- **Spec**: Living specification at `specs/{FEATURE_DOMAIN}/spec.md` containing:
+  - **Blueprint**: Context, Architecture, Anti-Patterns (architectural constraints)
+  - **Contract**: Definition of Done, Regression Guardrails, Scenarios (behavioral verification)
+- **Constitution**: AGENTS.md Operational Boundaries (3-tier system):
+  - **Tier 1 (ALWAYS)**: Non-negotiable standards (must follow)
+  - **Tier 2 (ASK)**: High-risk operations requiring human approval
+  - **Tier 3 (NEVER)**: Safety limits (must not violate)
+- **Dual-Contract Validation**: Two-tier validation system:
+  - **Functional Validation**: Code meets Spec's Blueprint and Contract
+  - **Architectural Validation**: Code meets AGENTS.md Constitution (3-tier system)
+- **Review Gate**: Decisional output (PASS/FAIL/WARNING) based on violation severity
+  - **PASS**: No critical violations found
+  - **FAIL**: Spec CRITICAL violations OR Constitutional Tier 3 violations found
+  - **WARNING**: Spec warnings OR Constitutional Tier 2 violations found
+- **Violation Report**: Structured report containing:
+  - Description: What was violated
+  - Impact: Why it matters (performance, security, maintainability, scalability)
+  - Remediation: Ordered steps to fix the violation
+  - Location: File:Line reference
+  - Reference: Which Spec criterion or Constitutional boundary was violated
 
 ## Prerequisites
 
 Before proceeding, verify:
 
 1. **MCP Status Validation**: GitHub MCP connection required (see `mcp-status.md` for detailed steps)
-   - Use `mcp_github_get_me` to verify GitHub MCP connection
+   - Use GitHub MCP tools to verify connection
    - **If GitHub MCP connection fails, STOP and report: "GitHub MCP connection failed. Please verify MCP configuration (see mcp-status.md)."**
 
 2. **PR/Branch Existence**: Verify {PR_KEY} or {BRANCH_NAME} is valid and accessible
    - **For PR ({PR_KEY}):**
      - Normalize {PR_KEY} format (extract numeric ID from PR-12, #12, or 12)
-     - Use `mcp_github_pull_request_read` with method="get" to verify PR exists
+     - Use GitHub MCP to verify PR exists
      - **If PR not found or inaccessible, STOP and report: "Pull Request {PR_KEY} not found or inaccessible."**
    - **For branch ({BRANCH_NAME}):**
-     - Use `mcp_github_list_branches` to check if branch exists on remote
-     - Use `run_terminal_cmd` with `git branch -a` to check local branches
+     - Use GitHub MCP or git commands to check if branch exists
      - **If branch not found, STOP and report: "Branch {BRANCH_NAME} not found."**
 
 3. **Access Verification**: Verify user has access to PR/branch (read permissions)
@@ -63,6 +72,8 @@ Before proceeding, verify:
 
 ## Steps
 
+### [BUILDER AGENT CONTEXT]
+
 1. **Retrieve changes**
    - **Determine if PR ({PR_KEY}) or branch ({BRANCH_NAME}):**
      - Check if input is a PR format (PR-12, #12, 12) or branch name
@@ -70,22 +81,12 @@ Before proceeding, verify:
    - **If PR ({PR_KEY}):**
      - Normalize {PR_KEY} format: Extract numeric ID from PR-12, #12, or 12
        - Example: PR-12 → 12, #12 → 12, 12 → 12
-     - Use `mcp_github_pull_request_read` with method="get" to retrieve PR details
-       - Parameters: `owner`, `repo`, `pullNumber` = normalized numeric ID
-     - Use `mcp_github_pull_request_read` with method="get_files" to get list of changed files
-       - Parameters: `owner`, `repo`, `pullNumber` = normalized numeric ID
-     - Use `mcp_github_pull_request_read` with method="get_diff" to get the full diff
-       - Parameters: `owner`, `repo`, `pullNumber` = normalized numeric ID
+     - Use GitHub MCP to retrieve PR details, get list of changed files, and get full diff
      - **STOP condition:** If PR not found or inaccessible, report error and stop
    - **If branch ({BRANCH_NAME}):**
-     - Verify branch exists:
-       - For remote: Use `mcp_github_list_branches` to check
-       - For local: Use `run_terminal_cmd` with `git branch -a | grep {BRANCH_NAME}`
-     - Get diff using `run_terminal_cmd`:
-       - `git diff main...{BRANCH_NAME}` (compare branch to main)
-       - Or `git diff {BRANCH_NAME}` (compare to current HEAD)
-     - Get list of changed files using `run_terminal_cmd`:
-       - `git diff --name-only main...{BRANCH_NAME}`
+     - Verify branch exists using GitHub MCP or git commands
+     - Get diff using `run_terminal_cmd`: `git diff main...{BRANCH_NAME}`
+     - Get list of changed files using `run_terminal_cmd`: `git diff --name-only main...{BRANCH_NAME}`
      - **STOP condition:** If branch not found, report error and stop
    - **Read all changed files:**
      - Iterate through list of changed files
@@ -97,150 +98,220 @@ Before proceeding, verify:
      - Identify change types: new files, modifications, deletions
      - Note related files that might need review (tests, documentation)
 
-2. **Analyze code quality** (integrated with Review Categories)
-   - **Critical Issues Analysis 🔴:**
-     - **Security vulnerabilities:**
-       - Check for SQL injection risks, XSS vulnerabilities, authentication/authorization issues
-       - Look for hardcoded secrets, credentials, or API keys
-       - Verify input validation and sanitization
-       - Check for insecure dependencies or outdated packages
-     - **Data loss risks:**
-       - Verify proper error handling in data operations
-       - Check for missing transaction handling or rollback logic
-       - Ensure proper backup or recovery mechanisms
-       - Verify data validation before destructive operations
-     - **Breaking changes:**
-       - Check for API contract changes (function signatures, return types)
-       - Verify backward compatibility for public interfaces
-       - Check for changes to shared utilities or common code
-       - Review database schema changes for migration requirements
-     - **Critical bugs:**
-       - Look for null pointer exceptions, undefined access
-       - Check for infinite loops or recursion without base cases
-       - Verify proper exception handling for critical operations
-     - **Categorize findings:** Tag each critical finding with appropriate severity
+2. **Determine feature domain and read Spec**
+   - **Determine feature domain:**
+     - **Option 1**: Extract from branch name format `{type}/{TASK_KEY}` (e.g., `feat/FB-39` → fetch FB-39 from Jira to get feature context)
+     - **Option 2**: Extract from PR title or description (look for feature keywords)
+     - **Option 3**: Use `glob_file_search` with pattern `**/specs/*/spec.md` to list available specs, then prompt user if unclear
+     - **If unable to determine automatically**: List available specs and ask user to specify feature domain
+   - **Read Spec (if exists):**
+     - Check if `specs/{FEATURE_DOMAIN}/spec.md` exists using `glob_file_search`
+     - If exists:
+       - Use `read_file` to read spec file
+       - Extract **Blueprint** section (Context, Architecture, Anti-Patterns)
+       - Extract **Contract** section (Definition of Done, Regression Guardrails, Scenarios)
+     - If no spec found:
+       - Note: "No Spec available for {FEATURE_DOMAIN} - will validate against Constitution only"
+       - Proceed with Constitution-only validation
 
-   - **Major Issues Analysis 🟡:**
-     - **Performance problems:**
-       - Check for N+1 query patterns, inefficient algorithms
-       - Look for missing indexes, unnecessary database queries
-       - Review loop complexity and nested iterations
-       - Check for memory leaks or resource cleanup issues
-     - **Design flaws:**
-       - Verify separation of concerns, single responsibility principle
-       - Check for tight coupling, circular dependencies
-       - Review code duplication and opportunities for abstraction
-       - Assess overall architecture and design patterns
-     - **Missing tests:**
-       - Check if new code has corresponding tests
-       - Verify test coverage for critical paths
-       - Review test quality (unit tests, integration tests)
-       - Note areas where tests should be added
-     - **Poor error handling:**
-       - Check for swallowed exceptions or silent failures
-       - Verify appropriate error messages and logging
-       - Review error recovery mechanisms
-       - Check for proper validation of error conditions
-     - **Categorize findings:** Tag each major finding with appropriate severity
+3. **Read Constitution**
+   - Use `read_file` to read `AGENTS.md`
+   - Extract **Operational Boundaries** section:
+     - **Tier 1 (ALWAYS)**: Non-negotiable standards
+     - **Tier 2 (ASK)**: High-risk operations requiring human approval
+     - **Tier 3 (NEVER)**: Safety limits
+   - Extract **Command Structure Standards** (if reviewing command file changes)
+   - Store for Critic Agent context
 
-   - **Minor Issues Analysis 🟢:**
-     - **Style violations:**
-       - Check code formatting, indentation consistency
-       - Review naming conventions (variables, functions, classes)
-       - Verify consistent code style with project standards
-       - Check for unnecessary complexity or verbosity
-     - **Documentation gaps:**
-       - Check for missing JSDoc/TSDoc comments on public APIs
-       - Review inline comments for clarity and necessity
-       - Verify README updates for new features
-       - Check for missing or outdated documentation
-     - **Code smells:**
-       - Look for long methods, large classes
-       - Check for magic numbers or strings
-       - Review variable naming clarity
-       - Identify dead code or unused imports
-     - **Minor optimizations:**
-       - Check for unnecessary computations or operations
-       - Review opportunities for code simplification
-       - Look for minor performance improvements
-     - **Categorize findings:** Tag each minor finding with appropriate severity
+### [CRITIC AGENT CONTEXT - FRESH SESSION]
 
-   - **Suggestions Analysis 💡:**
-     - **Best practices:**
-       - Suggest design pattern improvements
-       - Recommend coding best practices
-       - Propose architectural improvements
-     - **Refactoring ideas:**
-       - Suggest code extraction or simplification
-       - Recommend better abstractions
-       - Propose structural improvements
-     - **Alternative approaches:**
-       - Suggest different algorithms or implementations
-       - Recommend library alternatives
-       - Propose different design choices
-     - **Categorize findings:** Tag each suggestion appropriately
+4. **Invoke Critic Agent for Adversarial Review**
+   - **Package context for Critic:**
+     - Spec Blueprint + Contract (if exists)
+     - AGENTS.md Operational Boundaries (Tier 1, Tier 2, Tier 3)
+     - Code diff from Step 1
+     - Changed files list
+   - **Create fresh context session:**
+     - **CRITICAL**: Critic Agent must have no bias from implementation
+     - Use separate conversation or explicit context boundary
+     - Critic Agent has not seen the implementation process, only the contracts and code
+   - **Critic Agent prompt structure:**
+     ```
+     You are a Critic Agent performing Adversarial Code Review with dual-contract validation.
 
-3. **Check compliance**
-   - **Verify coding standards adherence:**
-     - Check against project coding standards and style guide
-     - Review linter configuration and compliance
-     - Verify consistent patterns across codebase
-   - **Check style guidelines:**
-     - Review formatting, naming conventions
-     - Verify comment style and documentation standards
-     - Check file organization and structure
-   - **Validate project conventions:**
-     - Verify file naming conventions
-     - Check directory structure and organization
-     - Review import/export patterns
-     - Verify testing conventions and patterns
-   - **Review documentation completeness:**
-     - Check for updated README files
-     - Verify API documentation updates
-     - Review inline code comments
-     - Check for changelog or release notes updates
+     **Your role**: Validate code against two contracts: Functional (Spec) and Architectural (Constitution). You have NOT been involved in building this code. Provide fresh, unbiased critique.
 
-4. **Generate review report**
-   - **Categorize findings by severity:**
-     - Group findings by Review Categories (Critical, Major, Minor, Suggestions)
-     - Count findings per category
-     - Prioritize critical and major issues
-   - **Provide specific line references:**
-     - Include file paths for each finding
-     - Reference specific line numbers or code sections
-     - Quote relevant code snippets where helpful
-     - Link findings to specific changes in diff
-   - **Suggest improvements:**
-     - Provide actionable suggestions for each finding
-     - Include code examples or references where appropriate
-     - Explain why the suggestion improves the code
-   - **Make approval recommendation:**
-     - **Approve:** No critical or major issues, code is ready to merge
-     - **Request Changes:** Critical or major issues found that should be addressed
-     - **Comment:** Minor issues or suggestions only, can merge but improvements recommended
+     **Spec Contract** (functional validation):
+     [If spec exists at specs/{FEATURE_DOMAIN}/spec.md]
+     ### Blueprint
+     [Paste Context, Architecture, Anti-Patterns sections]
+
+     ### Contract
+     [Paste Definition of Done, Regression Guardrails, Scenarios sections]
+
+     [If no spec]
+     No Spec found for this feature - skip functional validation, proceed to Constitutional validation only.
+
+     **Constitution** (architectural validation):
+     [From AGENTS.md Operational Boundaries]
+     ### Tier 1: ALWAYS (Must Follow)
+     [Paste Tier 1 rules with full descriptions]
+
+     ### Tier 2: ASK (Require Human Approval)
+     [Paste Tier 2 rules with full descriptions]
+
+     ### Tier 3: NEVER (Safety Limits)
+     [Paste Tier 3 rules with full descriptions]
+
+     **Code Changes** (git diff):
+     [Paste full diff output showing all additions, deletions, modifications]
+
+     **Files Changed**:
+     [List of changed files with paths]
+
+     **Task**: Perform dual-contract validation. For each violation found:
+     1. **Category**: SPEC | CONSTITUTIONAL
+     2. **Severity**: CRITICAL | WARNING | INFO
+        - CRITICAL: Spec violations, Constitutional Tier 3 (NEVER) violations
+        - WARNING: Spec warnings, Constitutional Tier 2 (ASK) violations
+        - INFO: Spec suggestions, Constitutional Tier 1 (ALWAYS) violations
+     3. **Description**: What was violated? (specific and clear)
+     4. **Impact**: Why this matters (performance, security, maintainability, scalability)
+     5. **Remediation**: Ordered steps to fix the violation (actionable)
+     6. **Location**: File:Line reference where violation occurs
+     7. **Reference**: Which Spec Contract criterion or Constitutional Boundary rule was violated
+
+     **Output Format** (structured markdown):
+
+     ## Code Review Report: [PASS | FAIL | WARNING]
+
+     ### Summary
+     - Spec Violations: X (Critical: Y, Warning: Z, Info: W)
+     - Constitutional Violations: X (Critical: Y, Warning: Z, Info: W)
+     - Gate Decision: PASS | FAIL | WARNING
+
+     ---
+
+     ## Spec Contract Violations
+
+     ### Critical Issues 🔴
+     [None] OR
+     1. **Violation**: [Description]
+        - **Impact**: [Why this matters]
+        - **Remediation**: [Ordered steps to fix]
+        - **Location**: [File:Line]
+        - **Contract Reference**: [Which DoD/Guardrail/Scenario violated]
+
+     ### Warnings 🟡
+     [Similar format for WARNING severity violations]
+
+     ### Info 🟢
+     [Similar format for INFO severity violations]
+
+     ---
+
+     ## Constitutional Violations
+
+     ### Tier 3 Violations (CRITICAL - NEVER) 🔴
+     [None] OR
+     1. **Violation**: [Description]
+        - **Impact**: [Security, safety, or anti-pattern concern]
+        - **Remediation**: [Ordered steps to fix]
+        - **Location**: [File:Line]
+        - **Boundary Reference**: [Which NEVER rule violated]
+
+     ### Tier 2 Violations (WARNING - ASK) 🟡
+     [Similar format for Tier 2 violations]
+
+     ### Tier 1 Violations (INFO - ALWAYS) 🟢
+     [Similar format for Tier 1 violations]
+
+     ---
+
+     ## Recommendation
+
+     **[APPROVE | REQUEST CHANGES | COMMENT]**
+
+     Rationale: [Explanation based on violations found]
+     ```
+   - **Model routing:**
+     - Use reasoning-optimized model if available (e.g., o1, o3-mini for cost-effective reasoning)
+     - Fallback to standard model if reasoning model unavailable
+     - Note: Reasoning models excel at adversarial validation tasks
+
+### [BUILDER AGENT CONTEXT]
+
+5. **Parse violations and make gate decision**
+   - **Parse Critic output:**
+     - Extract **Spec violations** (if Spec exists):
+       - Categorize by severity: CRITICAL/WARNING/INFO
+       - Extract description, impact, remediation, location, contract reference
+       - Count violations by severity
+     - Extract **Constitutional violations**:
+       - Categorize by tier: Tier 3 (CRITICAL), Tier 2 (WARNING), Tier 1 (INFO)
+       - Extract description, impact, remediation, location, boundary reference
+       - Count violations by tier
+   - **Count total violations:**
+     - Spec: Critical, Warning, Info counts
+     - Constitutional: Tier 3, Tier 2, Tier 1 counts
+   - **Gate Decision Logic:**
+     - **FAIL** if:
+       - Spec CRITICAL violations found (functional contract broken) OR
+       - Constitutional Tier 3 (NEVER) violations found (safety limits violated)
+     - **WARNING** if:
+       - Spec WARNING violations found (functional concerns) OR
+       - Constitutional Tier 2 (ASK) violations found (human approval required)
+     - **PASS** if:
+       - Only Spec INFO violations OR
+       - Only Constitutional Tier 1 (ALWAYS) violations OR
+       - No violations found
+   - **Validation of Critic output:**
+     - If Critic output is unparseable or malformed:
+       - WARN user about parsing failure
+       - Ask to retry or provide emergency override option
+       - Do not fail silently
+
+6. **Generate review report**
+   - **Use structured format from Critic Agent:**
+     - **Report header**: "Code Review Report: [PASS | FAIL | WARNING]"
+     - **Summary section**:
+       - Total violations by category (Spec + Constitutional)
+       - Violation counts by severity
+       - Gate decision with rationale
+     - **Spec Contract Violations section** (if Spec exists):
+       - Critical Issues 🔴 (Spec CRITICAL violations)
+       - Warnings 🟡 (Spec WARNING violations)
+       - Info 🟢 (Spec INFO violations)
+     - **Constitutional Violations section**:
+       - Tier 3 (CRITICAL - NEVER) 🔴
+       - Tier 2 (WARNING - ASK) 🟡
+       - Tier 1 (INFO - ALWAYS) 🟢
+     - **Recommendation section**:
+       - APPROVE (PASS) - No critical violations, ready to merge
+       - REQUEST CHANGES (FAIL) - Critical violations must be fixed
+       - COMMENT (WARNING) - Warnings flagged, human decision required
+     - **Each violation includes**:
+       - Description (what was violated)
+       - Impact (why it matters)
+       - Remediation steps (how to fix)
+       - Location (File:Line)
+       - Reference (Spec criterion or Constitutional boundary)
+   - **Backward compatibility:**
+     - If no Spec exists and no Constitutional violations: Include general code quality observations
+     - If parsing Critic output fails: Fall back to basic review with clear error message
 
 ## Tools
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- GitHub MCP tools - Verify GitHub MCP connection and retrieve PR/branch information
   - Use to validate GitHub MCP is configured and accessible
-  - **If this fails, STOP workflow - GitHub MCP is required for PR operations**
-- `mcp_github_pull_request_read` - Retrieve pull request information
-  - **method="get"**: Get PR details (title, description, status, author, etc.)
-    - Parameters: `owner`, `repo`, `pullNumber` = normalized {PR_KEY} (numeric ID)
-    - Returns: PR metadata, status, labels, assignees
-  - **method="get_diff"**: Get the diff showing all changes in the PR
-    - Parameters: `owner`, `repo`, `pullNumber` = normalized {PR_KEY} (numeric ID)
-    - Returns: Full diff of changes (additions, deletions, modifications)
-  - **method="get_files"**: Get list of files changed in the PR
-    - Parameters: `owner`, `repo`, `pullNumber` = normalized {PR_KEY} (numeric ID)
-    - Returns: List of changed files with paths, status (added, modified, deleted)
-- `mcp_github_list_branches` - List branches in repository
-  - Parameters: `owner`, `repo`
-  - Use to verify branch exists on remote
-- `mcp_github_add_comment_to_pending_review` - Add review comments to a pending review
-  - Parameters: `owner`, `repo`, `pullNumber`, `path` = file path, `body` = comment text, `line` = line number, `side` = "RIGHT" (new code), `subjectType` = "LINE"
-  - Use to add specific line-by-line review comments
+  - Use to retrieve PR details, changed files, and diffs
+  - **If connection fails, STOP workflow - GitHub MCP is required for PR operations**
+
+### MCP Tools (Atlassian)
+- `getJiraIssue` - Fetch Jira issue details (if extracting feature domain from task key)
+  - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
+  - Use to extract feature context when branch name is `{type}/{TASK_KEY}`
 
 ### Codebase Tools
 - `codebase_search` - Find related code and understand context
@@ -248,14 +319,15 @@ Before proceeding, verify:
   - Query: "Where is [component] used?"
   - Query: "What are the patterns for [error handling/testing/API design] in this codebase?"
   - Use to understand codebase patterns, find similar implementations, and ensure consistency
-- `read_file` - Read changed files and related files for context
-  - Parameters: `target_file` = path to file
-  - Use to read changed files and related files (tests, dependencies) for full context
 
 ### Filesystem Tools
-- `read_file` - Read local files when reviewing branch changes
-  - Parameters: `target_file` = path to file
-  - Use when reviewing local branch changes (not PR)
+- `read_file` - Read changed files, Spec, and Constitution
+  - Read changed code files for full context
+  - Read `specs/{FEATURE_DOMAIN}/spec.md` (if exists)
+  - Read `AGENTS.md` for Operational Boundaries
+- `glob_file_search` - Find available specs
+  - Pattern: `**/specs/*/spec.md` - List all available specs
+  - Use to help determine feature domain or list options for user
 
 ### Terminal Tools
 - `run_terminal_cmd` - Execute git commands for branch operations
@@ -270,173 +342,187 @@ Before proceeding, verify:
 - [ ] {PR_KEY} normalized to numeric ID if PR review (extract from PR-12, #12, or 12)
 - [ ] Changed files retrieved and readable
 - [ ] Scope of changes understood (file count, line count, change types)
-- [ ] Codebase context reviewed (related files, patterns, conventions)
-
-## Review Categories
-
-### Critical Issues 🔴
-**Severity:** Must be fixed before merging. These issues pose serious risks to security, data integrity, or system stability.
-
-**Types:**
-- **Security vulnerabilities:**
-  - SQL injection, XSS, CSRF vulnerabilities
-  - Hardcoded secrets, credentials, or API keys
-  - Missing authentication or authorization checks
-  - Insecure dependencies or outdated packages
-  - Input validation and sanitization failures
-- **Data loss risks:**
-  - Missing error handling in data operations
-  - Lack of transaction handling or rollback logic
-  - Missing backup or recovery mechanisms
-  - Data validation failures before destructive operations
-- **Breaking changes:**
-  - API contract changes without versioning or migration
-  - Backward compatibility violations for public interfaces
-  - Changes to shared utilities affecting other components
-  - Database schema changes without migration plans
-- **Critical bugs:**
-  - Null pointer exceptions or undefined access
-  - Infinite loops or recursion without base cases
-  - Missing exception handling for critical operations
-  - Logic errors causing incorrect behavior
-
-**Action:** Request changes - these must be addressed before approval.
-
-### Major Issues 🟡
-**Severity:** Should be addressed. These issues impact code quality, maintainability, performance, or reliability.
-
-**Types:**
-- **Performance problems:**
-  - N+1 query patterns or inefficient database access
-  - Missing indexes or unnecessary queries
-  - High complexity algorithms or nested iterations
-  - Memory leaks or missing resource cleanup
-- **Design flaws:**
-  - Violations of separation of concerns or single responsibility
-  - Tight coupling or circular dependencies
-  - Code duplication without abstraction
-  - Architectural inconsistencies
-- **Missing tests:**
-  - New code without corresponding tests
-  - Missing test coverage for critical paths
-  - Poor test quality or incomplete test scenarios
-  - Missing integration tests for complex workflows
-- **Poor error handling:**
-  - Swallowed exceptions or silent failures
-  - Missing or inadequate error messages
-  - Missing error recovery mechanisms
-  - Insufficient error validation
-
-**Action:** Request changes or approve with comments - address these issues or document why they're acceptable.
-
-### Minor Issues 🟢
-**Severity:** Nice to fix. These are code quality improvements that don't impact functionality.
-
-**Types:**
-- **Style violations:**
-  - Code formatting inconsistencies
-  - Naming convention deviations
-  - Code style inconsistencies with project standards
-  - Unnecessary complexity or verbosity
-- **Documentation gaps:**
-  - Missing JSDoc/TSDoc comments on public APIs
-  - Unclear or missing inline comments
-  - Missing README updates for new features
-  - Outdated or incomplete documentation
-- **Code smells:**
-  - Long methods or large classes
-  - Magic numbers or strings
-  - Unclear variable naming
-  - Dead code or unused imports
-- **Minor optimizations:**
-  - Unnecessary computations or operations
-  - Opportunities for code simplification
-  - Minor performance improvements
-
-**Action:** Approve with comments - address these in future iterations.
-
-### Suggestions 💡
-**Severity:** Optional improvements. These are enhancements that could improve code quality or maintainability.
-
-**Types:**
-- **Best practices:**
-  - Design pattern improvements
-  - Coding best practice recommendations
-  - Architectural enhancement suggestions
-- **Refactoring ideas:**
-  - Code extraction or simplification opportunities
-  - Better abstraction recommendations
-  - Structural improvement suggestions
-- **Alternative approaches:**
-  - Different algorithm or implementation suggestions
-  - Library or tool alternatives
-  - Different design choice recommendations
-
-**Action:** Approve with comments - consider for future work.
+- [ ] Feature domain determined (for Spec lookup)
+- [ ] Spec read (if exists) - Blueprint and Contract sections extracted
+- [ ] Constitution read (AGENTS.md Operational Boundaries extracted)
+- [ ] Critic Agent context packaged (Spec + Constitution + Code diff)
 
 ## Review Checklist
 - [ ] All changed files reviewed
-- [ ] Code quality assessed (Critical, Major, Minor issues identified)
-- [ ] Security checked (vulnerabilities, authentication, authorization)
-- [ ] Performance evaluated (algorithms, queries, resource usage)
-- [ ] Tests reviewed (coverage, quality, completeness)
-- [ ] Error handling assessed (exception handling, validation, recovery)
-- [ ] Documentation checked (inline comments, API docs, README updates)
-- [ ] Compliance verified (coding standards, style guidelines, conventions)
-- [ ] Findings categorized (Critical 🔴, Major 🟡, Minor 🟢, Suggestions 💡)
-- [ ] Review report generated with line references
-- [ ] Approval recommendation made (Approve, Request Changes, or Comment)
+- [ ] Spec Contract validated (if Spec exists) - Blueprint and Contract checked
+- [ ] Constitutional boundaries validated (AGENTS.md 3-tier system checked)
+- [ ] Dual-contract violations identified and categorized
+- [ ] Spec violations categorized by severity (CRITICAL/WARNING/INFO)
+- [ ] Constitutional violations categorized by tier (Tier 3/Tier 2/Tier 1)
+- [ ] Gate decision made (PASS/FAIL/WARNING) based on violation severity
+- [ ] Remediation paths provided for all violations
+- [ ] Violation locations specified (File:Line references)
+- [ ] Contract/Boundary references included for all violations
+- [ ] Review report generated with structured format
+- [ ] Approval recommendation made (APPROVE/REQUEST CHANGES/COMMENT)
 
 ## Guidance
 
 ### Role
-Act as a **Senior Engineer/Code Reviewer** responsible for thorough code review. You are methodical, detail-oriented, and focused on code quality, security, and maintainability while ensuring changes align with project standards and best practices.
+Act as a **Builder Agent** responsible for orchestrating adversarial code review. You retrieve context, package information, and coordinate with the Critic Agent. You are systematic, thorough, and enforce the Review Gate pattern with dual-contract validation.
 
 ### Instruction
-Execute the review-code workflow to perform comprehensive code review on a pull request or branch. This includes:
-1. Retrieving and understanding the scope of changes
-2. Analyzing code quality across all Review Categories (Critical, Major, Minor, Suggestions)
-3. Checking compliance with project standards and conventions
-4. Generating a detailed review report with categorized findings and specific recommendations
+Execute the adversarial review-code workflow to perform comprehensive code review with dual-contract validation. This includes:
+1. Retrieving PR/branch changes and understanding scope
+2. Determining feature domain and reading Spec (if exists)
+3. Reading Constitution (AGENTS.md Operational Boundaries)
+4. Packaging context for Critic Agent (no judgment at this stage)
+5. Invoking Critic Agent in fresh context session for validation
+6. Parsing Critic output and categorizing violations
+7. Making gate decision (PASS/FAIL/WARNING) based on violation severity
+8. Generating structured review report with remediation paths
 
 ### Context
+- **Adversarial Code Review**: Builder/Critic separation prevents implementation bias
+- **Fresh Context Session**: Critic Agent has no knowledge of implementation, only contracts and code
+- **Dual-Contract Validation**: Functional (Spec) + Architectural (Constitution) validation
+- **Review Gate**: PASS/FAIL/WARNING decisions, not just suggestions
+- **Spec (if exists)**: Permanent living specification at `specs/{FEATURE_DOMAIN}/spec.md`
+- **Constitution**: AGENTS.md Operational Boundaries (3-tier system)
+- **Backward Compatible**: Works without Spec (Constitution-only validation)
+- **Model Routing**: Prefer reasoning models (o1, o3-mini) for Critic Agent if available
 - The review may be for a GitHub Pull Request ({PR_KEY}) or a local/remote branch ({BRANCH_NAME})
-- {PR_KEY} can be specified in multiple formats (PR-12, #12, or 12) and should be normalized to numeric ID for API calls
+- {PR_KEY} can be specified in multiple formats (PR-12, #12, or 12) and should be normalized to numeric ID
 - {BRANCH_NAME} follows `{type}/{TASK_KEY}` format for feature branches (consistent with other commands)
-- The codebase has established patterns, conventions, and architectural decisions that should be respected
 - GitHub MCP integration provides access to PR data, diffs, and file lists
-- Review findings should be categorized according to severity (Critical, Major, Minor, Suggestions)
 
 ### Examples
 
-**Example 1: Review Pull Request with {PR_KEY}**
+**Example 1: Review Pull Request with Spec Validation**
 ```
 Input: /review-code PR-12
 Process:
 1. Normalize PR-12 to numeric ID: 12
-2. Use mcp_github_pull_request_read with method="get" to get PR details
-3. Use mcp_github_pull_request_read with method="get_files" to get changed files
-4. Use mcp_github_pull_request_read with method="get_diff" to get full diff
-5. Read all changed files using read_file
-6. Analyze code quality across all Review Categories
-7. Generate review report with categorized findings
-8. Make approval recommendation
+2. Use GitHub MCP to get PR details, changed files, and diff
+3. Determine feature domain from PR title/branch (e.g., "user-authentication")
+4. Read specs/user-authentication/spec.md (Blueprint + Contract)
+5. Read AGENTS.md Operational Boundaries
+6. Package context for Critic Agent
+7. Invoke Critic Agent in fresh context (dual-contract validation)
+8. Parse Critic output: Spec violations + Constitutional violations
+9. Make gate decision: FAIL if CRITICAL violations or Tier 3 violations
+10. Generate structured review report with remediation paths
 ```
 
-**Example 2: Review Branch with {BRANCH_NAME}**
+**Example 2: Review Branch without Spec (Constitution-only)**
 ```
 Input: /review-code feat/FB-12
 Process:
-1. Verify branch exists using mcp_github_list_branches or git branch -a
+1. Verify branch exists using git commands
 2. Get diff using git diff main...feat/FB-12
-3. Get changed files using git diff --name-only main...feat/FB-12
-4. Read all changed files using read_file
-5. Analyze code quality across all Review Categories
-6. Generate review report with categorized findings
-7. Make approval recommendation
+3. Get changed files using git diff --name-only
+4. Attempt to determine feature domain, no spec found
+5. Read AGENTS.md Operational Boundaries
+6. Package context for Critic Agent (Constitution only)
+7. Invoke Critic Agent for Constitutional validation
+8. Parse Critic output: Constitutional violations only
+9. Make gate decision based on Constitutional violations
+10. Generate review report noting "No Spec - validated against Constitution only"
 ```
 
-**Example 3: {PR_KEY} Normalization**
+**Example 3: Adversarial Review Report Format (FAIL)**
+```
+## Code Review Report: FAIL
+
+### Summary
+- Spec Violations: 2 (Critical: 1, Warning: 1, Info: 0)
+- Constitutional Violations: 1 (Critical: 1, Warning: 0, Info: 0)
+- Gate Decision: FAIL
+
+---
+
+## Spec Contract Violations
+
+### Critical Issues 🔴
+1. **Violation**: Missing input validation for user-provided OAuth callback URL
+   - **Impact**: Security vulnerability - allows open redirect attacks
+   - **Remediation**:
+     1. Add URL validation in auth/service.ts
+     2. Whitelist allowed callback domains
+     3. Reject URLs not matching whitelist pattern
+   - **Location**: implementations/cursor/commands/auth/service.ts:45
+   - **Contract Reference**: Definition of Done - "OAuth2 flow validates callback URLs"
+
+### Warnings 🟡
+1. **Violation**: Session timeout not configurable as specified
+   - **Impact**: Hardcoded 24-hour timeout doesn't match spec's "configurable timeout"
+   - **Remediation**:
+     1. Extract timeout to configuration file
+     2. Add environment variable SESSION_TIMEOUT_HOURS
+     3. Update session creation to use config value
+   - **Location**: implementations/cursor/commands/auth/session.ts:12
+   - **Contract Reference**: Blueprint Architecture - "Session management must be configurable"
+
+---
+
+## Constitutional Violations
+
+### Tier 3 Violations (CRITICAL - NEVER) 🔴
+1. **Violation**: Hardcoded API client secret in source code
+   - **Impact**: Security violation - credentials exposed in version control
+   - **Remediation**:
+     1. Remove hardcoded secret from auth/config.ts
+     2. Add OAUTH_CLIENT_SECRET to .env file
+     3. Load secret from environment variable
+     4. Add .env to .gitignore if not already present
+   - **Location**: implementations/cursor/commands/auth/config.ts:8
+   - **Boundary Reference**: Tier 3 - "NEVER commit secrets, API keys, tokens, or .env files"
+
+---
+
+## Recommendation
+
+**REQUEST CHANGES**
+
+Rationale: Code contains critical security violations (Spec: open redirect vulnerability, Constitution: hardcoded secret). These must be fixed before merging. The session timeout configuration issue should also be addressed to meet spec requirements.
+```
+
+**Example 4: Adversarial Review Report Format (PASS)**
+```
+## Code Review Report: PASS
+
+### Summary
+- Spec Violations: 0 (Critical: 0, Warning: 0, Info: 1)
+- Constitutional Violations: 0 (Critical: 0, Warning: 0, Info: 1)
+- Gate Decision: PASS
+
+---
+
+## Spec Contract Violations
+
+### Info 🟢
+1. **Violation**: Test coverage could include edge case for expired tokens
+   - **Impact**: Minor - improves test robustness but not required by spec
+   - **Remediation**: Add test case for token expiration edge case in auth.test.ts
+   - **Location**: tests/auth.test.ts
+   - **Contract Reference**: Scenarios - Token expiration scenario could be more comprehensive
+
+---
+
+## Constitutional Violations
+
+### Tier 1 Violations (INFO - ALWAYS) 🟢
+1. **Violation**: Missing JSDoc comment on public validateToken function
+   - **Impact**: Documentation - reduces code clarity but not a blocker
+   - **Remediation**: Add JSDoc comment describing parameters, return value, and throws
+   - **Location**: auth/validator.ts:23
+   - **Boundary Reference**: Tier 1 - Documentation must use proper formatting
+
+---
+
+## Recommendation
+
+**APPROVE**
+
+Rationale: No critical or warning-level violations found. Code meets Spec Contract requirements and respects Constitutional boundaries. Minor documentation improvements suggested but not blocking.
+```
+
+**Example 5: {PR_KEY} Normalization**
 ```
 Input formats and normalization:
 - PR-12 → 12 (extract numeric ID)
@@ -445,77 +531,47 @@ Input formats and normalization:
 All formats result in pullNumber=12 for API calls
 ```
 
-**Example 4: Review Report Format**
-```
-## Code Review Report
-
-### Summary
-- Critical Issues: 2
-- Major Issues: 3
-- Minor Issues: 5
-- Suggestions: 2
-
-### Critical Issues 🔴
-1. **Security: Hardcoded API Key** (src/services/api.ts:45)
-   - Issue: API key exposed in code
-   - Suggestion: Move to environment variable or secrets management
-
-2. **Breaking Change: API Signature Changed** (src/api/users.ts:23)
-   - Issue: Function signature change breaks existing callers
-   - Suggestion: Add versioning or maintain backward compatibility
-
-### Major Issues 🟡
-[Detailed findings...]
-
-### Minor Issues 🟢
-[Detailed findings...]
-
-### Suggestions 💡
-[Detailed suggestions...]
-
-### Recommendation
-**Request Changes** - Critical security issue must be addressed before merging.
-```
-
 ### Constraints
 
 **Rules (Must Follow):**
-1. **MCP Validation**: GitHub MCP connection is required. If validation fails, STOP and report the failure (see `mcp-status.md`).
-2. **{PR_KEY} Normalization**: Always normalize {PR_KEY} to numeric ID (extract from PR-12, #12, or 12 format) before making API calls.
-3. **Comprehensive Analysis**: Review all code changes across all Review Categories (Critical, Major, Minor, Suggestions).
-4. **Specific Line References**: Include file paths and line numbers for all findings to make issues actionable.
-5. **Severity Assignment**: Assign severity correctly:
-   - **Critical 🔴**: Security, data loss, breaking changes, critical bugs (must fix)
-   - **Major 🟡**: Performance, design, tests, error handling (should fix)
-   - **Minor 🟢**: Style, documentation, code smells (nice to fix)
-   - **Suggestions 💡**: Best practices, refactoring, alternatives (optional)
-6. **Approval Recommendation Logic**:
-   - **Approve**: No critical or major issues found
-   - **Request Changes**: Critical or major issues found (must address)
-   - **Comment**: Only minor issues or suggestions (can merge with improvements)
-7. **Codebase Context**: Use `codebase_search` to understand patterns and ensure consistency with existing code.
-8. **Preserve Existing Patterns**: Respect established codebase patterns, conventions, and architectural decisions.
-9. **Stop Conditions**: STOP and report if:
-   - GitHub MCP connection fails
-   - PR ({PR_KEY}) not found or inaccessible
-   - Branch ({BRANCH_NAME}) not found
-   - Critical files are unreadable (warn but continue with available files)
+1. **Fresh Context Requirement**: Critic Agent MUST use separate context session with no implementation bias. Builder Agent packages context, Critic Agent validates.
+2. **Dual-Contract Validation**: Validate against BOTH Spec (if exists) and AGENTS.md Constitution. Never validate against only one when both are available.
+3. **Gate Decision Logic**:
+   - FAIL on Spec CRITICAL violations OR Constitutional Tier 3 violations
+   - WARNING on Spec WARNING violations OR Constitutional Tier 2 violations
+   - PASS on Spec INFO violations OR Constitutional Tier 1 violations OR no violations
+4. **Structured Violation Reports**: Every violation MUST include: Description, Impact, Remediation, Location, Reference.
+5. **Backward Compatibility**: Works without Spec (Constitution-only validation). Never fail if Spec doesn't exist.
+6. **MCP Validation**: GitHub MCP connection is required. If validation fails, STOP and report the failure (see `mcp-status.md`).
+7. **{PR_KEY} Normalization**: Always normalize {PR_KEY} to numeric ID (extract from PR-12, #12, or 12 format) before making API calls.
+8. **Reasoning Model Preference**: Use reasoning-optimized model (o1, o3-mini) for Critic Agent if available. These models excel at adversarial validation.
+9. **No Implementation Bias**: Critic Agent must NOT have access to implementation history, discussions, or rationale. Only contracts and code.
+10. **Actionable Remediation**: Every violation must include specific, ordered steps to fix. No vague suggestions like "improve code quality."
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
+- Spec structure: See `specs/README.md` for Blueprint + Contract format
+- Constitution: See `AGENTS.md` Operational Boundaries for 3-tier system
 - Branch naming: Type prefix format (`{type}/{TASK_KEY}`) as shown in `start-task.md`
-- PR creation: See `complete-task.md` for PR context and workflow
-- Review standards: Follow project-specific code review guidelines and conventions
+- ASDLC patterns: Adversarial Code Review, Constitutional Review, Context Gates, The Spec, Agent Constitution
 
 ### Output
 1. **Review Report**: Comprehensive report containing:
-   - Summary of findings by category (counts for Critical, Major, Minor, Suggestions)
-   - Detailed findings with:
-     - File paths and line references
-     - Code snippets or quotes where helpful
-     - Specific suggestions for improvement
-     - Explanation of why the issue matters
-   - Approval recommendation (Approve, Request Changes, or Comment)
-   - Rationale for recommendation based on findings
-2. **Review Comments (if PR)**: Optional line-by-line comments using `mcp_github_add_comment_to_pending_review` for specific code locations
-3. **Categorized Findings**: All findings organized by Review Categories with appropriate severity indicators (🔴 🟡 🟢 💡)
+   - Summary: Gate decision (PASS/FAIL/WARNING) with violation counts
+   - Spec Contract Violations section (if Spec exists):
+     - Critical Issues 🔴 (Spec CRITICAL)
+     - Warnings 🟡 (Spec WARNING)
+     - Info 🟢 (Spec INFO)
+   - Constitutional Violations section:
+     - Tier 3 (CRITICAL - NEVER) 🔴
+     - Tier 2 (WARNING - ASK) 🟡
+     - Tier 1 (INFO - ALWAYS) 🟢
+   - Each violation includes:
+     - Description (what was violated)
+     - Impact (why it matters)
+     - Remediation (ordered steps to fix)
+     - Location (File:Line)
+     - Reference (Spec criterion or Constitutional boundary)
+   - Recommendation: APPROVE/REQUEST CHANGES/COMMENT with rationale
+2. **Gate Decision**: Clear PASS/FAIL/WARNING decision based on violation severity
+3. **Actionable Remediation**: Specific steps to fix all violations

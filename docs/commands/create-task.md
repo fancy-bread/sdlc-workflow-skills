@@ -274,7 +274,7 @@ The command adapts its workflow based on the task type.
    - Provide link to created task
 ```
 
-**[View Full Command →](../implementations/cursor/commands/create-task.md)**
+**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/implementations/cursor/commands/create-task.md)**
 
 ---
 

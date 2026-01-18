@@ -156,7 +156,7 @@ Begin development on a task with proper setup and pre-flight checks.
 - Output: Development work with incremental commits
 ```
 
-**[View Full Command →](../implementations/cursor/commands/start-task.md)**
+**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/implementations/cursor/commands/start-task.md)**
 
 ---
 

@@ -6,6 +6,7 @@ Decompose a large task (epic or large story) into well-defined, actionable subta
 ## Definitions
 
 - **{TASK_KEY}**: Task/Issue ID from the issue tracker (e.g., `FB-6`, `PROJ-123`, `KAN-42`)
+- **{FEATURE_DOMAIN}**: Kebab-case feature name inherited from parent task (e.g., `user-authentication`, `payment-processing`). Used to link child PBIs to the same Spec as parent.
 - **Task Decomposition**: The process of breaking down a large task into smaller, more manageable subtasks
 - **Subtask**: A child task that represents a specific piece of work within a larger task or epic
 - **Subtask Criteria**: Requirements that each generated subtask must meet:
@@ -172,10 +173,66 @@ Before proceeding, verify:
      - Plan for incremental delivery if applicable
    - **If scope analysis reveals major gaps or ambiguities, ask user for clarification before proceeding.**
 
+3a. **Extract feature domain from parent** (for PBI structure inheritance)
+   - **Determine if parent requires PBI structure:**
+     - Check parent task type: Epic or Story (PBI required)
+     - Check parent task type: Bug or Task (PBI optional)
+   - **Extract feature domain from parent task:**
+     1. **From parent labels:**
+        - Look for label pattern: `feature:{domain}`
+        - Extract `{domain}` from label
+        - Example: `feature:user-authentication` → `user-authentication`
+     2. **From parent description:**
+        - Parse parent description for Context Pointer section
+        - Extract domain from spec link: `specs/{domain}/spec.md`
+        - Example: `specs/user-authentication/spec.md` → `user-authentication`
+     3. **From parent epic (if parent is a story):**
+        - If parent has parent epic, check epic for domain
+        - Use `mcp_Atlassian-MCP-Server_getJiraIssue` to fetch epic
+        - Extract domain from epic labels or description
+     4. **Ask user if domain not found:**
+        - If parent has no domain, ask: "Which feature domain for these subtasks? (e.g., user-authentication, payment-processing)"
+        - Provide examples from existing specs
+   - **Validate feature domain format:**
+     - Must be kebab-case (lowercase with hyphens)
+     - Pattern: `[a-z]+(-[a-z]+)*`
+     - **If invalid format, normalize or ask user for correction**
+   - **Check if spec exists:**
+     - Use `glob_file_search` with pattern: `**/specs/{feature-domain}/spec.md`
+     - **If spec exists:** Note for PBI generation (valid links)
+     - **If spec missing:** Warn but proceed with placeholders
+   - **Store feature domain for subtask generation:**
+     - Save domain to use in step 4 (subtask description generation)
+     - All child tasks will inherit same domain
+
 4. **Generate subtasks**
    - **Create tasks following appropriate format:**
      - For user stories: "As a [user], I want [goal], so that [benefit]" format
      - For technical tasks: Use clear action-oriented descriptions
+   - **Generate subtask descriptions with PBI structure** (for Stories and Epics):
+     - **Read PBI template:** Use `read_file` to read `templates/pbi-template.md`
+     - **For each subtask, populate 4-part anatomy:**
+       1. **Directive Section:**
+          - Specific scope for this subtask (narrower than parent)
+          - Clear in scope / out of scope boundaries
+          - Dependencies on other subtasks (if any)
+       2. **Context Pointer Section:**
+          - Use {feature-domain} inherited from parent (step 3a)
+          - Generate link: `../../specs/{feature-domain}/spec.md#blueprint`
+          - Same spec as parent, but subtask-specific scope
+       3. **Verification Pointer Section:**
+          - Same {feature-domain} as parent
+          - Generate link: `../../specs/{feature-domain}/spec.md#contract`
+          - Reference parent's Contract for overall goals
+       4. **Refinement Rule Section:**
+          - Use standard protocol from template
+          - Same as parent's refinement rule
+     - **Validate PBI structure for each subtask:**
+       - Verify all 4 sections present
+       - Verify feature domain matches parent
+       - Verify links are well-formed
+     - **Fallback for non-Story subtasks:**
+       - Use simpler description format for technical tasks/bugs
    - **Ensure each task meets subtask criteria:**
      - Independent and can be developed standalone (or clearly defined dependencies)
      - Well-defined with clear acceptance criteria
@@ -211,6 +268,10 @@ Before proceeding, verify:
      - Verify all dependencies are identified
      - Ensure dependency chains are clear
      - Check for circular dependencies
+   - **Verify PBI structure consistency:**
+     - All subtasks reference same feature domain
+     - All subtasks have 4-part anatomy (if Stories/Epics)
+     - All links point to correct spec
    - **If breakdown seems incomplete or unclear:**
      - Ask user for additional context
      - Request clarification on ambiguous areas
@@ -239,14 +300,15 @@ Before proceeding, verify:
    - **For each subtask:**
      - **Create task with required fields:**
        - Clear title (from step 4)
-       - Detailed description (expand on title with context)
+       - Detailed description with PBI structure (from step 4, if Stories/Epics)
        - Acceptance criteria (from step 4)
        - Priority/rank (from step 6)
+       - Labels: Include `feature:{domain}` label (inherited from parent)
      - **Use MCP tools to create tasks:**
        - Use `mcp_Atlassian-MCP-Server_createJiraIssue` for Jira
-         - Parameters: `cloudId`, `projectKey`, `issueTypeName` (typically "Story" or "Task"), `summary`, `description`, `additional_fields` (for parent link, priority, labels)
+         - Parameters: `cloudId`, `projectKey`, `issueTypeName` (typically "Story" or "Task"), `summary`, `description`, `additional_fields` (for parent link, priority, labels including `feature:{domain}`)
        - Use `mcp_github_create_issue` for GitHub
-         - Parameters: `owner`, `repo`, `title`, `body` (markdown with description and acceptance criteria), `labels`
+         - Parameters: `owner`, `repo`, `title`, `body` (markdown with PBI description and acceptance criteria), `labels` (include `feature:{domain}`)
      - **Link all tasks to parent task/epic:**
        - Set parent field in Jira (`parent` in `additional_fields`)
        - Link via issue references in GitHub (include parent issue number in body)
@@ -319,9 +381,16 @@ Before proceeding, verify:
   - Use to identify related code or technical dependencies
 
 ### Filesystem Tools
-- `read_file` - Read related documentation or plan files if referenced in task
+- `read_file` - Read PBI template and related documentation
+  - Read PBI template: `templates/pbi-template.md`
+  - Read plan files if referenced in task
   - Parameters: `target_file` = path to document
+  - Use to read PBI template for subtask description generation
   - Use when task references external documentation or plan files
+- `glob_file_search` - Search for specs
+  - Find specs: Pattern `**/specs/{feature-domain}/spec.md`
+  - Parameters: `pattern` = glob pattern to search
+  - Use to check if spec exists for inherited feature domain
 
 ## Pre-flight Checklist
 - [ ] MCP status validation performed (see `mcp-status.md`)
@@ -495,12 +564,20 @@ Breakdown documented in STORY-50 comments.
 8. **Validation Before Creation**: Validate breakdown quality before creating tasks in tracker. Do not create tasks if breakdown quality is insufficient.
 9. **Error Handling**: If task creation fails for any subtask, STOP and report the error. Do not proceed with remaining tasks until error is resolved.
 10. **Documentation Required**: Always document the decomposition results in a comment on the parent task, including task count, list of created tasks, and any assumptions or decisions.
+11. **Feature Domain Inheritance**: Extract feature domain from parent task (from labels, description, or epic). All subtasks must inherit same domain.
+12. **PBI Structure for Subtasks** (Stories/Epics): Generate subtask descriptions with ASDLC PBI 4-part anatomy (Directive, Context Pointer, Verification Pointer, Refinement Rule).
+13. **Spec Reference Consistency**: All subtasks must reference the same spec as parent (`specs/{feature-domain}/spec.md`).
+14. **PBI Template Usage**: Read `templates/pbi-template.md` and populate for each subtask.
+15. **Feature Label Inheritance**: Add label `feature:{domain}` to all subtasks (inherited from parent).
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
 - Task creation patterns: See `create-task.md` for task creation workflows and validation patterns
 - User story format: "As a [user], I want [goal], so that [benefit]"
 - Subtask criteria: Defined in Definitions section above
+- PBI Template: See `templates/pbi-template.md` for 4-part anatomy structure
+- Spec Structure: See `specs/README.md` for Blueprint + Contract format
+- ASDLC Patterns: The PBI (4-part anatomy), The Spec (permanent pointer target)
 
 ### Output
 1. **Decomposed Subtasks**: Well-defined subtasks created in the issue tracker with:

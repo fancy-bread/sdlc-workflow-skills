@@ -196,7 +196,7 @@ Create a detailed technical implementation plan for a story.
 - Output: Plan document and issue comment
 ```
 
-**[View Full Command →](../implementations/cursor/commands/create-plan.md)**
+**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/implementations/cursor/commands/create-plan.md)**
 
 ---
 

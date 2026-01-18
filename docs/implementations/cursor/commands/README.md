@@ -2,6 +2,12 @@
 
 Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to trigger workflows.
 
+**Canonical command definitions** (the markdown files Cursor executes) live in the repo at **`implementations/cursor/commands/`**. Those files are the source of truth. This page describes how to install and use them.
+
+**User-oriented documentation** (what each command does, usage, examples) is in [Commands](../../../commands/index.md).
+
+---
+
 ## Quick Reference
 
 ### Product
@@ -32,7 +38,11 @@ Natural language commands for Cursor IDE. Type `/command-name` in Cursor chat to
 |---------|-------|
 | `/mcp-status` | Check MCP server authentication status |
 
+---
+
 ## Installation
+
+Copy the command files from **`implementations/cursor/commands/`** (at the repository root) into Cursor's commands directory.
 
 ### Option 1: Project Commands
 
@@ -50,8 +60,10 @@ cp -r implementations/cursor/commands/* ~/.cursor/commands/
 
 For Cursor Team/Enterprise:
 1. Go to [Cursor Dashboard → Team Content → Commands](https://cursor.com/dashboard?tab=team-content&section=commands)
-2. Create team commands from these files
+2. Create team commands from the files in `implementations/cursor/commands/`
 3. Commands auto-sync to team members
+
+---
 
 ## Example Workflow
 
@@ -75,17 +87,19 @@ For Cursor Team/Enterprise:
 /complete-task STORY-10
 ```
 
-## Command Files
+---
 
-All commands are markdown files in the `commands/` directory:
-- Each `.md` file contains instructions that Cursor's AI interprets to execute the workflow
-- Commands adapt to your project's structure, frameworks, and conventions
+## Command File Format
 
-Each `.md` file contains instructions that Cursor's AI interprets to execute the workflow.
+Each `.md` file in `implementations/cursor/commands/` contains structured instructions (Definitions, Prerequisites, Steps, Tools, Guidance) that Cursor's AI interprets to run the workflow. Commands are plain markdown—no compilation. They adapt to your project's structure, frameworks, and conventions.
+
+---
 
 ## Configuration
 
 Commands require MCP servers for Jira/ADO and GitHub. See [MCP Setup](../mcp-setup.md).
+
+---
 
 ## Troubleshooting
 

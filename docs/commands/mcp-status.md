@@ -57,7 +57,7 @@ Settings → Tools & MCP → Click "Connect"
 
 ---
 
-**[View Full Command →](../implementations/cursor/commands/mcp-status.md)**
+**[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/implementations/cursor/commands/mcp-status.md)**
 
 ---
 

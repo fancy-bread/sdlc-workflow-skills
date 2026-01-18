@@ -123,7 +123,7 @@ This command performs adversarial code review using:
 
 ## See Also
 
-- [Spec Structure](../specs/README.md) - Blueprint + Contract format
-- [AGENTS.md](../../AGENTS.md) - Constitution (Operational Boundaries)
+- [Spec Structure](https://github.com/fancybread-com/agentic-software-development/blob/main/specs/README.md) - Blueprint + Contract format
+- [AGENTS.md](https://github.com/fancybread-com/agentic-software-development/blob/main/AGENTS.md) - Constitution (Operational Boundaries)
 - [Complete Task](complete-task.md) - Includes Constitutional Review before PR
 - [MCP Status](mcp-status.md) - Verify MCP connections

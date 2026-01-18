@@ -57,7 +57,7 @@ For each command, perform structured analysis:
 - **ASDLC.io MCP server**: Required for pattern queries
 - **ASDLC Field Manual v0.9.3**: Reference documentation
 - **AGENTS.md (FB-17)**: Context on current command structure
-- **All 9 commands**: Located in `implementations/cursor/commands/`
+- **All 9 commands**: Located in `commands/`
 
 #### Dependency Directions
 - **Inbound**: Consumed by FB-18 (schema definition)

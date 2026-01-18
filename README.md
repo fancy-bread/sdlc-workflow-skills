@@ -43,7 +43,7 @@ A proposal to standardize common Software Development Lifecycle operations into 
 ### 2. Install Commands
 
 ```bash
-cp -r implementations/cursor/commands/* ~/.cursor/commands/
+cp -r commands/* ~/.cursor/commands/
 ```
 
 ### 3. Use Commands

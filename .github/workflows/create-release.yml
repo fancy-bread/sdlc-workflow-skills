@@ -30,7 +30,7 @@ jobs:
       - name: Generate release notes from CHANGELOG
         id: changelog
         run: |
-          CHANGELOG_FILE="implementations/cursor/commands/CHANGELOG.md"
+          CHANGELOG_FILE="commands/CHANGELOG.md"
           VERSION=${GITHUB_REF#refs/tags/v}
 
           if [ -f "$CHANGELOG_FILE" ]; then
@@ -61,7 +61,7 @@ jobs:
             fi
           fi
 
-      - name: Create implementations archives
+      - name: Create commands archives
         id: archive
         run: |
           set -e
@@ -69,18 +69,18 @@ jobs:
           TAR_NAME="commands-${TAG_NAME}.tar.gz"
           ZIP_NAME="commands-${TAG_NAME}.zip"
 
-          if [ ! -d "implementations" ]; then
-            echo "Error: implementations folder not found"
+          if [ ! -d "commands" ]; then
+            echo "Error: commands folder not found"
             exit 1
           fi
 
-          tar -czf "$TAR_NAME" -C implementations .
+          tar -czf "$TAR_NAME" -C commands .
           if [ ! -f "$TAR_NAME" ]; then
             echo "Error: Failed to create $TAR_NAME"
             exit 1
           fi
 
-          cd implementations
+          cd commands
           zip -r "../$ZIP_NAME" . > /dev/null
           cd ..
           if [ ! -f "$ZIP_NAME" ]; then

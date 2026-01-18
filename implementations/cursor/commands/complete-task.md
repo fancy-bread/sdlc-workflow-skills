@@ -68,18 +68,89 @@ Before proceeding, verify:
      - Description should be clear and concise
      - Example: `feat: add user authentication (PROJ-123)`
 
-2. **Commit and push changes**
+2. **Run Constitutional Review Gate**
+   - **Read Constitution:**
+     - Read `AGENTS.md` Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
+     - If spec exists, read `specs/{FEATURE_DOMAIN}/spec.md` for functional context
+   - **Get code diff:**
+     - Use `run_terminal_cmd`: `git diff main...HEAD` to get all changes in PR
+     - Include file paths, additions, deletions
+   - **Invoke Critic Agent in fresh context:**
+     - Create new conversation/context (Critic Agent must have no bias from implementation)
+     - Prompt structure:
+       ```
+       You are a Critic Agent performing Constitutional Review.
+
+       **Constitution** (from AGENTS.md Operational Boundaries):
+       [Paste full text of Tier 1 (ALWAYS), Tier 2 (ASK), Tier 3 (NEVER) sections]
+
+       **Spec** (functional context):
+       [If spec exists: Paste Blueprint and Contract sections]
+       [If no spec: Note "No spec found - validate against Constitution only"]
+
+       **Code Changes** (git diff main...HEAD):
+       [Paste full diff output]
+
+       **Task**: Validate code against Constitution. For each violation found:
+       1. **Category**: CRITICAL (Tier 3 NEVER) | WARNING (Tier 2 ASK) | INFO (Tier 1 ALWAYS)
+       2. **Description**: What constitutional principle was violated?
+       3. **Impact**: Why this matters (performance, security, maintainability, scalability)
+       4. **Remediation**: Ordered steps to fix the violation
+       5. **Location**: File:Line reference where violation occurs
+
+       Output structured markdown report using this format:
+
+       ## Constitutional Review
+
+       **Status**: PASSED | FAILED | WARNING
+
+       ### Tier 3 Violations (CRITICAL - NEVER)
+       [List each violation OR state "None"]
+
+       ### Tier 2 Violations (WARNING - ASK)
+       [List each violation OR state "None"]
+
+       ### Tier 1 Violations (INFO - ALWAYS)
+       [List each violation OR state "None"]
+
+       ### Summary
+       - Total violations: X
+       - Critical: Y (Tier 3)
+       - Warnings: Z (Tier 2)
+       - Info: W (Tier 1)
+       ```
+   - **Parse Critic output:**
+     - Extract violations by severity (CRITICAL, WARNING, INFO)
+     - Count violations in each tier
+     - Store full report for PR body
+   - **Gate Decision:**
+     - **If CRITICAL violations found (Tier 3: NEVER):**
+       - STOP immediately
+       - Display full violation report with remediation steps
+       - Report: "❌ Constitutional Review FAILED. PR creation blocked due to Tier 3 violations."
+       - Instruct user: "Fix violations listed above and retry `/complete-task`"
+       - Do NOT proceed to commit/push/PR steps
+     - **If only WARNING/INFO violations (Tier 2, Tier 1):**
+       - Log: "⚠️ Constitutional Review passed with warnings/suggestions."
+       - Store report for inclusion in PR body
+       - Proceed to next step (commit and push)
+     - **If no violations:**
+       - Log: "✅ Constitutional Review: PASSED"
+       - Store "PASSED" status for PR body
+       - Proceed to next step
+
+3. **Commit and push changes**
    - Commit staged changes with the conventional commit message
    - Push to remote branch
      - **If push fails (e.g., authentication, network, conflicts), STOP and report the error.**
      - **If branch doesn't exist on remote, it will be created on first push.**
 
-3. **Create pull request (optional)**
+4. **Create pull request (optional)**
    - **Note**: PR creation is optional. You may skip this step if you prefer to create the PR manually or if it's not needed.
    - **If creating PR:** CI/CD is a PR gate. Local tests passing is the prerequisite to PR creation. CI/CD will run automatically after PR is created.
-   - **If skipping PR:** Proceed directly to Step 5 (Update issue) after pushing.
+   - **If skipping PR:** Proceed directly to Step 6 (Update issue) after pushing.
 
-4. **Create pull request (if proceeding with PR creation)**
+5. **Create pull request (if proceeding with PR creation)**
    - **After pushing, get the latest commit SHA:**
      - Use `run_terminal_cmd`: `git rev-parse HEAD` to get current commit SHA
      - Or use `mcp_github_list_commits` with `sha` = branch name to get latest commit
@@ -101,6 +172,7 @@ Before proceeding, verify:
      - [x] Plan reviewed and implemented
      - [x] Code changes completed
      - [x] Unit tests written and passing
+     - [x] Constitutional Review passed
      - [x] Spec updated (if behavior changed)
      - [x] Documentation updated
      - [x] Linting errors fixed
@@ -113,10 +185,38 @@ Before proceeding, verify:
    - Create PR with:
      - Title: `{type}: {description} ({TASK_KEY})` (matching commit message)
      - Body should include:
+       - **Constitutional Review report** (from Step 2):
+         - If PASSED: Include "✅ Constitutional Review: PASSED"
+         - If WARNING/INFO: Include full Constitutional Review report with violations
+         - Constitutional Review report should appear first in PR body
        - Feature Spec summary (if spec exists) with Blueprint context and Contract DoD
        - Implementation Plan summary (if plan exists) with extracted sections
        - Note: "CI/CD checks will run automatically on this PR"
        - Link to the issue
+     - PR body template:
+       ```markdown
+       ## Summary
+       [Brief description of changes]
+
+       ## Constitutional Review
+       [Insert Constitutional Review report from Step 2]
+       - If PASSED: "✅ Constitutional Review: PASSED - No violations found"
+       - If WARNING/INFO: Full report with Tier 2 and Tier 1 violations
+
+       ## Feature Spec
+       [If spec exists, include Context and Definition of Done]
+
+       ## Implementation Plan
+       [If plan exists, include key implementation steps]
+
+       ## Verification
+       - ✅ Tests: All passing locally
+       - ✅ Linting: No errors
+       - ✅ Constitutional Review: [PASSED | WARNING]
+
+       ## Related Issue
+       Closes {TASK_KEY}
+       ```
      - Set base branch (typically `main` or `develop`)
      - **Common failure scenarios:**
        - Branch doesn't exist on remote: Ensure branch was pushed successfully
@@ -130,7 +230,7 @@ Before proceeding, verify:
      - CI/CD will run automatically as a gate on the PR
      - Note status in PR body or comments as needed
 
-5. **Update issue**
+6. **Update issue**
    - **If PR was created:**
      - Add PR link as a comment to the issue
        - Format: `Pull Request: {PR_URL}`
@@ -196,6 +296,7 @@ Before proceeding, verify:
   - `git status` - Check current branch and uncommitted changes
   - `git branch --show-current` - Get current branch name
   - `git rev-parse HEAD` - Get current commit SHA
+  - `git diff main...HEAD` - Get code changes for Constitutional Review
   - `git add .` or `git add <files>` - Stage changes
   - `git commit -m "{type}: {description} ({TASK_KEY})"` - Commit with conventional format
   - `git push origin {type}/{TASK_KEY}` - Push branch to remote
@@ -212,11 +313,13 @@ Before proceeding, verify:
 - [ ] Changes staged
 - [ ] Commit message follows convention
 - [ ] Changes committed
+- [ ] Constitutional Review Gate executed
+- [ ] Constitutional Review passed (or warnings only)
 - [ ] Pushed to remote
 - [ ] PR created (optional - may be skipped)
 - [ ] If PR created: CI/CD checks running (as PR gate)
 - [ ] Completed checklist added to issue
-- [ ] If PR created: PR created with spec/plan summary
+- [ ] If PR created: PR created with spec/plan/review summary
 - [ ] If PR created: PR linked to issue
 - [ ] If PR created: PR link added to issue comment
 - [ ] Issue updated with status (PR link or commit/push confirmation)
@@ -239,6 +342,9 @@ Execute the complete-task workflow to finalize development work on a specified t
 - The task is tracked in an issue management system (Jira, Azure DevOps, etc.)
 - **Specs** may exist at `specs/{FEATURE_DOMAIN}/spec.md` with permanent feature contracts
 - **Plans** may exist at `.plans/{TASK_KEY}-*.plan.md` with transient implementation details
+- **AGENTS.md** defines 3-tier Operational Boundaries (Constitution)
+- **Constitutional Review** validates code against Constitution before PR creation
+- Implements ASDLC Review Gate between Quality Gates and Acceptance Gates
 - Development work has been completed on a branch following the `{type}/{TASK_KEY}` format
 - MCP integrations provide access to issue trackers and version control
 - Automated CI/CD pipelines run checks on pushed branches
@@ -267,6 +373,14 @@ Execute the complete-task workflow to finalize development work on a specified t
 ```markdown
 ## Summary
 Implements user authentication feature as specified in PROJ-123.
+
+## Constitutional Review
+✅ **Constitutional Review: PASSED** - No violations found
+
+All code changes comply with AGENTS.md Operational Boundaries:
+- Tier 1 (ALWAYS): Command structure standards followed
+- Tier 2 (ASK): No high-risk operations without approval
+- Tier 3 (NEVER): No security violations or anti-patterns detected
 
 ## Feature Spec
 [If spec exists at specs/user-authentication/spec.md]
@@ -299,6 +413,7 @@ User authentication is required to secure access to the application. OAuth2 prov
 - ✅ Build: Passing
 - ✅ Tests: All passing (95% coverage)
 - ✅ Linting: No errors
+- ✅ Constitutional Review: PASSED
 - ⏳ Security scan: Pending
 
 ## Related Issue
@@ -312,6 +427,7 @@ Closes PROJ-123
 - [x] Plan reviewed and implemented
 - [x] Code changes completed
 - [x] Unit tests written and passing
+- [x] Constitutional Review passed
 - [x] Spec updated (if behavior changed)
 - [x] Documentation updated
 - [x] Linting errors fixed
@@ -345,41 +461,50 @@ Ready for review.
    - Verify spec was updated in staged changes
    - If spec exists but wasn't updated: WARN user and recommend including spec update
    - Spec and code changes must be committed together
-2. **Prerequisites Must Pass**: Do not proceed if MCP validation, branch verification, or test verification fails. STOP and report the issue.
-3. **Conventional Commits**: All commits must follow the format: `{type}: {description} ({TASK_KEY})`
+2. **Constitutional Review Gate**: Before PR creation, validate code against AGENTS.md:
+   - Run Critic Agent validation against 3-tier Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
+   - BLOCK PR creation on Tier 3 (NEVER) violations - display violations and STOP
+   - WARN on Tier 2 (ASK) and Tier 1 (ALWAYS) violations but allow PR creation
+   - Include Constitutional Review report in PR body
+   - If CRITICAL violations found, instruct user on remediation before retrying
+3. **Prerequisites Must Pass**: Do not proceed if MCP validation, branch verification, or test verification fails. STOP and report the issue.
+4. **Conventional Commits**: All commits must follow the format: `{type}: {description} ({TASK_KEY})`
    - Valid types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
    - Description should be clear and concise
    - Task key must be included in parentheses
-4. **Branch Naming**: Current branch must match short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
+5. **Branch Naming**: Current branch must match short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
    - Use short format: `feat/FB-6` (not descriptive format)
    - **Important**: Be consistent - use short format for all branches
-5. **Test Requirements**: All tests must pass locally before committing. Do not commit failing tests.
-6. **Linting**: All linting errors must be fixed before committing. If errors cannot be fixed automatically, STOP and ask for guidance.
-7. **PR Creation is Optional**: PR creation is optional. You may skip PR creation if you prefer to create it manually or if it's not needed. If creating PR:
+6. **Test Requirements**: All tests must pass locally before committing. Do not commit failing tests.
+7. **Linting**: All linting errors must be fixed before committing. If errors cannot be fixed automatically, STOP and ask for guidance.
+8. **PR Creation is Optional**: PR creation is optional. You may skip PR creation if you prefer to create it manually or if it's not needed. If creating PR:
    - CI/CD runs automatically after PR creation as a gate. Local tests passing is the prerequisite to PR creation. Monitor CI/CD status after PR is created.
    - PR body should include:
+     - Constitutional Review report (from Step 2)
      - Feature Spec summary (if spec exists at `specs/{FEATURE_DOMAIN}/spec.md`)
      - Implementation Plan summary (if plan exists at `.plans/{TASK_KEY}-*.plan.md`)
-     - If neither exists, note this in PR body
-8. **Documentation File Handling**:
+     - If neither spec nor plan exists, note this in PR body
+9. **Documentation File Handling**:
    - Check for both spec and plan files
    - If neither exists, WARN but proceed (PR will lack detailed context)
    - Prefer spec content over plan content when both exist
-9. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
+10. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
 - Spec guidance: See `specs/README.md` for Same-Commit Rule and when to update specs
+- Constitutional Review: See AGENTS.md Operational Boundaries for 3-tier system
 - Branch naming: Type prefix format (`{type}/{TASK_KEY}`) as established in `start-task.md`
 - Commit message format: `{type}: {description} ({TASK_KEY})` (consistent across commands)
 - Documentation locations: Specs at `specs/{FEATURE_DOMAIN}/spec.md`, Plans at `.plans/{TASK_KEY}-*.plan.md`
 - Issue workflow: Tasks transition through "To Do" → "In Progress" → "Code Review" → "Done"
-- ASDLC patterns: The Spec (permanent state), The PBI (transient delta), Living Specs (Same-Commit Rule)
+- ASDLC patterns: The Spec (permanent state), The PBI (transient delta), Living Specs (Same-Commit Rule), Constitutional Review (Review Gate), Context Gates (gate system)
 
 ### Output
 1. **Committed Changes**: All changes committed with conventional commit format (including spec updates if behavior changed)
-2. **Pushed Branch**: Branch pushed to remote repository
-3. **Pull Request (optional)**: If PR creation was chosen, PR created with spec summary (if exists), plan summary (if exists), verification status, and issue link. CI/CD checks will run automatically.
-4. **Updated Issue**: Issue updated with completed checklist, status information (PR link if created, or commit/push confirmation if PR skipped), and transitioned to "Code Review" status
+2. **Constitutional Review Report**: Validation report showing PASSED, WARNING, or FAILED status with violations
+3. **Pushed Branch**: Branch pushed to remote repository (if Constitutional Review passed or warnings only)
+4. **Pull Request (optional)**: If PR creation was chosen and Constitutional Review passed, PR created with Constitutional Review report, spec summary (if exists), plan summary (if exists), verification status, and issue link. CI/CD checks will run automatically.
+5. **Updated Issue**: Issue updated with completed checklist, status information (PR link if created, or commit/push confirmation if PR skipped), and transitioned to "Code Review" status
 
-All outputs should be verified and any failures should be reported immediately with specific error details.
+All outputs should be verified and any failures should be reported immediately with specific error details. CRITICAL Constitutional Review violations block PR creation.

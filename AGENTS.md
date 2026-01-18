@@ -100,7 +100,7 @@ Documentation **MUST**:
 | **Refine Backlog** | `/refine-task <TASK-ID>` | Add detail, estimate story points. Uses historical data |
 | **Plan Feature** | `/create-plan for <TASK-ID>` | Create spec (permanent) or plan (transient). Outputs to `specs/` or `.plans/` |
 | **Start Work** | `/start-task <TASK-ID>` | Create branch, transition to "In Progress", implement per plan |
-| **Complete Work** | `/complete-task <TASK-ID>` | Commit, push, create PR. Link to story |
+| **Complete Work** | `/complete-task <TASK-ID>` | Commit, push, Constitutional Review, create PR. Link to story |
 | **Write Tests** | `/create-test --type=<type> for <component>` | Types: unit, integration, e2e. Adapts for backend/frontend |
 | **Review Code** | `/review-code for PR #<number>` | AI code review. Checks against spec and best practices |
 
@@ -396,7 +396,7 @@ graph LR
 - `/decompose-task` requires task with sufficient info density (5 elements)
 - `/refine-task` requires task to exist and not be "Done"
 - `/start-task` requires spec (`specs/{FEATURE_DOMAIN}/spec.md`) or plan (`.plans/{TASK_KEY}-*.plan.md`) or acceptance criteria
-- `/complete-task` requires uncommitted changes and task in "In Progress"
+- `/complete-task` requires uncommitted changes, task in "In Progress", runs Constitutional Review before PR
 - `/review-code` requires PR number or branch name
 
 ### Validation Points

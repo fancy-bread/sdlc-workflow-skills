@@ -102,7 +102,7 @@ Documentation **MUST**:
 | **Start Work** | `/start-task <TASK-ID>` | Create branch, transition to "In Progress", implement per plan |
 | **Complete Work** | `/complete-task <TASK-ID>` | Commit, push, Constitutional Review, create PR. Link to story |
 | **Write Tests** | `/create-test --type=<type> for <component>` | Types: unit, integration, e2e. Adapts for backend/frontend |
-| **Review Code** | `/review-code for PR #<number>` | AI code review. Checks against spec and best practices |
+| **Review Code** | `/review-code for PR #<number>` | Adversarial code review with dual-contract validation (Spec + Constitution). Acts as Review Gate |
 
 **Workflow:** `/create-task` → `/decompose-task` → `/refine-task` → `/create-plan` (creates spec/plan) → `/start-task` → `/complete-task` → `/review-code`
 

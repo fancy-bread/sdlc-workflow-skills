@@ -39,7 +39,32 @@ Before proceeding, verify:
 
 ## Steps
 
-1. **Detect codebase type**
+1. **Check for Spec and read Contract scenarios (if exists)**
+   - **Determine feature domain from component:**
+     - Extract feature domain from component path or name
+     - Example: `src/services/auth/OAuthService.ts` → feature domain might be `authentication` or `user-auth`
+     - If unclear, ask user for feature domain
+   - **Check for Spec:**
+     - Use `glob_file_search` to find specs: pattern `**/specs/*/spec.md`
+     - Match component to relevant spec by feature domain
+     - If spec found at `specs/{FEATURE_DOMAIN}/spec.md`, proceed to read it
+     - If no spec found, skip to Step 2 (will use code analysis)
+   - **Read Spec Contract section:**
+     - Use `read_file` to read the spec
+     - Parse Contract section
+     - Extract Scenarios subsection
+   - **Parse Gherkin scenarios:**
+     - For each scenario block:
+       - Extract scenario name/title
+       - Extract Given steps (preconditions)
+       - Extract When step (action/trigger)
+       - Extract Then steps (expected outcomes)
+     - Store scenarios for test generation
+   - **Error Handling:**
+     - If spec exists but has no Scenarios: Note it and fall back to code analysis
+     - If Spec is malformed: Note it and fall back to code analysis
+
+2. **Detect codebase type**
    - **Analyze project structure:**
      - Use `list_dir` to explore root directory structure
      - Look for patterns indicating backend (e.g., `src/routes/`, `src/services/`, `src/models/`)
@@ -62,7 +87,7 @@ Before proceeding, verify:
    - **Error Handling:**
      - **If framework cannot be determined:** STOP and report: "Unable to identify test framework. Please specify test framework or add configuration file."
 
-2. **Analyze code to test**
+3. **Analyze code to test**
    - **Locate component:**
      - Use `codebase_search` to find component: "Where is {component} defined or implemented?"
      - Use `grep` to search for component name, class name, or function name
@@ -87,29 +112,42 @@ Before proceeding, verify:
      - Identify side effects (API calls, database access, file system operations)
      - Determine what needs to be mocked for isolated unit testing
 
-3. **Identify test cases**
-   - **Happy path (expected inputs):**
-     - Normal operation with valid inputs
-     - Typical usage scenarios
-     - Expected return values or behaviors
-   - **Edge cases (boundary conditions):**
-     - Boundary values (empty strings, zero, max values)
-     - Special values (null, undefined, empty arrays/objects)
-     - Boundary conditions for loops or iterations
-   - **Error cases (invalid inputs):**
-     - Invalid parameter types
-     - Invalid values (out of range, malformed)
-     - Missing required parameters
-     - Error handling and exception cases
-   - **State transitions:**
-     - For components with state, test state changes
-     - Initial state, intermediate states, final states
-   - **Special values:**
-     - Null, undefined, empty collections
-     - Zero, negative numbers (if applicable)
-     - Very large values (if applicable)
+4. **Identify test cases**
+   - **Primary Path: Generate from Spec scenarios (if spec was found in Step 1):**
+     - **For each Gherkin scenario:**
+       - Create test case from scenario name
+       - Map Given steps → Arrange (test setup/preconditions)
+       - Map When step → Act (execute component)
+       - Map Then steps → Assert (verify outcomes)
+       - Identify what needs to be mocked based on Given/When steps
+     - **Example mapping:**
+       - Scenario: "User login with valid credentials"
+       - Given: "User has account with email user@example.com" → Arrange: Mock user database
+       - When: "User submits login form" → Act: Call `login(email, password)`
+       - Then: "User is authenticated" → Assert: `expect(result.authenticated).toBe(true)`
+   - **Fallback Path: Generate from code analysis (if no spec scenarios):**
+     - **Happy path (expected inputs):**
+       - Normal operation with valid inputs
+       - Typical usage scenarios
+       - Expected return values or behaviors
+     - **Edge cases (boundary conditions):**
+       - Boundary values (empty strings, zero, max values)
+       - Special values (null, undefined, empty arrays/objects)
+       - Boundary conditions for loops or iterations
+     - **Error cases (invalid inputs):**
+       - Invalid parameter types
+       - Invalid values (out of range, malformed)
+       - Missing required parameters
+       - Error handling and exception cases
+     - **State transitions:**
+       - For components with state, test state changes
+       - Initial state, intermediate states, final states
+     - **Special values:**
+       - Null, undefined, empty collections
+       - Zero, negative numbers (if applicable)
+       - Very large values (if applicable)
 
-4. **Generate test code**
+5. **Generate test code**
    - **Use project's test framework:**
      - Follow framework-specific syntax (describe/it for Jest, test() for Vitest, def test_ for pytest, [Fact] or [Theory] for xUnit, [Test] for NUnit)
      - Use appropriate assertion library (expect, assert, Assert.Equal, etc.)
@@ -117,10 +155,36 @@ Before proceeding, verify:
      - Match existing test file naming pattern
      - Use descriptive test names that explain what is being tested
      - Follow existing naming style (camelCase, snake_case, etc.)
-   - **Use Arrange-Act-Assert pattern:**
-     - **Arrange**: Set up test data, mocks, and preconditions
-     - **Act**: Execute the code under test
-     - **Assert**: Verify expected outcomes
+   - **Structure tests based on source:**
+     - **If generated from Spec scenarios (Step 1):**
+       - Create describe block: "Spec Contract Validation - {Feature Name}"
+       - For each scenario:
+         - Test name: Use scenario name/description
+         - Add comment linking to spec: `// Spec: specs/{FEATURE_DOMAIN}/spec.md - Scenario: {name}`
+         - Structure: Arrange (Given) → Act (When) → Assert (Then)
+         - Example:
+           ```javascript
+           describe('Spec Contract Validation - User Authentication', () => {
+             it('Scenario: User login with valid credentials', () => {
+               // Spec: specs/user-authentication/spec.md - Scenario: User login with valid credentials
+               
+               // Arrange (Given: User has account)
+               const mockUser = { email: 'user@example.com', password: 'hashed' };
+               mockDb.findUser.mockResolvedValue(mockUser);
+               
+               // Act (When: User submits login)
+               const result = await login('user@example.com', 'password123');
+               
+               // Assert (Then: User is authenticated)
+               expect(result.authenticated).toBe(true);
+               expect(result.userId).toBe(mockUser.id);
+             });
+           });
+           ```
+     - **If generated from code analysis (fallback):**
+       - Use Arrange-Act-Assert pattern
+       - Group tests by functionality
+       - Use descriptive test names
    - **Include descriptive test names:**
      - Test names should clearly describe what is being tested
      - Example: "should return user data when valid ID is provided" (not just "test getUser")
@@ -137,7 +201,7 @@ Before proceeding, verify:
        - Mock browser APIs (fetch, localStorage, window, etc.) using vi.stubGlobal or jest.mock
        - Use testing library utilities (React Testing Library, Vue Test Utils, etc.)
 
-5. **Create test file**
+6. **Create test file**
    - **Determine test file location:**
      - Check existing test file organization pattern
      - Same directory as source (e.g., `component.ts` → `component.test.ts`)
@@ -152,7 +216,7 @@ Before proceeding, verify:
      - Use same imports, setup, and teardown patterns
      - Include same test utilities or helpers if used
 
-6. **Run tests**
+7. **Run tests**
    - **Execute new tests:**
      - Use `run_terminal_cmd` to run test command (e.g., `npm test`, `pytest`, `jest`)
      - Run tests for the specific file or component
@@ -164,7 +228,7 @@ Before proceeding, verify:
      - Verify coverage increased for the component
      - **If coverage is low:** Add additional test cases for uncovered code paths
 
-7. **Review and refine**
+8. **Review and refine**
    - **Ensure tests are independent:**
      - Tests should not depend on each other
      - Each test should be able to run in isolation
@@ -199,9 +263,15 @@ Before proceeding, verify:
   - Use to identify test framework and existing test patterns
 
 ### Filesystem Tools
-- `read_file` - Read component code and existing test files
-  - Parameters: `target_file` = path to component or test file
-  - Use to understand component implementation and existing test patterns
+- `glob_file_search` - Find specs, test files, and configuration files
+  - Pattern: `**/specs/*/spec.md` (find all specs)
+  - Pattern: `**/.test.*`, `**/*Test.cs`, `**/*Tests.cs` (test files)
+  - Pattern: `**/jest.config.*`, `**/vitest.config.*`, `**/pytest.ini`, `**/*.csproj`, `**/*.sln` (framework configs)
+  - Pattern: `**/package.json`, `**/requirements.txt`, `**/*.csproj` (dependency files)
+  - Use to identify specs, test framework, and existing test patterns
+- `read_file` - Read spec Contract scenarios, component code, and existing test files
+  - Parameters: `target_file` = path to spec, component, or test file
+  - Use to parse Gherkin scenarios from specs, understand component implementation, and review existing test patterns
 - `write` - Create new test file
   - Parameters: `file_path` = path for new test file, `contents` = test code
   - Use to create the test file with generated test code
@@ -221,6 +291,9 @@ Before proceeding, verify:
   - Use to execute tests and verify they pass, check test coverage
 
 ## Pre-flight Checklist
+- [ ] Feature domain identified (for spec lookup)
+- [ ] Spec checked at `specs/{FEATURE_DOMAIN}/spec.md`
+- [ ] If spec exists: Contract scenarios parsed
 - [ ] Component exists in codebase
 - [ ] Component implementation is readable and understandable
 - [ ] Codebase structure is understood (project root, source/test directories)
@@ -236,14 +309,18 @@ Act as a **QA Engineer or Developer** responsible for creating comprehensive uni
 
 ### Instruction
 Execute the create-test workflow to generate unit tests for a specified component. This includes:
-1. Detecting the codebase type and test framework
-2. Analyzing the component to understand its behavior
-3. Identifying comprehensive test cases (happy path, edge cases, errors)
-4. Generating well-structured test code following project conventions
-5. Creating the test file and verifying tests pass
-6. Ensuring test quality (independence, determinism, clarity)
+1. Checking for Spec and reading Contract scenarios (if spec exists)
+2. Detecting the codebase type and test framework
+3. Analyzing the component to understand its behavior
+4. Identifying comprehensive test cases (from spec scenarios OR from code analysis)
+5. Generating well-structured test code following BDD structure (if from spec) or standard patterns
+6. Creating the test file and verifying tests pass
+7. Ensuring test quality (independence, determinism, clarity)
 
 ### Context
+- **Specs may provide Contract scenarios**: If spec exists at `specs/{FEATURE_DOMAIN}/spec.md`, prefer generating tests from Gherkin scenarios
+- **BDD approach**: Gherkin scenarios (Given/When/Then) map to test structure (Arrange/Act/Assert)
+- **Fallback to code analysis**: If no spec exists, use code-driven test generation (current behavior)
 - The codebase may use different test frameworks (Jest, Vitest, pytest, unittest, xUnit, NUnit, MSTest, etc.)
 - Test files follow project-specific naming conventions and directory structures
 - Existing test patterns and utilities should be respected and reused
@@ -315,6 +392,35 @@ Output:
 - Tests pass, coverage: 82%
 ```
 
+**Example 2c: BDD Test Generation from Spec (Node.js/Jest)**
+
+```
+Input: /create-test --type=unit for OAuthService
+
+Component: src/services/auth/OAuthService.ts
+Spec found: specs/user-authentication/spec.md
+Framework: Jest (detected from jest.config.js)
+Codebase Type: Backend (Node.js/TypeScript)
+
+Spec Contract Scenarios:
+- Scenario: User login with valid credentials
+- Scenario: Login fails with invalid credentials
+- Scenario: Token refresh when expired
+
+Output:
+- Test file: src/services/auth/OAuthService.test.ts
+- Tests generated FROM SPEC SCENARIOS:
+  - "Scenario: User login with valid credentials"
+  - "Scenario: Login fails with invalid credentials"
+  - "Scenario: Token refresh when expired"
+- Test structure:
+  - Describe block: "Spec Contract Validation - User Authentication"
+  - Each test includes comment: "// Spec: specs/user-authentication/spec.md - Scenario: ..."
+  - Arrange (Given) → Act (When) → Assert (Then)
+- Mocks: HTTP client, token storage (based on Given steps)
+- Tests pass, coverage: 85%
+```
+
 **Example 3: Python Function Test (pytest)**
 
 ```
@@ -358,40 +464,42 @@ Output:
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Component Must Exist**: Do not proceed if component cannot be found. STOP and report error.
-2. **Test Framework Must Be Identifiable**: If framework cannot be determined, STOP and ask user.
-3. **Tests Must Pass**: All generated tests must pass. Fix any failures before completing.
-4. **Follow Existing Patterns**: Match existing test file structure, naming, and organization.
-5. **Test Independence**: Each test must be independent and runnable in isolation.
-6. **Test Determinism**: Tests must produce consistent results (no randomness, time-dependent behavior).
-7. **Comprehensive Coverage**: Include happy path, edge cases, and error cases.
-8. **Arrange-Act-Assert Pattern**: Structure tests using AAA pattern for clarity.
-9. **Descriptive Test Names**: Test names should clearly describe what is being tested.
-10. **Appropriate Mocking**: Mock external dependencies appropriately for backend vs frontend.
+1. **Prefer Spec Scenarios Over Code Analysis**: If spec exists at `specs/{FEATURE_DOMAIN}/spec.md`, generate tests from Contract scenarios first. Fall back to code analysis only if no spec or no scenarios.
+2. **BDD Structure for Spec-Driven Tests**: When generating from spec scenarios, use BDD structure with describe block "Spec Contract Validation", link to spec in comments, and map Given/When/Then to Arrange/Act/Assert.
+3. **Component Must Exist**: Do not proceed if component cannot be found. STOP and report error.
+4. **Test Framework Must Be Identifiable**: If framework cannot be determined, STOP and ask user.
+5. **Tests Must Pass**: All generated tests must pass. Fix any failures before completing.
+6. **Follow Existing Patterns**: Match existing test file structure, naming, and organization.
+7. **Test Independence**: Each test must be independent and runnable in isolation.
+8. **Test Determinism**: Tests must produce consistent results (no randomness, time-dependent behavior).
+9. **Comprehensive Coverage**: Include all scenarios from spec (if exists), or happy path + edge cases + error cases (if code-driven).
+10. **Descriptive Test Names**: Test names should clearly describe what is being tested. Use scenario names from spec when available.
+11. **Appropriate Mocking**: Mock external dependencies appropriately for backend vs frontend.
 
 **Existing Standards (Reference):**
+- Spec guidance: See `specs/README.md` for Contract structure and Gherkin scenarios
 - Test framework conventions: Follow framework-specific best practices (Jest, Vitest, pytest, xUnit, NUnit, MSTest, etc.)
 - Test file organization: Match existing project structure
 - Naming conventions: Follow existing test file naming patterns
 - Test utilities: Reuse existing test helpers or utilities when available
+- ASDLC patterns: BDD (Behavior-Driven Development), Living Specs (tests verify contracts)
 
 ### Output
 1. **Test File Created**: New test file following project conventions:
    - Correct location (matching project structure)
    - Correct naming (matching naming convention)
-   - Well-structured test code using AAA pattern
+   - Well-structured test code using BDD (if from spec) or AAA pattern (if from code)
 
 2. **Tests Generated**: Comprehensive test cases covering:
-   - Happy path scenarios
-   - Edge cases and boundary conditions
-   - Error cases and exception handling
-   - State transitions (if applicable)
+   - **If from Spec**: Test cases for each Gherkin scenario from Contract section
+   - **If from code**: Happy path scenarios, edge cases, error cases, state transitions
+   - Tests link back to spec (if generated from spec)
 
 3. **Tests Pass**: All tests execute successfully with no failures
 
 4. **Coverage Improved**: Test coverage for the component is increased (verify if coverage tools available)
 
-The generated tests should be production-ready, following best practices and project conventions.
+The generated tests should be production-ready, following best practices and project conventions. When spec scenarios are available, tests verify contracts, not just implementation.
 
 ## Backend vs Frontend Adaptation
 
@@ -459,17 +567,20 @@ The generated tests should be production-ready, following best practices and pro
   - Test props, emits, slots separately from implementation details
 
 ## Unit Test Checklist
+- [ ] Feature domain identified (for spec lookup)
+- [ ] Spec checked at `specs/{FEATURE_DOMAIN}/spec.md`
+- [ ] If spec exists: Contract scenarios parsed
 - [ ] Codebase type detected (backend/frontend)
 - [ ] Test framework identified
 - [ ] Component located and analyzed
 - [ ] Test cases identified:
-  - [ ] Happy path
-  - [ ] Edge cases
-  - [ ] Error cases
+  - [ ] From Spec scenarios (if spec exists)
+  - [ ] OR From code analysis: Happy path, edge cases, error cases
 - [ ] Dependencies identified for mocking
 - [ ] Test file created with correct location and naming
 - [ ] Tests generated with clear, descriptive names
-- [ ] Tests follow AAA pattern
+- [ ] Tests follow BDD structure (if from spec) or AAA pattern (if from code)
+- [ ] If from spec: Tests link to spec in comments
 - [ ] Tests are independent
 - [ ] Tests are deterministic
 - [ ] All tests pass

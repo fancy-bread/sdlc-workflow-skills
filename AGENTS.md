@@ -1,7 +1,7 @@
 # AGENTS.md - Context & Rules for AI Agents
 
-> **Project Mission:** Standardize SDLC operations with natural language commands for Cursor IDE.  
-> **Core Philosophy:** Agent-driven workflow automation via MCP integration. Commands are declarative, deterministic, and work across teams and projects.  
+> **Project Mission:** Standardize SDLC operations with natural language commands for Cursor IDE.
+> **Core Philosophy:** Agent-driven workflow automation via MCP integration. Commands are declarative, deterministic, and work across teams and projects.
 > **ASDLC Alignment:** This project implements Factory Architecture (specialized command stations), Standardized Parts (schema-enforced commands), and Quality Control (automated validation gates).
 
 ---
@@ -116,7 +116,13 @@ directory_map:
   commands:
     "*.md": "Command definitions - markdown instructions for AI agents"
     README.md: "Command documentation and usage guide"
-  
+
+  # Command Schema (FB-18)
+  schemas:
+    command.schema.json: "JSON Schema for ParsedCommand (Overview, Definitions, Prerequisites, Steps, Tools, Guidance)"
+    validate.py: "Python script to validate commands/*.md against command.schema.json (jsonschema, same venv as MkDocs)"
+    README.md: "Schema usage, MCP and step rules, validation instructions"
+
   # User-Facing Documentation
   docs:
     commands: "User-facing command documentation (mirrors commands/)"
@@ -125,22 +131,22 @@ directory_map:
     roles: "Role-based command guides (PM, Engineer, QA)"
     getting-started.md: "Setup instructions for new users"
     index.md: "Documentation home page with hero section"
-  
+
   # CI/CD and Automation
   .github/workflows:
     build-docs.yml: "MkDocs build and deploy to GitHub Pages"
     create-release.yml: "Release automation workflow"
-  
+
   # MCP Schemas (Read-Only Reference)
   mcps:
     user-atlassian/tools: "Atlassian MCP tool schemas (Jira, Confluence)"
     user-github/tools: "GitHub MCP tool schemas (repos, PRs, issues)"
     user-asdlc/tools: "ASDLC.io knowledge base tool schemas"
-  
+
   # Configuration
   mkdocs.yml: "MkDocs configuration - site structure, theme, plugins"
   requirements.txt: "Python dependencies for MkDocs build"
-  
+
   # Project Root
   README.md: "Project overview for humans"
   AGENTS.md: "Project context for agents (this file)"
@@ -162,18 +168,18 @@ Commands follow a rigorous structure to ensure consistency and agent comprehensi
     <section name="Tools" purpose="MCP tools documentation with parameters" />
     <section name="Guidance" purpose="Role, Instruction, Context, Examples, Constraints, Output" />
   </required_sections>
-  
+
   <anti_patterns>
     <!-- Vague instructions without validation -->
     <bad>Create a task in Jira with the details provided.</bad>
-    
+
     <!-- Missing MCP schema validation -->
     <bad>Use mcp_Atlassian-MCP-Server_createJiraIssue to create task.</bad>
-    
+
     <!-- Hardcoded values -->
     <bad>Use cloudId "abc-123" for all operations.</bad>
   </anti_patterns>
-  
+
   <preferred_patterns>
     <!-- Explicit steps with validation -->
     <good>
@@ -182,10 +188,10 @@ Commands follow a rigorous structure to ensure consistency and agent comprehensi
       3. Create issue: createJiraIssue with required fields
       4. Verify creation: getJiraIssue to confirm
     </good>
-    
+
     <!-- Dynamic cloudId retrieval -->
     <good>Obtain cloudId via getAccessibleAtlassianResources (first result)</good>
-    
+
     <!-- Comprehensive error handling -->
     <good>If cloudId cannot be determined, STOP and report error with remediation steps.</good>
   </preferred_patterns>
@@ -206,10 +212,10 @@ When documenting MCP tools in commands:
     - Return value description
     - Error handling guidance
   </required_elements>
-  
+
   <example>
     mcp_Atlassian-MCP-Server_getJiraIssue - Fetch task details
-      Parameters: 
+      Parameters:
         - cloudId (string, required)
         - issueIdOrKey (string, required) = {TASK_KEY}
       Returns: Issue object with fields
@@ -439,9 +445,9 @@ This section captures accumulated wisdom from implementation experience. Update 
 
 ## Version
 
-**AGENTS.md Version:** 1.0.0  
-**Created:** 2026-01-17  
-**Project:** Agentic Software Development (agentic-software-development)  
+**AGENTS.md Version:** 1.0.0
+**Created:** 2026-01-17
+**Project:** Agentic Software Development (agentic-software-development)
 **ASDLC Compliance:** This file implements the [agents-md-spec](https://asdlc.io/practices/agents-md-spec) and [agent-constitution](https://asdlc.io/patterns/agent-constitution) patterns.
 
 ---

@@ -93,6 +93,8 @@ For Cursor Team/Enterprise:
 
 Each `.md` file in `commands/` contains structured instructions (Definitions, Prerequisites, Steps, Tools, Guidance) that Cursor's AI interprets to run the workflow. Commands are plain markdown—no compilation. They adapt to your project's structure, frameworks, and conventions.
 
+Command structure can be validated against the JSON Schema in **`schemas/`**. Run `python schemas/validate.py commands/<name>.md` after `pip install -r requirements.txt`. See `schemas/README.md` in the repository for details.
+
 ---
 
 ## Configuration

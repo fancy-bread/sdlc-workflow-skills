@@ -10,6 +10,14 @@ Begin development on a task with proper setup and pre-flight checks.
   - Short format is recommended: `feat/FB-6` (not `feat/FB-6-file-watching-workspace-commands`)
   - **Important**: Be consistent within a project - use the same format for all branches
 
+## Prerequisites
+
+Before proceeding, verify (see Steps 1–2 for how):
+
+1. **MCP Status Validation**: All required MCP servers connected and authorized. If any fail, STOP.
+2. **Spec or Plan exists**: At least one of `specs/{FEATURE_DOMAIN}/spec.md` or `.plans/{TASK_KEY}-*.plan.md`. If neither, STOP and suggest `/create-plan {TASK_KEY}`.
+3. **Story in In Progress** (or can be transitioned) and **assigned to current user**.
+
 ## Steps
 1. **Pre-flight checks**
    - **MCP Status Validation**: Perform MCP server status checks (see `mcp-status.md` for detailed steps)

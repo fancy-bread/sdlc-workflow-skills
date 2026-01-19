@@ -33,7 +33,12 @@ def parse_command_md(md: str) -> dict:
             found[name] = body
 
     steps_content = found.get("Steps", "")
-    steps_numbers = [int(m.group(1)) for m in re.finditer(r"(\d+)\.", steps_content)]
+    # Match "1.", "2." but not "0.1" (decimal): digit(s) + dot not followed by digit
+    steps_numbers = [
+        int(m.group(1))
+        for m in re.finditer(r"(\d+)\.(?!\d)", steps_content)
+        if int(m.group(1)) >= 1
+    ]
 
     mcp_refs = list(dict.fromkeys(MCP_REF_PATTERN.findall(md)))
 

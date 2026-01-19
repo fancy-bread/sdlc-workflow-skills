@@ -27,7 +27,7 @@ The schema validates a *parsed* representation of the markdown: section presence
 
 - **Pattern:** `mcp_ServerName_ToolName` — e.g. `mcp_atlassian_getJiraIssue`, `mcp_github_list_branches`.
 - **Rule:** When the document contains MCP references, each must match `mcp_[A-Za-z0-9-]+_[a-zA-Z0-9_]+`.
-- **`mcps/` lookup:** Not yet implemented (FB-43). Validation is pattern-only. Once FB-43 delivers `mcps/<server>/tools/`, tooling can validate that each `mcpRef` exists—ensuring commands invoke the correct MCP tool.
+- **`mcps/` lookup:** `schemas/validate_mcps.py` can resolve `mcp_Server_Tool` to a file. Extending `schemas/validate.py` to check each `mcpRef` in a command exists in `mcps/` is future (see Future Work). For now, validation is pattern-only for mcpRefs in commands.
 
 ---
 
@@ -57,6 +57,14 @@ The schema validates a *parsed* representation of the markdown: section presence
    On success: `OK: commands/create-plan.md validates against command.schema.json`.
    On failure: JSON Schema errors are printed and the process exits with code 1.
 
+3. **Validate-all (commands + mcps)** — one entry point for both:
+
+   ```bash
+   python schemas/validate_all.py
+   ```
+
+   Runs (1) `validate.py` on every `commands/*.md` (excluding `commands/README.md`) and (2) `validate_mcps.py` on all `mcps/**/*.json`. Exit 0 only if **both** pass. Use before commit; FB-20 CI will run this.
+
 ---
 
 ## Files
@@ -67,6 +75,7 @@ The schema validates a *parsed* representation of the markdown: section presence
 | `schemas/mcp-tool.schema.json` | JSON Schema for `mcps/<server>/tools/*.json` (FB-43). MCP-aligned: required `name`, `inputSchema`; optional `description`, `title`, `outputSchema`, `annotations`. |
 | `schemas/validate.py` | Python script: parses `## ` sections, extracts step numbers and MCP refs, validates with `jsonschema` (Draft-07). |
 | `schemas/validate_mcps.py` | Validates all `mcps/**/*.json`; `--list` / `--list --json` enumerates `mcps/` as the **list of record** (no MCP calls); resolve-one: `validate_mcps.py mcp_Server_Tool`. |
+| `schemas/validate_all.py` | Orchestrates `validate.py` (all `commands/*.md` except README) and `validate_mcps.py`; exit 0 only if both pass. |
 
 The `jsonschema` library is in `requirements.txt`; the validator runs in the same Python environment as MkDocs.
 
@@ -87,5 +96,4 @@ Commands such as `mcp-status.md` or `start-task.md` may not yet have all six sec
 ## Future Work
 
 - **`mcps/` mcpRef lookup:** `schemas/validate_mcps.py` validates all `mcps/**/*.json` and can resolve `mcp_Server_Tool` to a file. Future: extend `schemas/validate.py` to check that each `mcpRef` in a command exists in `mcps/`.
-- **FB-19:** `validate-all` CLI — run `schemas/validate.py` (or equivalent) on every `commands/*.md`; Python only, same venv as FB-18. No Node/npm.
-- **FB-20:** CI integration — add a workflow step (e.g. GitHub Actions) that runs the FB-19 validate-all.
+- **FB-20:** CI integration — add a workflow step (e.g. GitHub Actions) that runs `python schemas/validate_all.py` (commands + mcps).

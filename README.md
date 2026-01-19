@@ -3,6 +3,7 @@
 **Standardize SDLC operations with natural language commands for Cursor IDE.**
 
 [![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/agentic-software-development)
+[![Schema Validation](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -95,7 +96,7 @@ You → /command → Cursor AI → MCP → Services (Jira, GitHub)
 - [Getting Started](https://fancybread-com.github.io/agentic-software-development/getting-started/) - 3-step setup
 - [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 9 commands
 - [Role Guides](https://fancybread-com.github.io/agentic-software-development/roles/) - Product Manager, Engineer, QA
-- [Methodology](https://fancybread-com.github.io/agentic-software-development/core/methodology/) - Core principles
+- [Methodology](https://fancybread-com.github.io/agentic-software-development/getting-started/#how-it-works) - Core principles
 
 ---
 

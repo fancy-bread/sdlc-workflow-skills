@@ -1,0 +1,32 @@
+name: Schema Validation
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate commands and mcps
+        run: python schemas/validate_all.py
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/agentic-software-development' --exclude 'getting-started' ./docs ./commands ./specs ./mcps ./schemas README.md AGENTS.md
+          fail: true

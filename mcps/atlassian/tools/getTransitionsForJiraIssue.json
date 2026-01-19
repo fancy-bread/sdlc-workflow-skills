@@ -1,0 +1,12 @@
+{
+  "name": "getTransitionsForJiraIssue",
+  "description": "Get available transitions for a Jira issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "issueIdOrKey": { "type": "string" }
+    },
+    "required": ["cloudId", "issueIdOrKey"]
+  }
+}

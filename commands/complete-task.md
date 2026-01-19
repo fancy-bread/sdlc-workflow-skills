@@ -163,7 +163,7 @@ Before proceeding, verify:
        - Include in PR body as "Implementation Plan" section
      - **If neither exists**: Note in PR body that no detailed documentation was found
    - **Check if PR already exists:**
-     - Use `mcp_github_pull_request_read` with `method="get"` to check for existing PRs
+     - Use `mcp_github_get_pull_request` with `method="get"` to check for existing PRs
      - If PR exists, update it instead of creating new one
    - Create completed checklist comment for the issue (include PR link if PR was created):
      ```
@@ -220,13 +220,13 @@ Before proceeding, verify:
      - Set base branch (typically `main` or `develop`)
      - **Common failure scenarios:**
        - Branch doesn't exist on remote: Ensure branch was pushed successfully
-       - PR already exists: Check using `mcp_github_pull_request_read` before creating
+       - PR already exists: Check using `mcp_github_get_pull_request` before creating
        - Permission errors: Verify GitHub MCP authentication
        - Invalid base branch: Verify base branch exists
      - **If PR creation fails, STOP and report the specific error with context.**
    - Link PR to the issue (using issue tracker's linking mechanism)
    - **After PR creation, monitor CI/CD status:**
-     - Use `mcp_github_pull_request_read` with `method="get_status"` to check CI/CD status
+     - Use `mcp_github_get_pull_request` with `method="get_status"` to check CI/CD status
      - CI/CD will run automatically as a gate on the PR
      - Note status in PR body or comments as needed
 
@@ -238,18 +238,18 @@ Before proceeding, verify:
      - Add comment indicating changes are committed and pushed, ready for review
        - Format: `Changes committed and pushed to branch {type}/{TASK_KEY}. Ready for review.`
    - **Transition issue to "Code Review" status:**
-     - First, get available transitions using `mcp_Atlassian-MCP-Server_getTransitionsForJiraIssue`
+     - First, get available transitions using `mcp_atlassian_getTransitionsForJiraIssue`
      - Find transition to "Code Review" status
-     - Transition using `mcp_Atlassian-MCP-Server_transitionJiraIssue`
+     - Transition using `mcp_atlassian_transitionJiraIssue`
      - Verify issue status is now "Code Review"
      - **If transition fails (permissions, workflow rules), STOP and report the error.**
 
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -257,28 +257,28 @@ Before proceeding, verify:
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Fetch story details by {TASK_KEY}
+- `mcp_atlassian_getJiraIssue` - Fetch story details by {TASK_KEY}
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
-- `mcp_Atlassian-MCP-Server_getTransitionsForJiraIssue` - Get available status transitions
+- `mcp_atlassian_getTransitionsForJiraIssue` - Get available status transitions
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
-- `mcp_Atlassian-MCP-Server_transitionJiraIssue` - Transition issue to "Code Review" status
+- `mcp_atlassian_transitionJiraIssue` - Transition issue to "Code Review" status
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `transition` = {id: "transition-id"}
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Add completed checklist and PR link comments
+- `mcp_atlassian_addCommentToJiraIssue` - Add completed checklist and PR link comments
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown content
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- A lightweight read-only GitHub MCP tool to verify connection (see Cursor Settings → Tools & MCP for exact names)
 - `mcp_github_list_branches` - List branches (verify current branch exists)
   - Parameters: `owner`, `repo`
 - `mcp_github_list_commits` - Get latest commit SHA from branch
   - Parameters: `owner`, `repo`, `sha` = branch name
 - `mcp_github_get_commit` - Get commit details
   - Parameters: `owner`, `repo`, `sha` = commit SHA, `include_diff` = false
-- `mcp_github_pull_request_read` - Get PR details (check if PR already exists)
+- `mcp_github_get_pull_request` - Get PR details (check if PR already exists)
   - Parameters: `owner`, `repo`, `pullNumber`, `method` = "get"
 - `mcp_github_create_pull_request` - Create new pull request
   - Parameters: `owner`, `repo`, `title`, `head` = `{type}/{TASK_KEY}`, `base` = `main` (or default), `body` = PR description
-- `mcp_github_pull_request_read` - Get PR status and CI/CD checks
+- `mcp_github_get_pull_request` - Get PR status and CI/CD checks
   - Parameters: `owner`, `repo`, `pullNumber`, `method` = "get_status"
 
 ### Filesystem Tools

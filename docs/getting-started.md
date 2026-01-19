@@ -14,6 +14,8 @@ title: Getting Started
 
 ## Step 1: Configure MCP
 
+**MCP combinations:** **GitHub + Jira** or **ADO**. [Full MCP setup →](mcp-setup.md) (Option A or B).
+
 Open **Cursor Settings → Features → Model Context Protocol** and add:
 
 ```json
@@ -25,7 +27,7 @@ Open **Cursor Settings → Features → Model Context Protocol** and add:
         "Authorization": "Bearer <TOKEN>"
       }
     },
-    "Atlassian-MCP-Server": {
+    "atlassian": {
       "url": "https://mcp.atlassian.com/v1/sse"
     },
   }

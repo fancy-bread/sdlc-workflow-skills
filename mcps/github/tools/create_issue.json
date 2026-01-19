@@ -1,0 +1,14 @@
+{
+  "name": "create_issue",
+  "description": "Create a GitHub issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "title": { "type": "string" },
+      "body": { "type": "string" }
+    },
+    "required": ["owner", "repo", "title"]
+  }
+}

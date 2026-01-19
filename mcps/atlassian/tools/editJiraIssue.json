@@ -1,0 +1,13 @@
+{
+  "name": "editJiraIssue",
+  "description": "Update fields of a Jira issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "issueIdOrKey": { "type": "string" },
+      "fields": { "type": "object" }
+    },
+    "required": ["cloudId", "issueIdOrKey", "fields"]
+  }
+}

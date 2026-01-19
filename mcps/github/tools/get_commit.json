@@ -1,0 +1,13 @@
+{
+  "name": "get_commit",
+  "description": "Get a commit by SHA.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "ref": { "type": "string" }
+    },
+    "required": ["owner", "repo", "ref"]
+  }
+}

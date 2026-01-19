@@ -1,0 +1,13 @@
+{
+  "name": "get_pull_request",
+  "description": "Get a pull request by number.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "pull_number": { "type": "integer" }
+    },
+    "required": ["owner", "repo", "pull_number"]
+  }
+}

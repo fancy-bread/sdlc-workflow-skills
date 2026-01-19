@@ -1,0 +1,13 @@
+{
+  "name": "addCommentToJiraIssue",
+  "description": "Add a comment to a Jira issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "issueIdOrKey": { "type": "string" },
+      "commentBody": { "type": "string", "description": "Comment in Markdown" }
+    },
+    "required": ["cloudId", "issueIdOrKey", "commentBody"]
+  }
+}

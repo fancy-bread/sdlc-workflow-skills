@@ -8,16 +8,19 @@ MCP servers can disconnect or lose authentication after periods of inactivity. U
 
 ## Steps
 
-1. **Discover configured MCP servers**
-   - List all available MCP servers in the current Cursor configuration
-   - Identify server names and types (Atlassian, GitHub, filesystem, etc.)
+1. **Get the list of record (configured MCP servers and tools)**
+   - Run: `python schemas/validate_mcps.py --list` (or `--list --json` for machine-readable).
+   - This enumerates `mcps/<server>/tools/*.json` — the **list of record** for which MCP tools this project supports. Servers are the top-level dirs under `mcps/` (e.g. `atlassian`, `github`, `asdlc`, `ado`).
+   - Use this list (not a runtime MCP API) to know which servers and `mcp_<Server>_<Tool>` refs exist.
 
 2. **Test each server connection**
-   - For each configured MCP server, attempt a simple, non-destructive operation:
-     - **Atlassian-MCP-Server**: Call `mcp_Atlassian-MCP-Server_atlassianUserInfo`
-     - **github**: Call `mcp_github_get_me`
-     - **Other servers**: Use `list_mcp_resources` or similar lightweight operation
-   - Record success or failure for each server
+   - For each server in the list of record, call a lightweight read-only tool. Use this mapping (from `mcps/`):
+     - **atlassian** → `mcp_atlassian_getAccessibleAtlassianResources` or `mcp_atlassian_atlassianUserInfo`
+     - **github** → `mcp_github_list_commits` (args: owner, repo)
+     - **asdlc** → `mcp_asdlc_list_articles`
+     - **ado** → `mcp_ado_core_list_projects`
+   - If a server has no entry above, pick a read-only tool from `python schemas/validate_mcps.py --list` for that server and call it with minimal required args.
+   - Record success or failure for each server.
 
 3. **Report status**
    - Display results in a clear, formatted list
@@ -31,7 +34,7 @@ MCP servers can disconnect or lose authentication after periods of inactivity. U
 🔌 MCP Server Status
 
 Configured servers:
-  ✅ Atlassian-MCP-Server - Connected
+  ✅ atlassian - Connected
   ✅ github - Connected
   ✅ filesystem - Connected
 
@@ -43,14 +46,14 @@ All systems operational!
 🔌 MCP Server Status
 
 Configured servers:
-  ❌ Atlassian-MCP-Server - Needs authentication
+  ❌ atlassian - Needs authentication
   ✅ github - Connected
   ✅ filesystem - Connected
 
 ⚠️ Action Required:
 1. Open Cursor Settings (Cmd+, or Ctrl+,)
 2. Navigate to: Tools & MCP
-3. Click "Connect" next to: Atlassian-MCP-Server
+3. Click "Connect" next to: atlassian
 4. Run /mcp-status again to verify
 ```
 

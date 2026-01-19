@@ -33,7 +33,7 @@ A proposal to standardize common Software Development Lifecycle operations into 
         "Authorization": "Bearer <YOUR_GITHUB_TOKEN>"
       }
     },
-    "Atlassian-MCP-Server": {
+    "atlassian": {
       "url": "https://mcp.atlassian.com/v1/sse"
     }
   }

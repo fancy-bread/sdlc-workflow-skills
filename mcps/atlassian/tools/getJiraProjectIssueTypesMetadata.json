@@ -1,0 +1,12 @@
+{
+  "name": "getJiraProjectIssueTypesMetadata",
+  "description": "Get issue type metadata for a Jira project.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "projectIdOrKey": { "type": "string" }
+    },
+    "required": ["cloudId", "projectIdOrKey"]
+  }
+}

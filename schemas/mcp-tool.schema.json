@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/fancybread-com/agentic-software-development/schemas/mcp-tool.schema.json",
+  "title": "MCP Tool Definition",
+  "description": "Schema for an MCP tool definition in mcps/<server>/tools/*.json. Aligns with Model Context Protocol tool shape: name, inputSchema (required), and optional description, title, outputSchema, annotations.",
+  "type": "object",
+  "required": ["name", "inputSchema"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique tool identifier (e.g. getJiraIssue or mcp_atlassian_getJiraIssue depending on convention). Used to match mcp_Server_ToolName refs in commands."
+    },
+    "inputSchema": {
+      "type": "object",
+      "description": "JSON Schema for the tool's input parameters. MCP requires at least type and properties.",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": { "const": "object" },
+        "properties": { "type": "object" },
+        "required": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what the tool does."
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional short display name for the tool."
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Optional JSON Schema for the tool's output (MCP)."
+    },
+    "annotations": {
+      "type": "object",
+      "description": "Optional MCP annotations: readOnlyHint, destructiveHint, idempotentHint.",
+      "additionalProperties": true
+    }
+  }
+}

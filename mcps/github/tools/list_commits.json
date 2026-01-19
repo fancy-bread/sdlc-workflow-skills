@@ -1,0 +1,13 @@
+{
+  "name": "list_commits",
+  "description": "List commits in a repository or branch.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "sha": { "type": "string" }
+    },
+    "required": ["owner", "repo"]
+  }
+}

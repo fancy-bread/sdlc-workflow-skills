@@ -1,6 +1,8 @@
 # MCP Setup for Cursor
 
-Model Context Protocol (MCP) connects Cursor to Jira, Azure DevOps, and GitHub.
+Model Context Protocol (MCP) connects Cursor to GitHub and to an issue tracker (Jira or Azure DevOps).
+
+**MCP combinations:** **GitHub + Jira** or **GitHub + ADO**. GitHub is used for repositories and pull requests; choose either Jira (Atlassian) or Azure DevOps for work items. ASDLC is optional.
 
 ---
 
@@ -10,7 +12,9 @@ Model Context Protocol (MCP) connects Cursor to Jira, Azure DevOps, and GitHub.
 
 Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows)
 
-### Complete Setup
+---
+
+## Option A: GitHub + Jira
 
 ```json
 {
@@ -21,46 +25,37 @@ Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (
         "Authorization": "Bearer <YOUR_GITHUB_TOKEN>"
       }
     },
-    "Atlassian-MCP-Server": {
+    "atlassian": {
       "url": "https://mcp.atlassian.com/v1/sse"
     }
   }
 }
 ```
 
----
+**GitHub:** [github.com/settings/tokens](https://github.com/settings/tokens) — scopes: `repo`, `read:org`
 
-## GitHub Setup
-
-**Generate token:** [github.com/settings/tokens](https://github.com/settings/tokens)
-**Required scopes:** `repo`, `read:org`
-
-Add token to configuration above, then test: `"List my repositories"`
+**Jira:** On first use, Cursor prompts for Atlassian OAuth. Test: *"Get Jira issues in my current sprint"*
 
 ---
 
-## Atlassian (Jira) Setup
-
-Configuration is already in the setup above. On first use, Cursor prompts for OAuth authorization.
-
-Test: `"Get Jira issues in my current sprint"`
-
----
-
-## Azure DevOps (Alternative)
-
-Replace the Atlassian MCP config with:
+## Option B: GitHub + Azure DevOps (ADO)
 
 ```json
-"ado": {
-  "command": "npx",
-  "args": ["-y", "--registry", "https://registry.npmjs.org/", "@azure-devops/mcp", "your-org-name"]
+{
+  "mcpServers": {
+    "ado": {
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "your-org-name"]
+    }
+  }
 }
 ```
 
-Test: `"Get work items in my current sprint"`
+Replace `your-org-name` with your Azure DevOps organization (e.g. `contoso` for `https://dev.azure.com/contoso`).
 
-All Jira commands work with ADO—AI translates automatically.
+**ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server’s `env` if your MCP or Cursor config supports it.
+
+Test: *"Get work items in my current sprint"*
 
 ---
 

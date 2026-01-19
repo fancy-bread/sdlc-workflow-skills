@@ -3,6 +3,15 @@
 ## Overview
 Check the authentication status of all configured Model Context Protocol (MCP) servers.
 
+## Definitions
+
+- **MCP server**: A configured Model Context Protocol server in Cursor (e.g. atlassian, github, asdlc, ado).
+- **List of record**: The `mcps/` directory and `python schemas/validate_mcps.py --list`; defines which servers and `mcp_<Server>_<Tool>` refs this project supports.
+
+## Prerequisites
+
+- **None required.** Run anytime to check status. If no MCP servers are configured, the command reports that.
+
 ## Purpose
 MCP servers can disconnect or lose authentication after periods of inactivity. Use this command to verify all integrations are ready before starting work.
 
@@ -26,6 +35,18 @@ MCP servers can disconnect or lose authentication after periods of inactivity. U
    - Display results in a clear, formatted list
    - Show server name and authentication status
    - For disconnected servers, provide reconnection instructions
+
+## Tools
+
+### Filesystem
+- `python schemas/validate_mcps.py --list` (or `--list --json`) — Enumerate `mcps/` as the list of record; use to know which servers and `mcp_<Server>_<Tool>` refs exist.
+
+### MCP (per server from list of record)
+- **atlassian** → `mcp_atlassian_getAccessibleAtlassianResources` or `mcp_atlassian_atlassianUserInfo`
+- **github** → `mcp_github_list_commits` (owner, repo)
+- **asdlc** → `mcp_asdlc_list_articles`
+- **ado** → `mcp_ado_core_list_projects`
+- For other servers: pick a read-only tool from `validate_mcps.py --list` and call with minimal required args.
 
 ## Expected Output
 
@@ -80,4 +101,19 @@ If a server test fails:
 - No data is modified or created
 - Safe to run at any time
 - Does not require any parameters or arguments
+
+## Guidance
+
+### Role
+Act as a **developer** checking that MCP integrations are ready before running commands that depend on them.
+
+### Instruction
+Run `validate_mcps.py --list` to get the list of record, then for each server call one lightweight read-only MCP tool. Report connected / disconnected; for disconnected, give reconnection steps (Cursor Settings → Tools & MCP).
+
+### Context
+- MCP servers can disconnect or lose auth after inactivity. Use at start of day, after inactivity, or before critical commands.
+- Use the `mcps/` list of record, not a runtime MCP API, to know which servers exist.
+
+### Constraints
+- Read-only only; no data modified. If a server test fails, distinguish auth errors (reconnect) from other errors.
 

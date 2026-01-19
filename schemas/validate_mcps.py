@@ -52,6 +52,11 @@ def list_tools() -> list[dict]:
     return out
 
 
+def get_valid_refs() -> set[str]:
+    """Return the set of valid MCP tool refs (mcp_<server>_<tool>) from mcps/."""
+    return {t["ref"] for t in list_tools()}
+
+
 def resolve(ref: str) -> Path | None:
     """Resolve mcp_Server_Tool to mcps/Server/tools/Tool.json. Returns Path or None if not found."""
     if not ref.startswith("mcp_"):

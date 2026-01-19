@@ -57,13 +57,13 @@ The schema validates a *parsed* representation of the markdown: section presence
    On success: `OK: commands/create-plan.md validates against command.schema.json`.
    On failure: JSON Schema errors are printed and the process exits with code 1.
 
-3. **Validate-all (commands + mcps)** — one entry point for both:
+3. **Validate-all (commands + mcps + mcp refs)** — one entry point:
 
    ```bash
    python schemas/validate_all.py
    ```
 
-   Runs (1) `validate.py` on every `commands/*.md` (excluding `commands/README.md`) and (2) `validate_mcps.py` on all `mcps/**/*.json`. Exit 0 only if **both** pass. Use before commit; FB-20 CI will run this.
+   Runs (1) `validate.py` on every `commands/*.md` (excluding `commands/README.md`), (2) `validate_mcps.py` on all `mcps/**/*.json`, and (3) `validate_mcp_refs.py` to check that every `mcp_<server>_<tool>` in `commands/` and `docs/commands/` exists in `mcps/`. Exit 0 only if **all** pass. Use before commit; FB-20 CI will run this.
 
 ---
 
@@ -74,8 +74,9 @@ The schema validates a *parsed* representation of the markdown: section presence
 | `schemas/command.schema.json` | JSON Schema for the `ParsedCommand` model (overview, definitions, prerequisites, steps, tools, guidance, optional mcpRefs). |
 | `schemas/mcp-tool.schema.json` | JSON Schema for `mcps/<server>/tools/*.json` (FB-43). MCP-aligned: required `name`, `inputSchema`; optional `description`, `title`, `outputSchema`, `annotations`. |
 | `schemas/validate.py` | Python script: parses `## ` sections, extracts step numbers and MCP refs, validates with `jsonschema` (Draft-07). |
-| `schemas/validate_mcps.py` | Validates all `mcps/**/*.json`; `--list` / `--list --json` enumerates `mcps/` as the **list of record** (no MCP calls); resolve-one: `validate_mcps.py mcp_Server_Tool`. |
-| `schemas/validate_all.py` | Orchestrates `validate.py` (all `commands/*.md` except README) and `validate_mcps.py`; exit 0 only if both pass. |
+| `schemas/validate_mcps.py` | Validates all `mcps/**/*.json`; `get_valid_refs()` returns the set of `mcp_<server>_<tool>`; `--list` / `--list --json` enumerates `mcps/`; resolve-one: `validate_mcps.py mcp_Server_Tool`. |
+| `schemas/validate_mcp_refs.py` | Validates that every `mcp_<server>_<tool>` in `commands/` and `docs/commands/` exists in `mcps/`; reports invalid refs with fuzzy suggestions. |
+| `schemas/validate_all.py` | Orchestrates `validate.py`, `validate_mcps.py`, and `validate_mcp_refs.py`; exit 0 only if all pass. |
 
 The `jsonschema` library is in `requirements.txt`; the validator runs in the same Python environment as MkDocs.
 
@@ -95,5 +96,4 @@ Commands such as `mcp-status.md` or `start-task.md` may not yet have all six sec
 
 ## Future Work
 
-- **`mcps/` mcpRef lookup:** `schemas/validate_mcps.py` validates all `mcps/**/*.json` and can resolve `mcp_Server_Tool` to a file. Future: extend `schemas/validate.py` to check that each `mcpRef` in a command exists in `mcps/`.
-- **FB-20:** CI integration — add a workflow step (e.g. GitHub Actions) that runs `python schemas/validate_all.py` (commands + mcps).
+- **FB-20:** CI integration — `command-validation.yml` runs `python schemas/validate_all.py` (commands + mcps + mcp refs) and lychee. **FB-21:** `validate_mcp_refs.py` checks that each `mcpRef` in commands exists in `mcps/` (implemented).

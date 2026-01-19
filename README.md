@@ -3,6 +3,7 @@
 **Standardize SDLC operations with natural language commands for Cursor IDE.**
 
 [![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/agentic-software-development)
+[![Schema Validation](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---

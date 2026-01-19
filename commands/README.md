@@ -137,7 +137,7 @@ cp -r commands/* .cursor/commands/
 
 **Restart Cursor after installing.**
 
-[Detailed setup guide →](../mcp-setup.md)
+[Detailed setup guide →](../docs/mcp-setup.md)
 
 ## Complete Workflows
 
@@ -230,7 +230,7 @@ Commands connect to your tools via **adapters**:
 | **Version Control** | GitHub, GitLab | Create branches, PRs |
 | **Plan Storage** | Filesystem | Store plans in `.plans/` |
 
-**Configuration:** Set up via MCP servers. [Setup guide →](docs/mcp-setup.md)
+**Configuration:** Set up via MCP servers. [Setup guide →](../docs/mcp-setup.md)
 
 ---
 
@@ -301,8 +301,6 @@ Save in `.cursor/commands/complete-task.md`
 
 ## Learn More
 
-- [Setup Guide](docs/mcp-setup.md) - Configure MCP servers
+- [Setup Guide](../docs/mcp-setup.md) - Configure MCP servers
 - [Implementation Guide](../README.md) - Cursor-specific details
-- [Core Methodology](../../../core/index.md) - Understand the approach
-- [Workflows](../../../core/workflows/) - Detailed workflow guides
 - [Cursor Commands Docs](https://cursor.com/docs/agent/chat/commands) - Official Cursor documentation

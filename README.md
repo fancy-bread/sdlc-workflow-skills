@@ -96,7 +96,7 @@ You → /command → Cursor AI → MCP → Services (Jira, GitHub)
 - [Getting Started](https://fancybread-com.github.io/agentic-software-development/getting-started/) - 3-step setup
 - [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 9 commands
 - [Role Guides](https://fancybread-com.github.io/agentic-software-development/roles/) - Product Manager, Engineer, QA
-- [Methodology](https://fancybread-com.github.io/agentic-software-development/core/methodology/) - Core principles
+- [Methodology](https://fancybread-com.github.io/agentic-software-development/getting-started/#how-it-works) - Core principles
 
 ---
 

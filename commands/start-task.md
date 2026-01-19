@@ -29,11 +29,11 @@ Begin development on a task with proper setup and pre-flight checks.
        - Plans provide transient task-level implementation steps
        - **If no plan and no spec exist, STOP and report error**: "No plan or spec found for {TASK_KEY}. Run `/create-plan {TASK_KEY}` first."
    - Verify story is in "In Progress"
-     - Fetch story status using `mcp_Atlassian-MCP-Server_getJiraIssue`
+     - Fetch story status using `mcp_atlassian_getJiraIssue`
      - **If status is NOT "In Progress":**
-       1. Get available transitions using `mcp_Atlassian-MCP-Server_getTransitionsForJiraIssue`
+       1. Get available transitions using `mcp_atlassian_getTransitionsForJiraIssue`
        2. Find transition to "In Progress" status
-       3. Transition using `mcp_Atlassian-MCP-Server_transitionJiraIssue`
+       3. Transition using `mcp_atlassian_transitionJiraIssue`
        4. Verify transition succeeded
      - **If transition fails or "In Progress" status not available:**
        - STOP and report: "Story {TASK_KEY} cannot be moved to 'In Progress'. Current status: {status}. Available transitions: {list}"
@@ -92,9 +92,9 @@ Begin development on a task with proper setup and pre-flight checks.
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -102,17 +102,17 @@ Begin development on a task with proper setup and pre-flight checks.
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Fetch story details by {TASK_KEY}
+- `mcp_atlassian_getJiraIssue` - Fetch story details by {TASK_KEY}
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
-- `mcp_Atlassian-MCP-Server_getTransitionsForJiraIssue` - Get available status transitions
+- `mcp_atlassian_getTransitionsForJiraIssue` - Get available status transitions
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
-- `mcp_Atlassian-MCP-Server_transitionJiraIssue` - Transition issue to "In Progress" (if needed)
+- `mcp_atlassian_transitionJiraIssue` - Transition issue to "In Progress" (if needed)
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `transition` = {id: "transition-id"}
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Add work checklist comment to issue
+- `mcp_atlassian_addCommentToJiraIssue` - Add work checklist comment to issue
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown checklist
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- A lightweight read-only GitHub MCP tool to verify connection (see Cursor Settings → Tools & MCP for exact names; e.g. a list/read tool)
 - `mcp_github_list_branches` - List existing branches (check if branch already exists)
 - `mcp_github_create_branch` - Create new branch on remote
   - Parameters: `owner`, `repo`, `branch` = `{type}/{TASK_KEY}`, `from_branch` = `main` (or default branch)

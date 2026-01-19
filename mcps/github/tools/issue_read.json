@@ -1,0 +1,13 @@
+{
+  "name": "issue_read",
+  "description": "Fetch a GitHub issue by number. Alias: get_issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "issue_number": { "type": "integer" }
+    },
+    "required": ["owner", "repo", "issue_number"]
+  }
+}

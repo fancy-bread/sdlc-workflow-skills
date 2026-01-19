@@ -40,13 +40,13 @@ Before proceeding, verify:
 
 2. **Tracker Access Verification**: Verify user has permission to create issues in the issue tracker
    - Test by attempting to fetch tracker configuration or verify access
-   - Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources` for Jira
-   - Use `mcp_github_get_me` for GitHub
+   - Use `mcp_atlassian_getAccessibleAtlassianResources` for Jira
+   - Use a lightweight read-only GitHub MCP tool for GitHub (see Cursor Settings → Tools & MCP for exact names)
    - **If access denied, STOP and report: "Access denied to issue tracker. Please verify permissions."**
 
 3. **Epic/Parent Verification** (if creating child task):
    - Verify parent epic or task exists (if linking to parent)
-   - Use `mcp_Atlassian-MCP-Server_getJiraIssue` for Jira or `mcp_github_issue_read` for GitHub
+   - Use `mcp_atlassian_getJiraIssue` for Jira or `mcp_github_issue_read` for GitHub
    - **If parent task doesn't exist, STOP and report: "Parent task {key} not found."**
 
 4. **Epic Plan File Verification** (if creating epic from file):
@@ -316,12 +316,12 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
 
 1. **Pre-flight validation**
    - **MCP Status Validation**: Perform MCP server status checks (see `mcp-status.md` for detailed steps)
-     - Test Atlassian MCP connection: `mcp_Atlassian-MCP-Server_atlassianUserInfo`
-     - Test GitHub MCP connection: `mcp_github_get_me`
+     - Test Atlassian MCP connection: `mcp_atlassian_atlassianUserInfo`
+     - Test GitHub MCP connection: use a read-only GitHub MCP tool (see Cursor Settings → Tools & MCP)
      - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
    - **Tracker Access Verification**: Verify user has permission to create issues
-     - For Jira: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources` to verify access
-     - For GitHub: Use `mcp_github_get_me` to verify access
+     - For Jira: Use `mcp_atlassian_getAccessibleAtlassianResources` to verify access
+     - For GitHub: Use a read-only GitHub MCP tool to verify access (see Cursor Settings → Tools & MCP)
      - **If access denied, STOP and report: "Access denied to issue tracker. Please verify permissions."**
 
 2. **Parse command arguments**
@@ -334,7 +334,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
      - Extract source file path if "from [file]" pattern detected
    - **Validate task type is supported:**
      - Check against supported types (epic, story, bug, task, subtask, improvement, spike, technical-debt)
-     - Use `mcp_Atlassian-MCP-Server_getJiraProjectIssueTypesMetadata` for Jira to verify type is available
+     - Use `mcp_atlassian_getJiraProjectIssueTypesMetadata` for Jira to verify type is available
      - **If task type is invalid or not supported, STOP and report: "Task type '{type}' is not supported. Supported types: {list}"**
      - Suggest similar types if typo detected (e.g., "stroy" → "story")
      - Case-insensitive matching (e.g., `--type=BUG` = `--type=bug`)
@@ -345,7 +345,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
      - Use `read_file` to read plan file content
      - **If plan file not found, STOP and report: "Epic plan file not found: {path}"**
    - **Check for related tasks/epics (if parent/linking mentioned):**
-     - Use `mcp_Atlassian-MCP-Server_getJiraIssue` for Jira or `mcp_github_issue_read` for GitHub
+     - Use `mcp_atlassian_getJiraIssue` for Jira or `mcp_github_issue_read` for GitHub
      - Verify parent task exists and is accessible
      - **If parent task doesn't exist, STOP and report: "Parent task {key} not found."**
    - **Review project conventions for task creation:**
@@ -365,7 +365,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
         - Example: `feature:user-authentication` → `user-authentication`
      3. **Extract from epic/parent task:**
         - If creating child story, inherit domain from parent epic
-        - Use `mcp_Atlassian-MCP-Server_getJiraIssue` to fetch parent
+        - Use `mcp_atlassian_getJiraIssue` to fetch parent
         - Extract domain from parent's labels or description
      4. **Parse from title/description keywords:**
         - Analyze task title and description for domain clues
@@ -496,7 +496,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
      - Document reproduction steps (for bugs)
      - Add relevant labels and tags (include `feature:{domain}` label)
    - **Create task in tracker:**
-     - Use `mcp_Atlassian-MCP-Server_createJiraIssue` for Jira
+     - Use `mcp_atlassian_createJiraIssue` for Jira
        - Parameters: `cloudId`, `projectKey`, `issueTypeName`, `summary`, `description`, and other fields
      - Use `mcp_github_create_issue` for GitHub
        - Parameters: `owner`, `repo`, `title`, `body`, `labels`
@@ -508,7 +508,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
 
 6. **Verify creation**
    - **Confirm task was created successfully:**
-     - Fetch created task using `mcp_Atlassian-MCP-Server_getJiraIssue` or `mcp_github_issue_read`
+     - Fetch created task using `mcp_atlassian_getJiraIssue` or `mcp_github_issue_read`
      - Verify all fields were set correctly
      - **If task creation verification fails, report warning but don't fail (creation may have succeeded)**
    - **Display task key/ID:**
@@ -522,9 +522,9 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -532,24 +532,24 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources` - Get cloudId for Atlassian API calls
+- `mcp_atlassian_getAccessibleAtlassianResources` - Get cloudId for Atlassian API calls
   - Returns list of accessible resources with `cloudId` values
   - Use to obtain cloudId before other Atlassian API calls
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Check if epic/parent exists or fetch task details
+- `mcp_atlassian_getJiraIssue` - Check if epic/parent exists or fetch task details
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY} or parent key
   - Use to verify parent tasks exist before linking
-- `mcp_Atlassian-MCP-Server_getJiraProjectIssueTypesMetadata` - Get available issue types for a project
+- `mcp_atlassian_getJiraProjectIssueTypesMetadata` - Get available issue types for a project
   - Parameters: `cloudId`, `projectIdOrKey` = project key
   - Use to validate task type is supported
-- `mcp_Atlassian-MCP-Server_createJiraIssue` - Create task in Jira
+- `mcp_atlassian_createJiraIssue` - Create task in Jira
   - Parameters: `cloudId`, `projectKey`, `issueTypeName` (e.g., "Story", "Bug", "Epic"), `summary`, `description`, `additional_fields` (for labels, components, parent, priority, etc.)
   - Use to create the task after validation
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Add comments to issues (if needed)
+- `mcp_atlassian_addCommentToJiraIssue` - Add comments to issues (if needed)
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown text
   - Use to add additional context or notes after creation
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- A read-only GitHub MCP tool to verify connection (see Cursor Settings → Tools & MCP for exact names)
   - Use to verify GitHub integration is operational
 - `mcp_github_issue_read` - Check if parent issue exists or fetch issue details
   - Parameters: `owner`, `repo`, `issue_number` = issue number
@@ -676,7 +676,7 @@ Workflow:
 
 Output:
 Task created: FB-10
-Link: https://fancybread.atlassian.net/browse/FB-10
+Link: https://{site}.atlassian.net/browse/{TASK_KEY}
 ```
 
 **Example 2: Story Creation**
@@ -700,7 +700,7 @@ After user provides details:
 
 Output:
 Task created: FB-15
-Link: https://fancybread.atlassian.net/browse/FB-15
+Link: https://{site}.atlassian.net/browse/{TASK_KEY}
 ```
 
 **Example 2a: Story with PBI Structure** (NEW)
@@ -722,7 +722,7 @@ Workflow:
 
 Output:
 Task created: FB-42
-Link: https://fancybread.atlassian.net/browse/FB-42
+Link: https://{site}.atlassian.net/browse/{TASK_KEY}
 
 Description (PBI format):
 ---
@@ -789,7 +789,7 @@ After user provides details:
 
 Output:
 Task created: FB-20
-Link: https://fancybread.atlassian.net/browse/FB-20
+Link: https://{site}.atlassian.net/browse/{TASK_KEY}
 ```
 
 **Example 4: Task Creation**
@@ -807,7 +807,7 @@ Workflow:
 
 Output:
 Task created: FB-25
-Link: https://fancybread.atlassian.net/browse/FB-25
+Link: https://{site}.atlassian.net/browse/{TASK_KEY}
 Note: Assumed scope includes only authentication service, not related services.
 ```
 

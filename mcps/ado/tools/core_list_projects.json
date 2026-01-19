@@ -1,0 +1,10 @@
+{
+  "name": "core_list_projects",
+  "description": "List projects in the Azure DevOps organization.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "stateFilter": { "type": "string" }
+    }
+  }
+}

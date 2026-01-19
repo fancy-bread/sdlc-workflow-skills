@@ -1,0 +1,16 @@
+{
+  "name": "create_pull_request",
+  "description": "Create a pull request.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "owner": { "type": "string" },
+      "repo": { "type": "string" },
+      "title": { "type": "string" },
+      "head": { "type": "string" },
+      "base": { "type": "string" },
+      "body": { "type": "string" }
+    },
+    "required": ["owner", "repo", "title", "head", "base"]
+  }
+}

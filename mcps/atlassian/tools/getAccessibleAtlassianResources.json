@@ -1,0 +1,8 @@
+{
+  "name": "getAccessibleAtlassianResources",
+  "description": "Get list of accessible Atlassian resources (cloudId for Jira/Confluence API).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {}
+  }
+}

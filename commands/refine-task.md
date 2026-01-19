@@ -44,15 +44,15 @@ Before proceeding, verify:
 
 1. **Validate and Read Task**
    - **Perform MCP status validation:**
-     - Test Atlassian MCP connection using `mcp_Atlassian-MCP-Server_atlassianUserInfo`
+     - Test Atlassian MCP connection using `mcp_atlassian_atlassianUserInfo`
      - Verify connection is authorized and operational
      - **If MCP connection fails, STOP and report the failure.**
    - **Obtain CloudId for Atlassian Tools:**
-     - Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources` to get cloudId
+     - Use `mcp_atlassian_getAccessibleAtlassianResources` to get cloudId
      - Use the first result or match by site name
           - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
        - **Fetch task from Jira:**
-         - Use `mcp_Atlassian-MCP-Server_getJiraIssue` with `cloudId` and `issueIdOrKey` = {TASK_KEY}
+         - Use `mcp_atlassian_getJiraIssue` with `cloudId` and `issueIdOrKey` = {TASK_KEY}
          - Extract: title, description, acceptance criteria, labels, components, status, project key
          - **Check if project uses Story Points:**
            - Story Points field identifier: `customfield_10036` (Story Points field in this Jira instance)
@@ -101,7 +101,7 @@ Before proceeding, verify:
        ORDER BY resolved DESC
        ```
    - **Execute query:**
-     - Use `mcp_Atlassian-MCP-Server_searchJiraIssuesUsingJql` with the appropriate JQL
+     - Use `mcp_atlassian_searchJiraIssuesUsingJql` with the appropriate JQL
      - Set `maxResults` to 100 (or appropriate limit)
      - Extract fields: key, title, description, story points, labels, components, issue type
    - **Filter results:**
@@ -251,7 +251,7 @@ Before proceeding, verify:
          - Description: Only if conservatively refined (minimal changes)
          - Acceptance criteria: Only if conservatively refined (minimal additions)
        - **Update task:**
-         - Use `mcp_Atlassian-MCP-Server_editJiraIssue` with:
+         - Use `mcp_atlassian_editJiraIssue` with:
            - `cloudId`
            - `issueIdOrKey` = {TASK_KEY}
            - `fields`: Object with fields to update
@@ -301,7 +301,7 @@ Before proceeding, verify:
        - If project doesn't use story points: "Task refined and ready for work assignment (no estimation required)."
        - Otherwise: "Task refined and ready for sprint planning."
    - **Post report as comment:**
-     - Use `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` with:
+     - Use `mcp_atlassian_addCommentToJiraIssue` with:
        - `cloudId`
        - `issueIdOrKey` = {TASK_KEY}
        - `commentBody` = markdown report content
@@ -311,9 +311,9 @@ Before proceeding, verify:
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -321,18 +321,18 @@ Before proceeding, verify:
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Fetch task to refine
+- `mcp_atlassian_getJiraIssue` - Fetch task to refine
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
   - Extract: title, description, acceptance criteria, labels, components, status, project key
   - Story Points: Read from `fields.customfield_10036` (may be null if not set)
-- `mcp_Atlassian-MCP-Server_searchJiraIssuesUsingJql` - Query historical completed tasks
+- `mcp_atlassian_searchJiraIssuesUsingJql` - Query historical completed tasks
   - Parameters: `cloudId`, `jql` = (see JQL examples in Steps), `maxResults` = 100
   - Returns: List of completed tasks with story points
-- `mcp_Atlassian-MCP-Server_editJiraIssue` - Update task (story points, description, acceptance criteria)
+- `mcp_atlassian_editJiraIssue` - Update task (story points, description, acceptance criteria)
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `fields` = object with fields to update
   - Story Points field: `customfield_10036` (Story Points field identifier for this Jira instance)
   - **Note**: Only update story points if conditions met (no existing points or estimates match)
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Post refinement report
+- `mcp_atlassian_addCommentToJiraIssue` - Post refinement report
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown report
 
 ### Codebase Tools

@@ -1,0 +1,13 @@
+{
+  "name": "transitionJiraIssue",
+  "description": "Transition a Jira issue to a new status.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "issueIdOrKey": { "type": "string" },
+      "transition": { "type": "object", "description": "e.g. { \"id\": \"21\" }" }
+    },
+    "required": ["cloudId", "issueIdOrKey", "transition"]
+  }
+}

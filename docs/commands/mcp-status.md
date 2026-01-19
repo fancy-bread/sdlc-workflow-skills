@@ -28,7 +28,7 @@ Checks each configured MCP server (Jira, GitHub, etc.) to verify:
 🔌 MCP Server Status
 
 Configured servers:
-  ✅ Atlassian-MCP-Server - Connected
+  ✅ atlassian - Connected
   ✅ github - Connected
 
 All systems operational!
@@ -39,7 +39,7 @@ All systems operational!
 🔌 MCP Server Status
 
 Configured servers:
-  ❌ Atlassian-MCP-Server - Needs authentication
+  ❌ atlassian - Needs authentication
   ✅ github - Connected
 
 ⚠️ To reconnect:

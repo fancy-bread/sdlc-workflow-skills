@@ -1,0 +1,12 @@
+{
+  "name": "getJiraIssue",
+  "description": "Fetch a Jira issue by id or key.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string", "description": "Atlassian cloud ID" },
+      "issueIdOrKey": { "type": "string", "description": "Issue ID or key (e.g. FB-43)" }
+    },
+    "required": ["cloudId", "issueIdOrKey"]
+  }
+}

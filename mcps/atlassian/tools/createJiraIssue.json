@@ -1,0 +1,15 @@
+{
+  "name": "createJiraIssue",
+  "description": "Create a Jira issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "projectKey": { "type": "string" },
+      "issueTypeName": { "type": "string" },
+      "summary": { "type": "string" },
+      "description": { "type": "string" }
+    },
+    "required": ["cloudId", "projectKey", "issueTypeName", "summary"]
+  }
+}

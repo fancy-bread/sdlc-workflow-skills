@@ -39,7 +39,7 @@ Before proceeding, verify:
 
 2. **Task Exists**: Verify the task exists in the issue tracker
    - Use MCP tools to fetch task by `{TASK_KEY}`
-   - Use `mcp_Atlassian-MCP-Server_getJiraIssue` for Jira issues
+   - Use `mcp_atlassian_getJiraIssue` for Jira issues
    - Use `mcp_github_issue_read` for GitHub Issues
    - **If task doesn't exist, STOP and report error: "Task {TASK_KEY} not found"**
 
@@ -104,7 +104,7 @@ Before proceeding, verify:
 
 1. **Read the task**
    - **Retrieve task from issue tracker:**
-     - Use `mcp_Atlassian-MCP-Server_getJiraIssue` for Jira issues
+     - Use `mcp_atlassian_getJiraIssue` for Jira issues
        - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
      - Use `mcp_github_issue_read` for GitHub Issues
        - Parameters: `owner`, `repo`, `issue_number` = {TASK_KEY}
@@ -188,7 +188,7 @@ Before proceeding, verify:
         - Example: `specs/user-authentication/spec.md` → `user-authentication`
      3. **From parent epic (if parent is a story):**
         - If parent has parent epic, check epic for domain
-        - Use `mcp_Atlassian-MCP-Server_getJiraIssue` to fetch epic
+        - Use `mcp_atlassian_getJiraIssue` to fetch epic
         - Extract domain from epic labels or description
      4. **Ask user if domain not found:**
         - If parent has no domain, ask: "Which feature domain for these subtasks? (e.g., user-authentication, payment-processing)"
@@ -305,7 +305,7 @@ Before proceeding, verify:
        - Priority/rank (from step 6)
        - Labels: Include `feature:{domain}` label (inherited from parent)
      - **Use MCP tools to create tasks:**
-       - Use `mcp_Atlassian-MCP-Server_createJiraIssue` for Jira
+       - Use `mcp_atlassian_createJiraIssue` for Jira
          - Parameters: `cloudId`, `projectKey`, `issueTypeName` (typically "Story" or "Task"), `summary`, `description`, `additional_fields` (for parent link, priority, labels including `feature:{domain}`)
        - Use `mcp_github_create_issue` for GitHub
          - Parameters: `owner`, `repo`, `title`, `body` (markdown with PBI description and acceptance criteria), `labels` (include `feature:{domain}`)
@@ -318,7 +318,7 @@ Before proceeding, verify:
 
 8. **Document breakdown**
    - **Add breakdown summary comment to parent task:**
-     - Use `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` for Jira
+     - Use `mcp_atlassian_addCommentToJiraIssue` for Jira
        - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown summary
      - Use `mcp_github_add_issue_comment` for GitHub
        - Parameters: `owner`, `repo`, `issue_number` = {TASK_KEY}, `body` = markdown summary
@@ -338,9 +338,9 @@ Before proceeding, verify:
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -348,18 +348,18 @@ Before proceeding, verify:
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Fetch task details by {TASK_KEY}
+- `mcp_atlassian_getJiraIssue` - Fetch task details by {TASK_KEY}
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
   - Extract: title, description, acceptance criteria, labels, priority, status, parent/epic link
-- `mcp_Atlassian-MCP-Server_createJiraIssue` - Create subtasks in Jira
+- `mcp_atlassian_createJiraIssue` - Create subtasks in Jira
   - Parameters: `cloudId`, `projectKey`, `issueTypeName` (e.g., "Story", "Task"), `summary`, `description`, `additional_fields` (for `parent`, `priority`, `labels`, `components`)
   - Use to create each subtask after decomposition
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Add breakdown summary comment to parent task
+- `mcp_atlassian_addCommentToJiraIssue` - Add breakdown summary comment to parent task
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown summary
   - Use to document the decomposition results
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- A lightweight read-only GitHub MCP tool to verify connection (see Cursor Settings → Tools & MCP for exact names)
 - `mcp_github_issue_read` - Fetch GitHub issue details
   - Parameters: `owner`, `repo`, `issue_number` = {TASK_KEY} (if numeric)
   - Extract: title, body, labels, state, milestone

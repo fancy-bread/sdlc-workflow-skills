@@ -1,0 +1,12 @@
+{
+  "name": "getJiraIssueRemoteIssueLinks",
+  "description": "Get remote issue links for a Jira issue.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "issueIdOrKey": { "type": "string" }
+    },
+    "required": ["cloudId", "issueIdOrKey"]
+  }
+}

@@ -24,8 +24,10 @@
 - **Version Control:** Git + GitHub
 
 ### MCP Integrations
+- **MCP combinations:** **GitHub + Jira** or **ADO** (repository + issue tracker). ASDLC optional.
 - **Atlassian MCP Server** (`user-atlassian`): Jira issue management, Confluence documentation
 - **GitHub MCP Server** (`user-github`): Repository operations, pull requests, issues
+- **Azure DevOps MCP Server** (`ado`): Work items, repos, pull requests (@azure-devops/mcp)
 - **ASDLC.io MCP Server** (`user-asdlc`): ASDLC knowledge base for pattern queries
 
 ### Command Structure
@@ -117,9 +119,10 @@ directory_map:
     "*.md": "Command definitions - markdown instructions for AI agents"
     README.md: "Command documentation and usage guide"
 
-  # Command Schema (FB-18)
+  # Command Schema (FB-18) and MCP Tool Schema (FB-43)
   schemas:
     command.schema.json: "JSON Schema for ParsedCommand (Overview, Definitions, Prerequisites, Steps, Tools, Guidance)"
+    mcp-tool.schema.json: "JSON Schema for mcps/<server>/tools/*.json (name, inputSchema required; MCP-aligned)"
     validate.py: "Python script to validate commands/*.md against command.schema.json (jsonschema, same venv as MkDocs)"
     README.md: "Schema usage, MCP and step rules, validation instructions"
 
@@ -137,11 +140,12 @@ directory_map:
     build-docs.yml: "MkDocs build and deploy to GitHub Pages"
     create-release.yml: "Release automation workflow"
 
-  # MCP Schemas (Read-Only Reference)
+  # MCP Schemas (Read-Only Reference, FB-43)
   mcps:
-    user-atlassian/tools: "Atlassian MCP tool schemas (Jira, Confluence)"
-    user-github/tools: "GitHub MCP tool schemas (repos, PRs, issues)"
-    user-asdlc/tools: "ASDLC.io knowledge base tool schemas"
+    atlassian/tools: "Atlassian MCP tool schemas (Jira, Confluence); mcp_atlassian_*"
+    github/tools: "GitHub MCP tool schemas (repos, PRs, issues); mcp_github_*"
+    asdlc/tools: "ASDLC.io knowledge base; mcp_asdlc_*"
+    ado/tools: "Azure DevOps MCP tool schemas (@azure-devops/mcp); mcp_ado_*"
 
   # Configuration
   mkdocs.yml: "MkDocs configuration - site structure, theme, plugins"
@@ -174,7 +178,7 @@ Commands follow a rigorous structure to ensure consistency and agent comprehensi
     <bad>Create a task in Jira with the details provided.</bad>
 
     <!-- Missing MCP schema validation -->
-    <bad>Use mcp_Atlassian-MCP-Server_createJiraIssue to create task.</bad>
+    <bad>Use mcp_atlassian_createJiraIssue to create task.</bad>
 
     <!-- Hardcoded values -->
     <bad>Use cloudId "abc-123" for all operations.</bad>
@@ -205,7 +209,7 @@ When documenting MCP tools in commands:
 ```xml
 <mcp_tool_documentation>
   <required_elements>
-    - Tool name with server prefix (e.g., mcp_Atlassian-MCP-Server_getJiraIssue)
+    - Tool name with server prefix (e.g., mcp_atlassian_getJiraIssue)
     - Purpose description (what it does)
     - Required parameters with types
     - Optional parameters with defaults
@@ -214,7 +218,7 @@ When documenting MCP tools in commands:
   </required_elements>
 
   <example>
-    mcp_Atlassian-MCP-Server_getJiraIssue - Fetch task details
+    mcp_atlassian_getJiraIssue - Fetch task details
       Parameters:
         - cloudId (string, required)
         - issueIdOrKey (string, required) = {TASK_KEY}
@@ -268,11 +272,7 @@ When implementing or documenting commands, reference these ASDLC patterns:
 - **[adversarial-code-review](asdlc://adversarial-code-review)**: Critic Agent pattern
 - **[constitutional-review](asdlc://constitutional-review)**: Constitutional Review pattern
 
-Use ASDLC.io MCP server to query patterns:
-```
-search_knowledge_base(query: "Context Gates")
-get_article(slug: "agents-md-spec")
-```
+Use ASDLC.io MCP server to list patterns: `mcp_asdlc_list_articles` (no args). The project’s curated `mcps/` includes only this tool; the ASDLC MCP may expose `search_knowledge_base` and `get_article` when configured.
 
 ### Key Files to Read
 

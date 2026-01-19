@@ -48,7 +48,7 @@ Before proceeding, verify:
 
 1. **Analyze story**
    - **Fetch story from issue tracker using MCP:**
-     - Use `mcp_Atlassian-MCP-Server_getJiraIssue` for Jira issues
+     - Use `mcp_atlassian_getJiraIssue` for Jira issues
      - Use `mcp_github_issue_read` for GitHub Issues
      - Extract: title, description, acceptance criteria, labels, priority, related issues
    - **Parse user story format:**
@@ -287,8 +287,8 @@ Before proceeding, verify:
    - **Verify plan file was created successfully**
    - **Post plan summary to issue tracker:**
      - **Sequence:**
-       1. Fetch issue to verify it exists: `mcp_Atlassian-MCP-Server_getJiraIssue` or `mcp_github_issue_read`
-       2. Create comment with plan summary: `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` or `mcp_github_add_issue_comment`
+       1. Fetch issue to verify it exists: `mcp_atlassian_getJiraIssue` or `mcp_github_issue_read`
+       2. Create comment with plan summary: `mcp_atlassian_addCommentToJiraIssue` or `mcp_github_add_issue_comment`
        3. Verify comment was posted (optional - check issue comments)
      - Comment should include:
        - Link to plan file: `.plans/{TASK_KEY}-*.plan.md`
@@ -299,9 +299,9 @@ Before proceeding, verify:
 ## Tools
 
 ### MCP Tools (Atlassian)
-- `mcp_Atlassian-MCP-Server_atlassianUserInfo` - Verify Atlassian MCP connection
+- `mcp_atlassian_atlassianUserInfo` - Verify Atlassian MCP connection
 - **Obtaining CloudId for Atlassian Tools:**
-  - **Method 1 (Recommended)**: Use `mcp_Atlassian-MCP-Server_getAccessibleAtlassianResources`
+  - **Method 1 (Recommended)**: Use `mcp_atlassian_getAccessibleAtlassianResources`
     - Returns list of accessible resources with `cloudId` values
     - Use the first result or match by site name
     - Only call if cloudId is not already known or has expired
@@ -309,16 +309,16 @@ Before proceeding, verify:
     - Jira URL format: `https://{site}.atlassian.net/...`
     - CloudId can be extracted from the URL or obtained via API
   - **Error Handling**: If cloudId cannot be determined, STOP and report: "Unable to determine Atlassian cloudId. Please verify MCP configuration."
-- `mcp_Atlassian-MCP-Server_getJiraIssue` - Fetch story details by {TASK_KEY}
+- `mcp_atlassian_getJiraIssue` - Fetch story details by {TASK_KEY}
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
   - Extract: title, description, acceptance criteria, labels, priority, status
-- `mcp_Atlassian-MCP-Server_getJiraIssueRemoteIssueLinks` - Get related issues/links
+- `mcp_atlassian_getJiraIssueRemoteIssueLinks` - Get related issues/links
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}
-- `mcp_Atlassian-MCP-Server_addCommentToJiraIssue` - Post plan summary comment to issue
+- `mcp_atlassian_addCommentToJiraIssue` - Post plan summary comment to issue
   - Parameters: `cloudId`, `issueIdOrKey` = {TASK_KEY}, `commentBody` = markdown summary
 
 ### MCP Tools (GitHub)
-- `mcp_github_get_me` - Verify GitHub MCP connection
+- A lightweight read-only GitHub MCP tool to verify connection (see Cursor Settings → Tools & MCP for exact names)
 - `mcp_github_issue_read` - Fetch GitHub issue details
   - Parameters: `owner`, `repo`, `issue_number` = {TASK_KEY} (if numeric)
   - Extract: title, body, labels, state

@@ -1,0 +1,8 @@
+{
+  "name": "atlassianUserInfo",
+  "description": "Get current Atlassian user info (verify connection).",
+  "inputSchema": {
+    "type": "object",
+    "properties": {}
+  }
+}

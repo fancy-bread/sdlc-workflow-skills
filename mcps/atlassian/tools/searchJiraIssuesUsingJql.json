@@ -1,0 +1,12 @@
+{
+  "name": "searchJiraIssuesUsingJql",
+  "description": "Search Jira issues using JQL.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "cloudId": { "type": "string" },
+      "jql": { "type": "string" }
+    },
+    "required": ["cloudId", "jql"]
+  }
+}

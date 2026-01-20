@@ -5,6 +5,7 @@ Check the authentication status of all configured Model Context Protocol (MCP) s
 
 ## Definitions
 
+- **Spec** (this command): `specs/mcp-status/spec.md` — Blueprint and Contract.
 - **MCP server**: A configured Model Context Protocol server in Cursor (e.g. atlassian, github, asdlc, ado).
 - **List of record**: The `mcps/` directory and `python schemas/validate_mcps.py --list`; defines which servers and `mcp_<Server>_<Tool>` refs this project supports.
 

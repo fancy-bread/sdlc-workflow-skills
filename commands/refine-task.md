@@ -5,6 +5,7 @@ Refine a task to meet Definition of Ready (DoR) by ensuring clarity, completenes
 
 ## Definitions
 
+- **Spec** (this command): `specs/refine-task/spec.md` — Blueprint and Contract.
 - **{TASK_KEY}**: Task/Story ID from issue tracker (e.g., `FB-15`, `PROJ-123`)
 - **Definition of Ready (DoR)**: Criteria that a task must meet before it's ready for work:
   - Clear, unambiguous description

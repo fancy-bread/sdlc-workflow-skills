@@ -5,6 +5,7 @@ Decompose a large task (epic or large story) into well-defined, actionable subta
 
 ## Definitions
 
+- **Spec** (this command): `specs/decompose-task/spec.md` — Blueprint and Contract.
 - **{TASK_KEY}**: Task/Issue ID from the issue tracker (e.g., `FB-6`, `PROJ-123`, `KAN-42`)
 - **{FEATURE_DOMAIN}**: Kebab-case feature name inherited from parent task (e.g., `user-authentication`, `payment-processing`). Used to link child PBIs to the same Spec as parent.
 - **Task Decomposition**: The process of breaking down a large task into smaller, more manageable subtasks

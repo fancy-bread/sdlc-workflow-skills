@@ -128,11 +128,10 @@ directory_map:
 
   # User-Facing Documentation
   docs:
-    commands: "User-facing command documentation (mirrors commands/)"
+    commands: "User-facing command documentation; index has canonical source (commands/), format; install in getting-started"
     mcp-setup.md: "MCP server configuration"
-    command-files.md: "Command install and canonical source"
     roles: "Role-based command guides (PM, Engineer, QA)"
-    getting-started.md: "Setup instructions for new users"
+    getting-started.md: "Setup and command install (Step 2); troubleshooting"
     index.md: "Documentation home page with hero section"
 
   # CI/CD and Automation

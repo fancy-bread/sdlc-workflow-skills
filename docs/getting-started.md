@@ -69,7 +69,7 @@ First time you use Jira commands, Cursor will prompt OAuth authorization.
 
 ## Step 2: Install Commands
 
-Download the latest release and install command files to Cursor.
+Command files live in **`commands/`** (in the repo or in the release archive). Download the latest release and copy them into Cursor's commands directory.
 
 [**View installation instructions →**](releases.md#installation)
 
@@ -77,7 +77,7 @@ Download the latest release and install command files to Cursor.
 
 1. Download the latest release from the [Releases page](releases.md)
 2. Extract the archive
-3. Copy `commands/*` to `~/.cursor/commands/` (global) or `.cursor/commands/` (per-project)
+3. Copy `commands/*` to `~/.cursor/commands/` (global) or `.cursor/commands/` (per-project). **Cursor Team/Enterprise:** [Dashboard → Team Content → Commands](https://cursor.com/dashboard?tab=team-content&section=commands) — create team commands from `commands/`; they sync to your team.
 4. Restart Cursor
 
 ---
@@ -168,4 +168,16 @@ AI will:
 - Check error message (AI explains the issue)
 - Verify story/repo exists and you have permissions
 - Ensure you're in a git repository
+
+**Integration error:**
+
+- Verify credentials and permissions in MCP settings.
+
+**Plan not found:**
+
+- Run `/create-plan` before `/start-task`.
+
+**Story missing detail:**
+
+- Commands will ask for clarification when information is insufficient.
 

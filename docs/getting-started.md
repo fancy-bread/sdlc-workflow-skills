@@ -140,6 +140,8 @@ AI will:
 - PRs link to stories
 - Commits include story IDs
 
+[See the product flow diagram →](index.md#how-it-works)
+
 ---
 
 ## Next Steps

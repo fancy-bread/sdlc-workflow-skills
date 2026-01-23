@@ -102,26 +102,7 @@ agentic-software-development/
 
 ## By Role
 
-**Product Manager:**
-```bash
-/create-task --type=story for [feature]
-/create-task --type=epic from [plan.md]
-/decompose-task TASK-123
-/refine-task TASK-123
-```
-
-**Engineer (Daily):**
-```bash
-/refine-task TASK-123  # During backlog refinement
-/create-plan for TASK-123
-/start-task TASK-123
-/complete-task TASK-123
-```
-
-**QA:**
-```bash
-/create-test --type=unit for ClassName
-```
+Commands organized by who uses them: [View by Role →](by-role.md)
 
 ---
 

@@ -68,15 +68,8 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ## How Commands Work
 
-Commands are markdown files that tell AI agents what to achieve. The AI reads your:
-
-- Project structure and code
-- Issue tracker (Jira/ADO)
-- Implementation plans
-- Team conventions
-
-Then executes contextually - same command, different projects, intelligent adaptation.
+Commands are markdown files that tell AI agents what to achieve. The AI reads your project structure, issue tracker, implementation plans, and team conventions, then executes contextually - same command, different projects, intelligent adaptation.
 
 Each command aligns with specific [ASDLC](https://asdlc.io) patterns and pillars (Factory Architecture, Standardized Parts, Quality Control); see individual command pages for details.
 
-[Learn more about the methodology →](../getting-started.md#how-it-works)
+[See the full product flow →](../index.md#how-it-works)

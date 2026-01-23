@@ -56,19 +56,19 @@ cp -r commands/* ~/.cursor/commands/
 /complete-task PROJ-123
 ```
 
-[Full setup guide →](https://fancybread-com.github.io/agentic-software-development/getting-started/)
+[Full setup guide →](https://fancybread-com.github.io/agentic-software-development/getting-started/) | [Try a Development Workflow →](https://fancybread-com.github.io/agentic-software-development/getting-started/#try-a-development-workflow)
 
 ---
 
 ## Available Commands
 
-**9 essential commands:**
+9 essential commands for AI-assisted development:
 
-- **Product (2):** Create tasks and decompose large tasks
-- **Planning (2):** Refine tasks and create technical implementation plans
-- **Development (2):** Build and ship features
-- **Quality (2):** Write tests and review code
-- **Utilities (1):** Check MCP status
+- **Product (2):** `/create-task`, `/decompose-task`
+- **Planning (2):** `/refine-task`, `/create-plan`
+- **Development (2):** `/start-task`, `/complete-task`
+- **Quality (2):** `/create-test`, `/review-code`
+- **Utilities (1):** `/mcp-status`
 
 [View all commands →](https://fancybread-com.github.io/agentic-software-development/commands/)
 
@@ -76,16 +76,9 @@ cp -r commands/* ~/.cursor/commands/
 
 ## How It Works
 
-```
-You → /command → Cursor AI → MCP → Services (Jira, GitHub)
-```
+Commands connect you to AI agents that interact with Jira, GitHub, and your codebase. The AI reads your project context and executes operations consistently across projects.
 
-1. You invoke a command (e.g., `/start-task PROJ-123`)
-2. Cursor AI reads the command instruction
-3. AI uses MCP to interact with Jira, GitHub, filesystem
-4. AI executes contextually based on your project
-
-**Result:** Consistent operations across projects and tech stacks.
+[Full explanation →](https://fancybread-com.github.io/agentic-software-development/#how-it-works)
 
 ---
 

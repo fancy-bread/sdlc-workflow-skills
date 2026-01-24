@@ -76,9 +76,11 @@ Before proceeding, verify:
    - **Get code diff:**
      - Use `run_terminal_cmd`: `git diff main...HEAD` to get all changes in PR
      - Include file paths, additions, deletions
-   - **Invoke Critic Agent in fresh context:**
-     - Create new conversation/context (Critic Agent must have no bias from implementation)
-     - Prompt structure:
+   - **Invoke Critic Agent using Cursor's built-in review:**
+     - **Use Cursor's native review capabilities** (no external API keys required)
+     - The agent executing `/complete-task` acts as the Critic Agent, using Cursor's built-in review features
+     - **No external dependencies:** All review happens within Cursor IDE using native capabilities
+     - Prompt structure for the review:
        ```
        You are a Critic Agent performing Constitutional Review.
 
@@ -344,7 +346,7 @@ Execute the complete-task workflow to finalize development work on a specified t
 - **Specs** may exist at `specs/{FEATURE_DOMAIN}/spec.md` with permanent feature contracts
 - **Plans** may exist at `.plans/{TASK_KEY}-*.plan.md` with transient implementation details
 - **AGENTS.md** defines 3-tier Operational Boundaries (Constitution)
-- **Constitutional Review** validates code against Constitution before PR creation
+- **Constitutional Review** validates code against Constitution before PR creation using Cursor's built-in review capabilities (no external API keys required)
 - Implements ASDLC Review Gate between Quality Gates and Acceptance Gates
 - Development work has been completed on a branch following the `{type}/{TASK_KEY}` format
 - MCP integrations provide access to issue trackers and version control
@@ -467,6 +469,7 @@ Ready for review.
    - If spec exists but wasn't updated: WARN user and recommend including spec update
    - Spec and code changes must be committed together
 2. **Constitutional Review Gate**: Before PR creation, validate code against AGENTS.md:
+   - Use Cursor's built-in review capabilities (no external API keys required)
    - Run Critic Agent validation against 3-tier Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
    - BLOCK PR creation on Tier 3 (NEVER) violations - display violations and STOP
    - WARN on Tier 2 (ASK) and Tier 1 (ALWAYS) violations but allow PR creation

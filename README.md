@@ -88,7 +88,6 @@ Commands connect you to AI agents that interact with Jira, GitHub, and your code
 
 - [Getting Started](https://fancybread-com.github.io/agentic-software-development/getting-started/) - 3-step setup
 - [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 9 commands
-- [ASDLC Alignment](https://fancybread-com.github.io/agentic-software-development/asdlc-alignment/) - Commands → Patterns mapping
 - [Role Guides](https://fancybread-com.github.io/agentic-software-development/roles/) - Product Manager, Engineer, QA
 - [Methodology](https://fancybread-com.github.io/agentic-software-development/getting-started/#how-it-works) - Core principles
 

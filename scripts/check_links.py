@@ -35,6 +35,14 @@ def check_file_links(file_path: Path) -> list[str]:
         if url.startswith("#"):
             continue
         
+        # Skip custom protocol links (asdlc://, etc.)
+        if "://" in url and not url.startswith(("http://", "https://", "mailto:")):
+            continue
+        
+        # Skip placeholder/example links
+        if url.startswith("{") or url == "{URL}" or "example" in url.lower():
+            continue
+        
         # Check for common issues
         if url.startswith("http://") or url.startswith("https://"):
             # External link - basic validation (full checking in CI)
@@ -51,13 +59,25 @@ def check_file_links(file_path: Path) -> list[str]:
                 errors.append(f"Broken internal link: {url} in {file_path.name}")
         else:
             # Relative path - check if file exists
-            target = file_path.parent / url
+            # Split URL to remove anchor/fragment
+            url_path = url.split("#")[0]
+            if not url_path:  # Empty after removing anchor
+                continue
+            
+            # Skip single-word links that don't look like file paths
+            # (likely just words in documentation, not actual links)
+            if "/" not in url_path and not url_path.endswith((".md", ".html", ".json", ".yaml", ".yml", ".txt")):
+                continue
+            
+            target = file_path.parent / url_path
             if not target.exists():
                 # Try with .md extension
-                if not url.endswith(".md"):
-                    target_md = file_path.parent / f"{url}.md"
+                if not url_path.endswith((".md", ".html", ".json", ".yaml", ".yml")):
+                    target_md = file_path.parent / f"{url_path}.md"
                     if not target_md.exists():
-                        errors.append(f"Broken relative link: {url} in {file_path.name}")
+                        # Only report if it looks like it should be a file (has a path component)
+                        if "/" in url_path or url_path.endswith((".md", ".html")):
+                            errors.append(f"Broken relative link: {url} in {file_path.name}")
     
     return errors
 

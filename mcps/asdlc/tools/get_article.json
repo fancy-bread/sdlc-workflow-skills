@@ -1,0 +1,14 @@
+{
+  "name": "get_article",
+  "description": "Get the full content of a specific ASDLC pattern, concept, or practice article by slug.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "slug": {
+        "type": "string",
+        "description": "Article slug identifier (e.g., 'the-spec', 'living-specs', 'constitutional-review')"
+      }
+    },
+    "required": ["slug"]
+  }
+}

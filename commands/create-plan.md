@@ -72,6 +72,16 @@ Before proceeding, verify:
      - Does it follow user story format or have clear requirements?
      - **If critical information is missing, STOP and ask specific questions to fill gaps.**
      - **Reference**: See `create-task.md` for detailed validation criteria
+   - **Extract keywords for ASDLC pattern queries:**
+     - Parse story title and description for domain terms (nouns, technical terms)
+     - Identify keywords: authentication, security, testing, review, spec, plan, etc.
+     - Map keywords to ASDLC pattern search terms:
+       - "authentication", "security" → search for "security", "specs", "contracts"
+       - "spec", "plan" → search for "the-spec", "the-pbi", "living-specs"
+       - "review", "code review" → search for "adversarial-code-review", "constitutional-review"
+       - "test", "testing" → search for "behavior-driven-development", "gherkin"
+     - Use story labels if available (e.g., "asdlc-alignment" → search for ASDLC patterns)
+     - Store keywords for use in Step 2.5
 
 2. **Analyze codebase**
    - **Use codebase_search to find similar implementations:**
@@ -97,6 +107,23 @@ Before proceeding, verify:
      - Note test utilities and helpers
      - Identify test coverage expectations
    - **If codebase analysis reveals blockers or unclear patterns, note them in the plan for discussion.**
+
+2.5. **Query ASDLC knowledge base for relevant patterns**
+   - **Extract keywords from story:**
+     - Use keywords extracted in Step 1 (domain terms mapped to ASDLC pattern categories)
+     - Combine keywords into search query (space-separated or single term)
+   - **Query ASDLC MCP:**
+     - Use `mcp_asdlc_search_knowledge_base` with extracted keywords
+     - Example: For story about "authentication", query: `mcp_asdlc_search_knowledge_base("authentication security specs")`
+     - **If search fails, log warning and continue** (ASDLC queries are optional; don't block plan creation)
+   - **Filter and rank results:**
+     - Select 3-5 most relevant patterns based on keyword matches in title/description
+     - Prefer patterns that match multiple keywords
+     - Include both "Concepts" and "Patterns" from ASDLC knowledge base
+     - Store pattern results: slugs, titles, descriptions
+   - **Optional: Fetch detailed content:**
+     - Use `mcp_asdlc_get_article` for top 1-2 patterns if detailed summaries needed
+     - Only if full article content is required for plan generation
 
 3. **Design implementation**
    - **For Specs**: Design Blueprint + Contract structure
@@ -277,6 +304,17 @@ Before proceeding, verify:
      - [External libraries]
      - [Internal dependencies]
 
+     ## Referenced ASDLC Patterns
+
+     [If ASDLC patterns were discovered during analysis (Step 2.5), include them here]
+
+     The following ASDLC patterns are relevant to this implementation:
+
+     - **[{Pattern Title}](https://asdlc.io/patterns/{slug}/)** - {Brief description from search results}
+     - **[{Pattern Title}](https://asdlc.io/practices/{slug}/)** - {Brief description}
+
+     [If no patterns found or ASDLC MCP unavailable, omit this section or note: "No ASDLC patterns identified for this task."]
+
      ## Status
      - [ ] Story analyzed
      - [ ] Codebase reviewed
@@ -325,6 +363,17 @@ Before proceeding, verify:
   - Extract: title, body, labels, state
 - `mcp_github_add_issue_comment` - Post plan summary comment to GitHub issue
   - Parameters: `owner`, `repo`, `issue_number` = {TASK_KEY}, `body` = markdown summary
+
+### MCP Tools (ASDLC)
+- `mcp_asdlc_search_knowledge_base` - Search ASDLC knowledge base for patterns
+  - Parameters: `query` = keywords extracted from story (string, space-separated or single term)
+  - Returns: Array of matching articles with slug, title, description
+  - Error handling: If search fails, log warning and continue without patterns (optional feature; don't block plan creation)
+  - Usage: Called in Step 2.5 to discover relevant ASDLC patterns based on task domain
+- `mcp_asdlc_get_article` - Get full article content for a pattern
+  - Parameters: `slug` = pattern identifier from search results (string)
+  - Returns: Full markdown content of pattern article
+  - Usage: Optional, only for top 1-2 patterns if detailed content needed for plan generation
 
 ### Filesystem Tools
 - `glob_file_search` - Check if plan file already exists

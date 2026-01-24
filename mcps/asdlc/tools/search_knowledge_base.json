@@ -1,0 +1,14 @@
+{
+  "name": "search_knowledge_base",
+  "description": "Search the ASDLC knowledge base for patterns, concepts, and practices.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Search query string (keywords, space-separated or single term)"
+      }
+    },
+    "required": ["query"]
+  }
+}

@@ -26,6 +26,7 @@ Before proceeding, verify:
    - Use `codebase_search` or `grep` to locate the component
    - Use `read_file` to verify the file is readable
    - **If component cannot be found, STOP and report error: "Component {component} not found in codebase."**
+   - **File Operation Standards**: File operations should follow best practices. These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **Codebase Structure is Understandable**: Verify codebase structure is readable and navigable
    - Use `list_dir` to explore directory structure
@@ -469,17 +470,22 @@ Output:
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Prefer Spec Scenarios Over Code Analysis**: If spec exists at `specs/{FEATURE_DOMAIN}/spec.md`, generate tests from Contract scenarios first. Fall back to code analysis only if no spec or no scenarios.
-2. **BDD Structure for Spec-Driven Tests**: When generating from spec scenarios, use BDD structure with describe block "Spec Contract Validation", link to spec in comments, and map Given/When/Then to Arrange/Act/Assert.
-3. **Component Must Exist**: Do not proceed if component cannot be found. STOP and report error.
-4. **Test Framework Must Be Identifiable**: If framework cannot be determined, STOP and ask user.
-5. **Tests Must Pass**: All generated tests must pass. Fix any failures before completing.
-6. **Follow Existing Patterns**: Match existing test file structure, naming, and organization.
-7. **Test Independence**: Each test must be independent and runnable in isolation.
-8. **Test Determinism**: Tests must produce consistent results (no randomness, time-dependent behavior).
-9. **Comprehensive Coverage**: Include all scenarios from spec (if exists), or happy path + edge cases + error cases (if code-driven).
-10. **Descriptive Test Names**: Test names should clearly describe what is being tested. Use scenario names from spec when available.
-11. **Appropriate Mocking**: Mock external dependencies appropriately for backend vs frontend.
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **File Operations**: Follow best practices for file operations and code analysis
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in test files
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Prefer Spec Scenarios Over Code Analysis**: If spec exists at `specs/{FEATURE_DOMAIN}/spec.md`, generate tests from Contract scenarios first. Fall back to code analysis only if no spec or no scenarios.
+3. **BDD Structure for Spec-Driven Tests**: When generating from spec scenarios, use BDD structure with describe block "Spec Contract Validation", link to spec in comments, and map Given/When/Then to Arrange/Act/Assert.
+4. **Component Must Exist**: Do not proceed if component cannot be found. STOP and report error.
+5. **Test Framework Must Be Identifiable**: If framework cannot be determined, STOP and ask user.
+6. **Tests Must Pass**: All generated tests must pass. Fix any failures before completing.
+7. **Follow Existing Patterns**: Match existing test file structure, naming, and organization.
+8. **Test Independence**: Each test must be independent and runnable in isolation.
+9. **Test Determinism**: Tests must produce consistent results (no randomness, time-dependent behavior).
+10. **Comprehensive Coverage**: Include all scenarios from spec (if exists), or happy path + edge cases + error cases (if code-driven).
+11. **Descriptive Test Names**: Test names should clearly describe what is being tested. Use scenario names from spec when available.
+12. **Appropriate Mocking**: Mock external dependencies appropriately for backend vs frontend.
 
 **Existing Standards (Reference):**
 - Spec guidance: See `specs/README.md` for Contract structure and Gherkin scenarios

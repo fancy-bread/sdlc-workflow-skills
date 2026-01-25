@@ -28,6 +28,7 @@ Before proceeding, verify:
    - Test each configured MCP server connection (Atlassian, GitHub, etc.)
    - Verify all required integrations are authorized and operational
    - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **Story Exists**: Verify the story exists in the issue tracker
    - Use MCP tools to fetch story by `{TASK_KEY}`
@@ -631,27 +632,32 @@ Ready for implementation.
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Prerequisites Must Pass**: Do not proceed if MCP validation fails or story doesn't exist. STOP and report the issue.
-2. **Story Validation**: Story must have sufficient detail (description, 3+ acceptance criteria). If missing, STOP and ask for clarification.
-3. **Document Type Decision**: Determine if Spec, Plan, or both are needed. If unclear, ask user.
-4. **Spec File Naming**: Use format `specs/{FEATURE_DOMAIN}/spec.md` where {FEATURE_DOMAIN} is kebab-case
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in documents
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Prerequisites Must Pass**: Do not proceed if MCP validation fails or story doesn't exist. STOP and report the issue.
+3. **Story Validation**: Story must have sufficient detail (description, 3+ acceptance criteria). If missing, STOP and ask for clarification.
+4. **Document Type Decision**: Determine if Spec, Plan, or both are needed. If unclear, ask user.
+5. **Spec File Naming**: Use format `specs/{FEATURE_DOMAIN}/spec.md` where {FEATURE_DOMAIN} is kebab-case
    - Feature domains are conceptual groupings (e.g., `user-authentication`, `payment-processing`)
    - Ask user for feature domain name if unclear
-5. **Plan File Naming**: Use format `.plans/{TASK_KEY}-{kebab-case-description}.plan.md`
+6. **Plan File Naming**: Use format `.plans/{TASK_KEY}-{kebab-case-description}.plan.md`
    - Example: `PROJ-123-user-authentication.plan.md`
-6. **Required Sections**:
+7. **Required Sections**:
    - Spec must include: Feature header, Blueprint (Context, Architecture, Anti-Patterns), Contract (DoD, Guardrails, Scenarios)
    - Plan must include: Story, Context, Scope, Acceptance Criteria, Technical Design, Implementation Steps, Testing, Dependencies, Status
-7. **Codebase Analysis**: Must search for similar implementations before designing. Don't reinvent patterns that already exist.
-8. **Spec vs Plan Content**:
+8. **Codebase Analysis**: Must search for similar implementations before designing. Don't reinvent patterns that already exist.
+9. **Spec vs Plan Content**:
    - Spec = State (how feature works permanently)
    - Plan = Delta (what changes for this task)
    - Don't duplicate content between them
-9. **Same-Commit Rule**: When updating existing spec, remind user to commit spec changes with code changes
-10. **File Identification**: Must specify exact file paths. Use relative paths from project root.
-11. **Test Strategy**: Must include unit tests, integration tests, test data. Follow existing patterns.
-12. **Error Handling**: If analysis reveals blockers or missing information, STOP and ask specific questions.
-13. **Document Summary**: Post summary to issue tracker after creation. If posting fails, note it but don't fail the command.
+10. **Same-Commit Rule**: When updating existing spec, remind user to commit spec changes with code changes
+11. **File Identification**: Must specify exact file paths. Use relative paths from project root.
+12. **Test Strategy**: Must include unit tests, integration tests, test data. Follow existing patterns.
+13. **Error Handling**: If analysis reveals blockers or missing information, STOP and ask specific questions.
+14. **Document Summary**: Post summary to issue tracker after creation. If posting fails, note it but don't fail the command.
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks

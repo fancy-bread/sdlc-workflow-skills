@@ -16,6 +16,7 @@ Begin development on a task with proper setup and pre-flight checks.
 Before proceeding, verify (see Steps 1–2 for how):
 
 1. **MCP Status Validation**: All required MCP servers connected and authorized. If any fail, STOP.
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 2. **Spec or Plan exists**: At least one of `specs/{FEATURE_DOMAIN}/spec.md` or `.plans/{TASK_KEY}-*.plan.md`. If neither, STOP and suggest `/create-plan {TASK_KEY}`.
 3. **Story in In Progress** (or can be transitioned) and **assigned to current user**.
 
@@ -229,12 +230,17 @@ Note: The branch name in the comment must match the actual branch name created (
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Read Spec First** (if exists): Check for feature spec in `specs/` and read Blueprint + Contract before implementation
-2. **Respect Anti-Patterns**: If spec exists, do NOT implement forbidden approaches listed in Anti-Patterns section
-3. **Same-Commit Rule**: If code changes API contracts, data models, or quality targets → update spec in same commit
-4. **Unit Tests Required**: All new code must have corresponding unit tests. Use Contract scenarios from spec (if exists) for test cases.
-5. **No Automatic Commits**: Do NOT commit changes automatically. Leave changes uncommitted for developer review and testing. Committing is handled by `/complete-task`.
-6. **Branch Naming**: Use short format: `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data. Never commit changes automatically without user review.
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Read Spec First** (if exists): Check for feature spec in `specs/` and read Blueprint + Contract before implementation
+3. **Respect Anti-Patterns**: If spec exists, do NOT implement forbidden approaches listed in Anti-Patterns section
+4. **Same-Commit Rule**: If code changes API contracts, data models, or quality targets → update spec in same commit
+5. **Unit Tests Required**: All new code must have corresponding unit tests. Use Contract scenarios from spec (if exists) for test cases.
+6. **No Automatic Commits**: Do NOT commit changes automatically. Leave changes uncommitted for developer review and testing. Committing is handled by `/complete-task`.
+7. **Branch Naming**: Use short format: `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
    - Determine type prefix from task type:
      - Story → `feat/`
      - Bug → `fix/`
@@ -243,15 +249,15 @@ Note: The branch name in the comment must match the actual branch name created (
      - Default to `feat/` if task type is unclear
    - Example: Story FB-6 → `feat/FB-6` (short format, not descriptive format)
    - **Important**: Be consistent - use short format for all branches
-7. **Pre-flight Validation**: Do not proceed if:
+8. **Pre-flight Validation**: Do not proceed if:
    - **MCP status validation fails** (see `mcp-status.md` for validation steps - if any MCP server is not connected or authorized, STOP immediately)
    - Neither spec nor plan exists (STOP and suggest running `/create-plan {TASK_KEY}` first)
    - Story is not in "In Progress" status
    - Story is not assigned to current user
-8. **Code Quality**:
+9. **Code Quality**:
    - Follow existing code patterns and conventions
    - Maintain or improve test coverage
-9. **Documentation**: Update relevant documentation when adding features or changing behavior
+10. **Documentation**: Update relevant documentation when adding features or changing behavior
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks

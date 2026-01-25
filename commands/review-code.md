@@ -57,6 +57,7 @@ Before proceeding, verify:
 1. **MCP Status Validation**: GitHub MCP connection required (see `mcp-status.md` for detailed steps)
    - Use GitHub MCP tools to verify connection
    - **If GitHub MCP connection fails, STOP and report: "GitHub MCP connection failed. Please verify MCP configuration (see mcp-status.md)."**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **PR/Branch Existence**: Verify {PR_KEY} or {BRANCH_NAME} is valid and accessible
    - **For PR ({PR_KEY}):**
@@ -115,22 +116,30 @@ Before proceeding, verify:
        - Note: "No Spec available for {FEATURE_DOMAIN} - will validate against Constitution only"
        - Proceed with Constitution-only validation
 
-3. **Read Constitution**
-   - Use `read_file` to read `AGENTS.md`
-   - Extract **Operational Boundaries** section:
-     - **Tier 1 (ALWAYS)**: Non-negotiable standards
-     - **Tier 2 (ASK)**: High-risk operations requiring human approval
-     - **Tier 3 (NEVER)**: Safety limits
-   - Extract **Command Structure Standards** (if reviewing command file changes)
-   - Store for Critic Agent context
+3. **Read Constitution (if available)**
+   - **Check if AGENTS.md exists:**
+     - Use `glob_file_search` or `read_file` to check for `AGENTS.md` in repo root
+     - If AGENTS.md exists:
+       - Use `read_file` to read `AGENTS.md`
+       - Extract **Operational Boundaries** section:
+         - **Tier 1 (ALWAYS)**: Non-negotiable standards
+         - **Tier 2 (ASK)**: High-risk operations requiring human approval
+         - **Tier 3 (NEVER)**: Safety limits
+       - Extract **Command Structure Standards** (if reviewing command file changes)
+       - Store for Critic Agent context
+     - If AGENTS.md does NOT exist:
+       - Log: "⚠️ AGENTS.md not found - Constitutional validation skipped"
+       - Store status: "Constitutional Review: SKIPPED (AGENTS.md not found)"
+       - Proceed with Spec-only validation (if Spec exists) or minimal validation
 
 ### [CRITIC AGENT CONTEXT - FRESH SESSION]
 
 4. **Invoke Critic Agent for Adversarial Review**
    - **Package context for Critic:**
      - Spec Blueprint + Contract (if exists)
-     - AGENTS.md Operational Boundaries (Tier 1, Tier 2, Tier 3)
+     - AGENTS.md Operational Boundaries (Tier 1, Tier 2, Tier 3) - if AGENTS.md exists
      - Code diff from Step 1
+     - Note: If AGENTS.md missing but Spec exists, validate against Spec only. If both missing, perform minimal validation.
      - Changed files list
    - **Create fresh context session:**
      - **CRITICAL**: Critic Agent must have no bias from implementation
@@ -258,14 +267,15 @@ Before proceeding, verify:
    - **Gate Decision Logic:**
      - **FAIL** if:
        - Spec CRITICAL violations found (functional contract broken) OR
-       - Constitutional Tier 3 (NEVER) violations found (safety limits violated)
+       - Constitutional Tier 3 (NEVER) violations found (safety limits violated) - only if AGENTS.md exists
      - **WARNING** if:
        - Spec WARNING violations found (functional concerns) OR
-       - Constitutional Tier 2 (ASK) violations found (human approval required)
+       - Constitutional Tier 2 (ASK) violations found (human approval required) - only if AGENTS.md exists
      - **PASS** if:
        - Only Spec INFO violations OR
        - Only Constitutional Tier 1 (ALWAYS) violations OR
        - No violations found
+       - Note: If AGENTS.md doesn't exist, validate against Spec only (if exists) or perform minimal validation
    - **Validation of Critic output:**
      - If Critic output is unparseable or malformed:
        - WARN user about parsing failure
@@ -539,19 +549,24 @@ All formats result in pullNumber=12 for API calls
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Fresh Context Requirement**: Critic Agent MUST use separate context session with no implementation bias. Builder Agent packages context, Critic Agent validates.
-2. **Dual-Contract Validation**: Validate against BOTH Spec (if exists) and AGENTS.md Constitution. Never validate against only one when both are available.
-3. **Gate Decision Logic**:
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in review reports
+   - **AGENTS.md Optional**: If AGENTS.md exists, Constitutional validation is performed. If missing, validate against Spec only or perform minimal validation.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Fresh Context Requirement**: Critic Agent MUST use separate context session with no implementation bias. Builder Agent packages context, Critic Agent validates.
+3. **Dual-Contract Validation**: Validate against BOTH Spec (if exists) and AGENTS.md Constitution. Never validate against only one when both are available.
+4. **Gate Decision Logic**:
    - FAIL on Spec CRITICAL violations OR Constitutional Tier 3 violations
    - WARNING on Spec WARNING violations OR Constitutional Tier 2 violations
    - PASS on Spec INFO violations OR Constitutional Tier 1 violations OR no violations
-4. **Structured Violation Reports**: Every violation MUST include: Description, Impact, Remediation, Location, Reference.
-5. **Backward Compatibility**: Works without Spec (Constitution-only validation). Never fail if Spec doesn't exist.
-6. **MCP Validation**: GitHub MCP connection is required. If validation fails, STOP and report the failure (see `mcp-status.md`).
-7. **{PR_KEY} Normalization**: Always normalize {PR_KEY} to numeric ID (extract from PR-12, #12, or 12 format) before making API calls.
-8. **Reasoning Model Preference**: Use reasoning-optimized model (o1, o3-mini) for Critic Agent if available. These models excel at adversarial validation.
-9. **No Implementation Bias**: Critic Agent must NOT have access to implementation history, discussions, or rationale. Only contracts and code.
-10. **Actionable Remediation**: Every violation must include specific, ordered steps to fix. No vague suggestions like "improve code quality."
+5. **Structured Violation Reports**: Every violation MUST include: Description, Impact, Remediation, Location, Reference.
+6. **Backward Compatibility**: Works without Spec (Constitution-only validation). Never fail if Spec doesn't exist.
+7. **MCP Validation**: GitHub MCP connection is required. If validation fails, STOP and report the failure (see `mcp-status.md`).
+8. **{PR_KEY} Normalization**: Always normalize {PR_KEY} to numeric ID (extract from PR-12, #12, or 12 format) before making API calls.
+9. **Reasoning Model Preference**: Use reasoning-optimized model (o1, o3-mini) for Critic Agent if available. These models excel at adversarial validation.
+10. **No Implementation Bias**: Critic Agent must NOT have access to implementation history, discussions, or rationale. Only contracts and code.
+11. **Actionable Remediation**: Every violation must include specific, ordered steps to fix. No vague suggestions like "improve code quality."
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks

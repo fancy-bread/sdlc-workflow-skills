@@ -35,6 +35,7 @@ Before proceeding, verify:
    - Test each configured MCP server connection (Atlassian, GitHub, etc.)
    - Verify all required integrations are authorized and operational
    - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
    - Required MCP servers:
      - **Atlassian MCP**: Required for Jira task creation
      - **GitHub MCP**: Required for GitHub Issues task creation
@@ -497,6 +498,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
      - Document reproduction steps (for bugs)
      - Add relevant labels and tags (include `feature:{domain}` label)
    - **Create task in tracker:**
+     - **AGENTS.md Tier 1 (ALWAYS)**: Follow MCP tool usage standards - check schema files before invoking tools, validate required parameters, handle errors gracefully. See AGENTS.md §3 Operational Boundaries.
      - Use `mcp_atlassian_createJiraIssue` for Jira
        - Parameters: `cloudId`, `projectKey`, `issueTypeName`, `summary`, `description`, and other fields
      - Use `mcp_github_create_issue` for GitHub
@@ -819,26 +821,31 @@ Note: Assumed scope includes only authentication service, not related services.
 ### Constraints
 
 **Rules (Must Follow):**
-1. **MCP Validation Required**: Do not proceed if MCP server validation fails. See `mcp-status.md` for validation steps.
-2. **Tracker Access Verification**: Verify user has permission to create issues before proceeding.
-3. **Validation Before Creation**: Always validate task information using intelligent analysis before creating tasks. Do NOT create tasks with insufficient information (0-2 elements).
-4. **Type-Specific Validation**: Apply type-specific validation patterns (see "Intelligent Information Validation" section below).
-5. **Information Density Scoring**: Use scoring logic (0-2: INSUFFICIENT, 3-4: MARGINAL, 5+: SUFFICIENT) to determine if task should be created.
-6. **STOP on Insufficient Information**: If information is insufficient (0-2 elements), STOP and ask 3-5 type-specific questions. Do NOT proceed with creation.
-7. **Parent Task Verification**: If linking to parent task, verify parent exists before creating child task.
-8. **Plan File Verification**: If creating epic from file, verify plan file exists and is readable.
-9. **Task Type Validation**: Validate task type against supported types for the tracker.
-10. **Leave Unassigned**: Created tasks should be left unassigned in "To Do" status (not assigned to current user).
-11. **PBI Structure Required** (Stories and Epics): Generate issue descriptions with ASDLC PBI 4-part anatomy:
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in task descriptions
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **MCP Validation Required**: Do not proceed if MCP server validation fails. See `mcp-status.md` for validation steps.
+3. **Tracker Access Verification**: Verify user has permission to create issues before proceeding.
+4. **Validation Before Creation**: Always validate task information using intelligent analysis before creating tasks. Do NOT create tasks with insufficient information (0-2 elements).
+5. **Type-Specific Validation**: Apply type-specific validation patterns (see "Intelligent Information Validation" section below).
+6. **Information Density Scoring**: Use scoring logic (0-2: INSUFFICIENT, 3-4: MARGINAL, 5+: SUFFICIENT) to determine if task should be created.
+7. **STOP on Insufficient Information**: If information is insufficient (0-2 elements), STOP and ask 3-5 type-specific questions. Do NOT proceed with creation.
+8. **Parent Task Verification**: If linking to parent task, verify parent exists before creating child task.
+9. **Plan File Verification**: If creating epic from file, verify plan file exists and is readable.
+10. **Task Type Validation**: Validate task type against supported types for the tracker.
+11. **Leave Unassigned**: Created tasks should be left unassigned in "To Do" status (not assigned to current user).
+12. **PBI Structure Required** (Stories and Epics): Generate issue descriptions with ASDLC PBI 4-part anatomy:
     - Directive (what to do, with scope boundaries)
     - Context Pointer (link to Spec Blueprint)
     - Verification Pointer (link to Spec Contract)
     - Refinement Rule (protocol for handling divergence)
-12. **Feature Domain Detection**: For Stories/Epics, determine feature domain using detection strategies (labels, parent, title parsing, or ask user).
-13. **Feature Domain Format**: Must be kebab-case (e.g., `user-authentication`, `payment-processing`).
-14. **Spec Validation**: Check if spec exists at `specs/{feature-domain}/spec.md`. Warn if missing but don't block creation.
-15. **PBI Template Usage**: Read `templates/pbi-template.md` and populate with task-specific content.
-16. **Feature Label**: Add label `feature:{domain}` to Stories/Epics for domain tracking.
+13. **Feature Domain Detection**: For Stories/Epics, determine feature domain using detection strategies (labels, parent, title parsing, or ask user).
+14. **Feature Domain Format**: Must be kebab-case (e.g., `user-authentication`, `payment-processing`).
+15. **Spec Validation**: Check if spec exists at `specs/{feature-domain}/spec.md`. Warn if missing but don't block creation.
+16. **PBI Template Usage**: Read `templates/pbi-template.md` and populate with task-specific content.
+17. **Feature Label**: Add label `feature:{domain}` to Stories/Epics for domain tracking.
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks

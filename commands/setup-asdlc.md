@@ -244,12 +244,17 @@ Result: Skips existing files, creates missing directories, reports what was adde
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Never Overwrite** - Always check for existing files/directories before creating
-2. **Optional MCP** - MCP verification must not block command execution
-3. **Intelligent Detection** - Only create schemas/ if indicators are found in AGENTS.md
-4. **Clear Feedback** - Report what was created vs skipped with clear messages
-5. **Idempotent** - Command must be safe to run multiple times
-6. **Template-Based** - Use existing AGENTS.md and specs/README.md as templates when available
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **File Operations**: Follow best practices for file operations and directory structure
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in generated files
+   - **AGENTS.md Optional**: This command creates AGENTS.md, but other commands work without it. Standards apply regardless.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Never Overwrite** - Always check for existing files/directories before creating
+3. **Optional MCP** - MCP verification must not block command execution
+4. **Intelligent Detection** - Only create schemas/ if indicators are found in AGENTS.md
+5. **Clear Feedback** - Report what was created vs skipped with clear messages
+6. **Idempotent** - Command must be safe to run multiple times
+7. **Template-Based** - Use existing AGENTS.md and specs/README.md as templates when available
 
 **Existing Standards (Reference):**
 - Command structure: See AGENTS.md §6 Command Structure Standards

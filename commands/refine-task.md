@@ -28,6 +28,7 @@ Before proceeding, verify:
    - Test each configured MCP server connection (Atlassian, GitHub, etc.)
    - Verify all required integrations are authorized and operational
    - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **Task Exists**: Verify the task exists in Jira
    - Use MCP tools to fetch task by `{TASK_KEY}`
@@ -456,12 +457,17 @@ Output:
 ### Constraints
 
 **Rules (Must Follow):**
-1. **MCP Validation**: Do not proceed if MCP status validation fails. STOP and report the failure.
-2. **Task Validation**: Task must exist and be refinable (not "Done"). If not, STOP and report error.
-3. **Definition of Ready Focus**: Refinement must ensure task meets DoR criteria (clear description, acceptance criteria, dependencies identified).
-4. **Story Points Optional**: Only estimate story points if project uses them (field exists). If field doesn't exist, skip all estimation steps and focus on DoR refinement only.
-5. **Existing Points Protection**: If project uses story points and task already has story points that differ from new estimate, do NOT overwrite. Report the difference.
-6. **Conservative Refinement**: Only add missing critical details. Do NOT rewrite or restructure existing content.
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in task descriptions
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **MCP Validation**: Do not proceed if MCP status validation fails. STOP and report the failure.
+3. **Task Validation**: Task must exist and be refinable (not "Done"). If not, STOP and report error.
+4. **Definition of Ready Focus**: Refinement must ensure task meets DoR criteria (clear description, acceptance criteria, dependencies identified).
+5. **Story Points Optional**: Only estimate story points if project uses them (field exists). If field doesn't exist, skip all estimation steps and focus on DoR refinement only.
+6. **Existing Points Protection**: If project uses story points and task already has story points that differ from new estimate, do NOT overwrite. Report the difference.
+7. **Conservative Refinement**: Only add missing critical details. Do NOT rewrite or restructure existing content.
 7. **Minimum Similar Tasks** (if estimating): 2 similar tasks sufficient for analysis. If fewer found, use description/AC analysis.
 8. **Historical Range** (if estimating): Respect board type - 6 sprints for Scrum, 3 months for Kanban. Do not exceed these ranges.
 9. **Team Assignment Neutral** (if estimating): Learn patterns from any team member's work. Do not filter by assignee.

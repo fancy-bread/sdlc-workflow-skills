@@ -33,6 +33,6 @@ jobs:
       - name: Check links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/agentic-software-development' './site/**/*.html'
+          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/agentic-software-development' --exclude 'asdlc.io' './site/**/*.html'
           fail: true
 

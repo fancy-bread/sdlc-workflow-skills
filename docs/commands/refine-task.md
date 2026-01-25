@@ -4,7 +4,7 @@ title: /refine-task
 
 # /refine-task
 
-Refine a task to meet Definition of Ready (DoR) by ensuring clarity, completeness, and readiness for work. Optionally estimate story points if the project uses them. Used during backlog refinement sessions before sprint planning or work assignment.
+Refine a task to meet Definition of Ready (DoR) by ensuring clarity, completeness, and readiness for work. Focuses on producing clean, well-organized PBIs (Product Backlog Items) with clear acceptance criteria and minimal fluff. Used during backlog refinement sessions to prepare tasks for human refinement meetings.
 
 | | |
 |---|---|
@@ -18,27 +18,29 @@ Refine a task to meet Definition of Ready (DoR) by ensuring clarity, completenes
 
 Refines tasks to ensure they meet Definition of Ready criteria:
 - Clear, unambiguous description
-- Complete acceptance criteria
+- Complete acceptance criteria (testable, specific, concise)
 - Dependencies identified (if any)
-- Story points estimated (optional - only if project uses story points)
+- Well-organized, scannable structure
 
 The command uses intelligent analysis to:
-- Make common-sense estimates based on work type (documentation vs. development vs. complex features)
-- Validate estimates against historical similar tasks (past 6 sprints for Scrum, 3 months for Kanban)
-- Conservatively enhance task descriptions and acceptance criteria
-- Generate a refinement report with DoR status
+- Validate PBI structure (4-part anatomy: Directive, Context Pointer, Verification Pointer, Refinement Rule)
+- Detect feature domain and check spec existence at `specs/{feature-domain}/spec.md`
+- Enhance clarity by improving descriptions and acceptance criteria
+- Remove fluff and unnecessary content
+- Organize content for easy scanning and reading
+- Generate a refinement report with DoR status, PBI validation, and clarity improvements
 
-**Adaptive to Methodology:**
-- **Scrum**: Estimates story points using historical data from past 6 sprints
-- **Kanban**: Optionally estimates (if Story Points field exists) using past 3 months of data
-- **Without Story Points**: Focuses solely on Definition of Ready refinement
+**PBI Structure Validation:**
+- Checks for 4-part anatomy per ASDLC patterns
+- Provides guidance if structure is missing (graceful degradation)
+- Validates spec links in Context Pointer and Verification Pointer sections
 
 ---
 
 ## ASDLC
 
-- **Patterns**: [The PBI](https://asdlc.io/patterns/the-pbi/), [Context Gates](https://asdlc.io/patterns/context-gates/)
-- **Pillars**: Factory Architecture, Quality Control (DoR as gate)
+- **Patterns**: [The PBI](https://asdlc.io/patterns/the-pbi/), [The Spec](https://asdlc.io/patterns/the-spec/), [Context Gates](https://asdlc.io/patterns/context-gates/)
+- **Pillars**: Factory Architecture, Quality Control (DoR as gate), Standardized Parts (PBI structure)
 
 ---
 
@@ -67,15 +69,19 @@ You: /refine-task FB-15
 
 AI:
 ✓ MCP status validation passed
-✓ Fetching task FB-15: Create refine-task command
-✓ Project uses story points (field exists)
-✓ Detected Scrum board (sprints configured)
-✓ Querying historical tasks (past 6 sprints)...
-✓ Found 5 similar completed tasks
-✓ Making common-sense estimate: 3 points (feature development)
-✓ Validating against historical data...
-✓ Historical average: 3.2 points (rounded to 3)
-✓ Refining task description and acceptance criteria...
+✓ Fetching task FB-15: Add user authentication
+✓ Validating PBI structure...
+✓ PBI structure complete (all 4 parts present)
+✓ Detecting feature domain: user-authentication
+✓ Checking spec existence...
+✓ Spec found at specs/user-authentication/spec.md
+✓ Validating spec links...
+✓ Context Pointer and Verification Pointer link to correct spec sections
+✓ Analyzing task content for clarity...
+✓ Enhancing description clarity
+✓ Improving acceptance criteria (removed redundancy)
+✓ Removing fluff (2 redundant sentences)
+✓ Organizing content for better scanning
 ✓ Updating task in Jira...
 ✓ Generating refinement report...
 
@@ -83,22 +89,24 @@ AI:
 
 ### Definition of Ready Status
 ✅ Clear description
-✅ Acceptance criteria present and testable
+✅ Acceptance criteria present, testable, and concise
 ✅ Dependencies identified (if any)
-✅ Story points estimated
+✅ Content organized for easy scanning
 
-**Story Points Estimate: 3**
+### PBI Structure Validation
+✅ Task follows PBI 4-part anatomy (Directive, Context Pointer, Verification Pointer, Refinement Rule)
 
-### Justification
-Common Sense Estimate: Initial estimate: 3 points (based on work type: feature development)
+### Feature Domain and Spec Existence
+Feature domain: `user-authentication`
+✅ Spec found at `specs/user-authentication/spec.md`
+✅ Context Pointer and Verification Pointer link to correct spec sections
 
-Historical Validation: Found 5 similar completed tasks. Average: 3.2 points. Consensus supports 3-point estimate.
+### Clarity Improvements
+- Enhanced description clarity (removed 2 redundant sentences)
+- Improved acceptance criteria (removed redundancy, enhanced clarity)
+- Reorganized content for better scanning and readability
 
-### Refinements Made
-- Enhanced acceptance criteria with specific testing requirements
-- Added dependency note for MCP integration
-
-Task refined and ready for sprint planning.
+Task refined and ready for human refinement meeting.
 ```
 
 ---
@@ -107,23 +115,36 @@ Task refined and ready for sprint planning.
 
 ### Definition of Ready Focus
 
-Ensures tasks meet DoR criteria before sprint planning:
+Ensures tasks meet DoR criteria before work begins:
 - Clear, unambiguous descriptions
-- Complete acceptance criteria
+- Complete acceptance criteria (testable, specific, concise)
 - Dependencies identified
-- Story points estimated (if project uses them)
+- Well-organized, scannable structure
 
-### Intelligent Estimation
+### PBI Structure Validation
 
-Two-phase estimation approach:
-1. **Common-Sense Estimate**: Based on work type (documentation = 1 point, simple feature = 2-3, complex = 5+)
-2. **Historical Validation**: Compares against similar completed tasks from history
+Validates that tasks follow ASDLC PBI 4-part anatomy:
+- **Directive**: What to do, with explicit scope boundaries
+- **Context Pointer**: Reference to Spec Blueprint section
+- **Verification Pointer**: Reference to Spec Contract section
+- **Refinement Rule**: Protocol for when implementation diverges from Spec
 
-### Methodology Adaptive
+Tasks without PBI structure are still refinable (graceful degradation), but guidance is provided to add missing sections.
 
-- **Scrum**: Uses past 6 sprints (quarter) of historical data
-- **Kanban**: Uses past 3 months of historical data
-- **Without Story Points**: Skips estimation, focuses on DoR only
+### Feature Domain Detection
+
+Automatically detects feature domain from task (labels, title, description) and:
+- Checks if spec exists at `specs/{feature-domain}/spec.md`
+- Validates Context Pointer and Verification Pointer link to correct spec sections
+- Warns if spec is referenced but missing
+
+### Clarity and Organization
+
+Focuses on producing clean, scannable task descriptions:
+- Enhances description completeness (what, why, how)
+- Improves acceptance criteria quality (testable, specific, concise)
+- Removes fluff and unnecessary content
+- Organizes content for easy scanning (clear headings, bullet points, structure)
 
 ### Conservative Refinement
 
@@ -131,20 +152,21 @@ Only adds critical missing details without rewriting existing content:
 - Enhances vague descriptions minimally
 - Adds missing acceptance criteria
 - Identifies dependencies
-- Does not overwrite existing story points if different
+- Preserves existing good content
 
 ---
 
 ## When to Use
 
 Use `/refine-task` when:
-- Preparing backlog for sprint planning
+- Preparing backlog for human refinement meetings
 - Tasks need clarification or acceptance criteria
-- Story points need estimation (if project uses them)
+- Tasks need better organization and structure
 - Ensuring tasks meet Definition of Ready before work begins
 - During backlog refinement sessions
+- Tasks have verbose or disorganized content that needs cleanup
 
-**Best Practice:** Run refinement on all backlog items before sprint planning to ensure all work is properly sized and ready.
+**Best Practice:** Run refinement on all backlog items before refinement meetings to ensure all work is clear, organized, and ready for human review.
 
 ---
 

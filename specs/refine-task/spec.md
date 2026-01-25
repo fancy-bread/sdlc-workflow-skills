@@ -1,9 +1,9 @@
-# Feature: /refine-task (Refine Task to Definition of Ready, Optionally Estimate)
+# Feature: /refine-task (Refine Task to Definition of Ready)
 
 > **ASDLC Pattern**: [The Spec](https://asdlc.io/patterns/the-spec/)  
 > **Practice Guide**: [Living Specs](https://asdlc.io/practices/living-specs/)  
 > **Status**: Active  
-> **Last Updated**: 2026-01-17
+> **Last Updated**: 2026-01-25
 
 ---
 
@@ -11,15 +11,15 @@
 
 ### Context
 
-Tasks often enter the backlog under-specified. Refinement ensures Definition of Ready (DoR): clear description, complete AC, dependencies identified, and optionally story points. `/refine-task` fetches the task, enriches title/description/AC, optionally estimates using historical similar tasks (JQL, similarity scoring) when the project uses story points, and updates the issue via MCP. It does not run on already completed tasks.
+Tasks often enter the backlog under-specified or poorly organized. Refinement ensures Definition of Ready (DoR): clear description, complete AC, dependencies identified, and well-organized structure. `/refine-task` fetches the task, validates PBI structure (4-part anatomy), checks spec existence, enhances clarity and organization, removes fluff, and updates the issue via MCP. It does not run on already completed tasks. The goal is to produce clean, scannable task descriptions that are ready for human refinement meetings.
 
 ### Architecture
 
 - **Command location**: `commands/refine-task.md`. Executed as `/refine-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
-- **Inputs**: `{TASK_KEY}` (e.g. `FB-15`). DoR: clear description, AC, dependencies, optional story points. If the project has a Story Points field, historical completed tasks (Scrum: ~6 sprints; Kanban: ~3 months) are queried for similarity-based estimation.
-- **Flow**: (1) MCP validation; (2) fetch task; if status is Done/Completed, STOP; (3) determine board type (Scrum/Kanban) for historical range; (4) if project uses story points: run JQL for completed tasks with points, find similar tasks (title/description/context), suggest estimate; (5) refine title, description, AC, dependencies; (6) update issue via `mcp_atlassian_editJiraIssue` (and story points if applicable).
-- **MCP**: Atlassian (getAccessibleAtlassianResources, getJiraIssue, editJiraIssue, searchJiraIssuesUsingJql). cloudId and project-specific custom fields (e.g. Story Points) resolved at runtime.
-- **Dependencies**: Issue tracker. **Outbound**: Refined tasks are ready for `/start-task` or sprint planning.
+- **Inputs**: `{TASK_KEY}` (e.g. `FB-15`). DoR: clear description, AC, dependencies, well-organized structure. PBI structure validation (4-part anatomy: Directive, Context Pointer, Verification Pointer, Refinement Rule).
+- **Flow**: (1) MCP validation; (2) fetch task; if status is Done/Completed, STOP; (3) validate PBI structure (4-part anatomy); (4) detect feature domain and check spec existence; (5) refine title, description, AC for clarity and organization, remove fluff; (6) update issue via `mcp_atlassian_editJiraIssue`.
+- **MCP**: Atlassian (getAccessibleAtlassianResources, getJiraIssue, editJiraIssue). cloudId resolved at runtime.
+- **Dependencies**: Issue tracker, Specs at `specs/{feature-domain}/spec.md` (optional - graceful degradation if missing). **Outbound**: Refined tasks are ready for `/start-task` or human refinement meetings.
 
 ### Anti-Patterns
 
@@ -34,21 +34,28 @@ Tasks often enter the backlog under-specified. Refinement ensures Definition of 
 ### Definition of Done
 
 - [ ] MCP validated; task exists and is not in Done/Completed.
-- [ ] Title, description, AC, and dependencies refined toward DoR; issue updated via MCP.
-- [ ] If project uses story points: historical similar tasks considered and estimate suggested/applied; otherwise estimation steps skipped.
+- [ ] PBI structure validated (4-part anatomy checked, guidance provided if missing).
+- [ ] Feature domain detected and spec existence checked (warn if spec referenced but missing).
+- [ ] Title, description, AC refined for clarity and organization; fluff removed; content organized for easy scanning; issue updated via MCP.
 - [ ] `python schemas/validate_all.py` passes when commands are changed.
 
 ### Regression Guardrails
 
 - **Completed tasks are not refined** — Do not update tasks in Done/Completed.
-- **Story points conditional** — Estimation logic runs only when the project has a Story Points–like field and completed history.
+- **Backward compatibility** — Tasks without PBI structure should still be refinable (graceful degradation).
+- **Spec optional** — Commands work without specs; warn if spec referenced but missing, but don't block refinement.
 
 ### Scenarios
 
-**Scenario: Task refined and story points suggested**
-- **Given**: MCP OK, FB-15 is not Done, project has Story Points and completed tasks in the historical range
+**Scenario: Task with complete PBI structure refined**
+- **Given**: MCP OK, FB-15 is not Done, task has complete PBI 4-part anatomy, spec exists at `specs/user-authentication/spec.md`
 - **When**: The user runs `/refine-task FB-15`
-- **Then**: The command updates FB-15 with improved description and AC, and suggests or sets story points based on similar completed tasks.
+- **Then**: The command validates PBI structure, checks spec existence, enhances clarity, removes fluff, organizes content, and updates FB-15 with improved description and AC.
+
+**Scenario: Task without PBI structure refined (graceful degradation)**
+- **Given**: MCP OK, FB-15 is not Done, task does not follow PBI structure
+- **When**: The user runs `/refine-task FB-15`
+- **Then**: The command notes PBI structure is missing, provides guidance, but still refines task for clarity and organization.
 
 **Scenario: Task already completed — STOP**
 - **Given**: FB-15 is in status "Done"

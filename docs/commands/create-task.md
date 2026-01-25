@@ -8,7 +8,6 @@ Create tasks in the issue tracker with specified type (epic, story, bug, task, e
 
 | | |
 |---|---|
-| **Roles** | Product Manager, Engineer, QA |
 | **Frequency** | Daily |
 | **Prerequisites** | Feature request, bug report, or plan document |
 
@@ -282,14 +281,6 @@ The command adapts its workflow based on the task type.
 ```
 
 **[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/create-task.md)**
-
----
-
-## Used By
-
-- **[Product Manager](../roles/product-manager.md)** - Create stories and epics
-- **[Engineer](../roles/engineer.md)** - Create tasks and bugs
-- **[QA](../roles/qa.md)** - Create bugs and test-related tasks
 
 ---
 

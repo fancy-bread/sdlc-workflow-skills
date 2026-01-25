@@ -8,7 +8,6 @@ Commit changes, push to remote, create pull request (optional), and transition i
 
 | | |
 |---|---|
-| **Roles** | Engineer |
 | **Prerequisites** | Branch `{type}/{TASK_KEY}`, tests passing, MCP (Atlassian, GitHub) |
 
 ---
@@ -61,12 +60,6 @@ AI:
 ## Full command (source)
 
 [commands/complete-task.md](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/complete-task.md)
-
----
-
-## Used By
-
-- **[Engineer](../roles/engineer.md)** — Every task completion
 
 ## Related Commands
 

@@ -8,7 +8,6 @@ Refine a task to meet Definition of Ready (DoR) by ensuring clarity, completenes
 
 | | |
 |---|---|
-| **Roles** | Product Manager, Scrum Master |
 | **Frequency** | Per task (during backlog refinement, before sprint planning) |
 | **Prerequisites** | Task in backlog, MCP integrations configured |
 

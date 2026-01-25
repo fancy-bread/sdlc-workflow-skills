@@ -8,7 +8,6 @@ Generate unit tests for code components. Adapts to backend or frontend and to th
 
 | | |
 |---|---|
-| **Roles** | Engineer, QA |
 | **Prerequisites** | Component exists, test framework detectable |
 
 ---
@@ -60,13 +59,6 @@ AI:
 ## Full command (source)
 
 [commands/create-test.md](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/create-test.md)
-
----
-
-## Used By
-
-- **[Engineer](../roles/engineer.md)** — During implementation
-- **[QA](../roles/qa.md)** — Test authoring
 
 ## Related Commands
 

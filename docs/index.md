@@ -127,31 +127,6 @@ graph LR
 
 ---
 
-## Find Your Commands
-
-<div class="grid cards" markdown>
-
--   **Product Manager**
-
-    Create and prioritize features
-
-    [:octicons-arrow-right-24: View](roles/product-manager.md)
-
--   **Software Engineer**
-
-    Development and quality
-
-    [:octicons-arrow-right-24: View](roles/engineer.md)
-
--   **QA Engineer**
-
-    Testing and verification
-
-    [:octicons-arrow-right-24: View](roles/qa.md)
-
-</div>
-
-[:octicons-person-24: View by Role](commands/by-role.md){ .md-button }
 [:octicons-zap-24: Quick Reference](commands/quick-reference.md){ .md-button }
 
 ---
@@ -177,6 +152,5 @@ Invoke your first command: `/create-task --type=story for [your feature]`
 ## Learn More
 
 - **[Commands Reference](commands/index.md)** - Commands with previews
-- **[Role Guides](roles/index.md)** - Commands organized by role
 - **[How It Works](getting-started.md#how-it-works)** - Core principles
 - **[Setup Instructions](mcp-setup.md)** - Detailed configuration

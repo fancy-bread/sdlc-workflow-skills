@@ -71,7 +71,6 @@ nav:
 
   - Commands:
     - commands/index.md
-    - By Role: commands/by-role.md
     - Quick Reference: commands/quick-reference.md
     - Product:
       - Create Task: commands/create-task.md
@@ -88,12 +87,6 @@ nav:
     - Utilities:
       - MCP Status: commands/mcp-status.md
       - Setup ASDLC: commands/setup-asdlc.md
-
-  - Roles:
-    - roles/index.md
-    - Product Manager: roles/product-manager.md
-    - Software Engineer: roles/engineer.md
-    - QA: roles/qa.md
 
   - Reference:
     - MCP Setup: mcp-setup.md

@@ -1,8 +1,13 @@
 # MCP Setup for Cursor
 
-Model Context Protocol (MCP) connects Cursor to GitHub and to an issue tracker (Jira or Azure DevOps).
+Model Context Protocol (MCP) connects Cursor to version control and issue tracking services.
 
-**MCP combinations:** **GitHub + Jira** or **GitHub + ADO**. GitHub is used for repositories and pull requests; choose either Jira (Atlassian) or Azure DevOps for work items. ASDLC is optional.
+**MCP combinations:**
+
+- **GitHub + Jira** — GitHub for repositories and pull requests; Jira for issue tracking
+- **ADO only** — Azure DevOps provides both repository management and issue tracking (standalone)
+
+ASDLC is optional.
 
 ---
 
@@ -38,7 +43,9 @@ Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (
 
 ---
 
-## Option B: GitHub + Azure DevOps (ADO)
+## Option B: Azure DevOps (ADO) Only
+
+Azure DevOps provides both repository management and issue tracking, so it can be used standalone without GitHub.
 
 ```json
 {
@@ -55,7 +62,7 @@ Replace `your-org-name` with your Azure DevOps organization (e.g. `contoso` for 
 
 **ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server’s `env` if your MCP or Cursor config supports it.
 
-Test: *"Get work items in my current sprint"*
+Test: *"Get work items in my current sprint"* or *"List repositories in my organization"*
 
 ---
 

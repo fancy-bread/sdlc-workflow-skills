@@ -8,7 +8,6 @@ Prepare your repository for ASDLC adoption by creating AGENTS.md template, direc
 
 | | |
 |---|---|
-| **Roles** | All Roles |
 | **Frequency** | Once per repository (or when adding ASDLC to existing repo) |
 | **Prerequisites** | None (optional command) |
 

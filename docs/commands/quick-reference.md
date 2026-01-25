@@ -7,7 +7,6 @@ title: Quick Reference
 **Copy-paste ready commands.**
 
 [:octicons-list-unordered-24: All Commands](index.md){ .md-button }
-[:octicons-person-24: By Role](by-role.md){ .md-button }
 
 ---
 
@@ -99,12 +98,6 @@ agentic-software-development/
 # Initialize repository for ASDLC
 /setup-asdlc
 ```
-
----
-
-## By Role
-
-Commands organized by who uses them: [View by Role →](by-role.md)
 
 ---
 

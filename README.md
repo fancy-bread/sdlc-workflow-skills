@@ -65,8 +65,6 @@ cp -r commands/* ~/.cursor/commands/
 
 ## Available Commands
 
-9 essential commands for AI-assisted development:
-
 - **Product (2):** `/create-task`, `/decompose-task`
 - **Planning (2):** `/refine-task`, `/create-plan`
 - **Development (2):** `/start-task`, `/complete-task`
@@ -90,8 +88,7 @@ Commands connect you to AI agents that interact with Jira, GitHub, and your code
 📚 **[Full Documentation](https://fancybread-com.github.io/agentic-software-development)**
 
 - [Getting Started](https://fancybread-com.github.io/agentic-software-development/getting-started/) - 3-step setup
-- [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All 9 commands
-- [Role Guides](https://fancybread-com.github.io/agentic-software-development/roles/) - Product Manager, Engineer, QA
+- [Commands Reference](https://fancybread-com.github.io/agentic-software-development/commands/) - All commands
 - [Methodology](https://fancybread-com.github.io/agentic-software-development/getting-started/#how-it-works) - Core principles
 
 ---
@@ -109,8 +106,4 @@ Commands connect you to AI agents that interact with Jira, GitHub, and your code
 
 MIT License - See [LICENSE](LICENSE) for details
 
----
-
-## Contributing
-
-This is a proposal and reference implementation. Feedback and improvements welcome via issues and pull requests.
+-

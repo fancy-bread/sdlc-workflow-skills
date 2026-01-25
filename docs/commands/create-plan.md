@@ -8,7 +8,6 @@ Create a detailed technical implementation plan for a story by analyzing require
 
 | | |
 |---|---|
-| **Roles** | All Engineers |
 | **Frequency** | Weekly (every story) |
 | **Prerequisites** | Story with acceptance criteria, MCP integrations configured |
 
@@ -62,14 +61,6 @@ AI:
 ## Full command (source)
 
 [commands/create-plan.md](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/create-plan.md)
-
----
-
-## Used By
-
-- **[IC Engineer](../roles/engineer.md)** — Every story
-- **[Senior Engineer](../roles/engineer.md)** — Complex features
-- **[Staff Engineer](../roles/engineer.md)** — System design
 
 ---
 

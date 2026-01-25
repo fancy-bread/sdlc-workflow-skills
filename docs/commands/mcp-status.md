@@ -8,7 +8,6 @@ Verify authentication status of all configured MCP servers.
 
 | | |
 |---|---|
-| **Roles** | All Roles |
 | **Frequency** | As needed (start of work, troubleshooting) |
 | **Prerequisites** | None |
 

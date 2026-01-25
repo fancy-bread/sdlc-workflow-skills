@@ -14,7 +14,11 @@ title: Getting Started
 
 ## Step 1: Configure MCP
 
-**MCP combinations:** **GitHub + Jira** or **ADO**. [Full MCP setup →](mcp-setup.md) (Option A or B).
+**MCP combinations:**
+- **GitHub + Jira** — GitHub for repos/PRs, Jira for issue tracking
+- **ADO only** — Azure DevOps provides both repo management and issue tracking
+
+[Full MCP setup →](mcp-setup.md) (Option A or B).
 
 Open **Cursor Settings → Features → Model Context Protocol** and add:
 
@@ -147,7 +151,6 @@ AI will:
 ## Next Steps
 
 - **[View All Commands](commands/index.md)** - Browse 9 available commands
-- **[Find Your Role](roles/index.md)** - See which commands you need
 - **[Quick Reference](commands/quick-reference.md)** - Command cheat sheet
 
 ---

@@ -8,7 +8,6 @@ Begin implementation of a task with proper setup, pre-flight checks, and standar
 
 | | |
 |---|---|
-| **Roles** | All Engineers, QA |
 | **Frequency** | Daily (every task) |
 | **Prerequisites** | Implementation plan, story in "In Progress" |
 
@@ -164,14 +163,6 @@ Begin development on a task with proper setup and pre-flight checks.
 ```
 
 **[View full command (source)](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/start-task.md)**
-
----
-
-## Used By
-
-- **[IC Engineer](../roles/engineer.md)** - Every task (primary)
-- **[Senior Engineer](../roles/engineer.md)** - Complex features
-- **[QA Engineer](../roles/qa.md)** - Test automation work
 
 ---
 

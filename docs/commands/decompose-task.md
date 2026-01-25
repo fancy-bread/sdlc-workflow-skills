@@ -8,7 +8,6 @@ Decompose a large task (epic or large story) into well-defined, actionable subta
 
 | | |
 |---|---|
-| **Roles** | Product Manager, Scrum Master |
 | **Frequency** | Per epic/large task (before sprint planning) |
 | **Prerequisites** | Large task (epic or story) with sufficient detail |
 

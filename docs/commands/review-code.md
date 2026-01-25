@@ -8,7 +8,6 @@ Perform adversarial AI-assisted code review on a pull request or branch using Bu
 
 | | |
 |---|---|
-| **Roles** | Senior Engineer |
 | **Prerequisites** | GitHub MCP; PR or branch exists and is accessible |
 
 ---
@@ -59,12 +58,6 @@ AI (Critic): Validating against Spec Contract and Constitution...
 ## Full command (source)
 
 [commands/review-code.md](https://github.com/fancybread-com/agentic-software-development/blob/main/commands/review-code.md)
-
----
-
-## Used By
-
-- **[Senior Engineer](../roles/engineer.md)** — PR and branch reviews
 
 ## Related Commands
 

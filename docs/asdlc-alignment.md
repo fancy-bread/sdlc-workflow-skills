@@ -19,7 +19,7 @@ The commands in this project implement ASDLC (Agentic Software Development Lifec
 | `/create-test` | [The Spec](https://asdlc.io/patterns/the-spec/), [Context Gates](https://asdlc.io/patterns/context-gates/) | Quality Control, Standardized Parts | Test generation as output gate; uses Contract scenarios from Spec |
 | `/review-code` | [Adversarial Code Review](https://asdlc.io/patterns/adversarial-code-review/), [Constitutional Review](https://asdlc.io/patterns/constitutional-review/), [The Spec](https://asdlc.io/patterns/the-spec/) | Quality Control | Review Gate using Critic Agent for dual-contract validation |
 | `/mcp-status` | [Context Gates](https://asdlc.io/patterns/context-gates/) | Quality Control | Pre-flight validation gate for other commands |
-| `/setup-asdlc` | [Agent Constitution](https://asdlc.io/patterns/agent-constitution/), [The Spec](https://asdlc.io/patterns/the-spec/), [Standardized Parts](https://asdlc.io/patterns/standardized-parts/) | Factory Architecture, Standardized Parts | Repository initialization command that creates AGENTS.md template and directory structure |
+| `/setup-asdlc` | [Agent Constitution](https://asdlc.io/patterns/agent-constitution/), [The Spec](https://asdlc.io/patterns/the-spec/) | Factory Architecture, Standardized Parts | Repository initialization command that creates AGENTS.md template and directory structure |
 
 ## ASDLC Pillars
 

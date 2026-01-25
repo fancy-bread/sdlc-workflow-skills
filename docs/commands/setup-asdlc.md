@@ -22,7 +22,7 @@ Initializes a repository for ASDLC adoption by creating the foundational structu
 
 ## ASDLC
 
-- **Patterns**: [Agent Constitution](https://asdlc.io/patterns/agent-constitution/), [The Spec](https://asdlc.io/patterns/the-spec/), [Standardized Parts](https://asdlc.io/patterns/standardized-parts/)
+- **Patterns**: [Agent Constitution](https://asdlc.io/patterns/agent-constitution/), [The Spec](https://asdlc.io/patterns/the-spec/)
 - **Pillars**: Factory Architecture, Standardized Parts, Quality Control
 
 ---

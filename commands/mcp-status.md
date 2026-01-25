@@ -12,6 +12,7 @@ Check the authentication status of all configured Model Context Protocol (MCP) s
 ## Prerequisites
 
 - **None required.** Run anytime to check status. If no MCP servers are configured, the command reports that.
+- **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 ## Purpose
 MCP servers can disconnect or lose authentication after periods of inactivity. Use this command to verify all integrations are ready before starting work.
@@ -122,5 +123,12 @@ Run `validate_mcps.py --list` to get the list of record, then for each server ca
 **ASDLC**: [Context Gates](asdlc://context-gates) — MCP checks act as an input gate before running commands that depend on them.
 
 ### Constraints
-- Read-only only; no data modified. If a server test fails, distinguish auth errors (reconnect) from other errors.
+
+**Rules (Must Follow):**
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Read-only Operations**: This command performs read-only operations only; no data is modified or created.
+3. **Error Handling**: If a server test fails, distinguish authentication errors (needs reconnect) from other errors and provide specific guidance.
 

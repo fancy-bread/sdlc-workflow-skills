@@ -37,6 +37,7 @@ Before proceeding, verify:
    - Test each configured MCP server connection (Atlassian, GitHub, etc.)
    - Verify all required integrations are authorized and operational
    - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **Task Exists**: Verify the task exists in the issue tracker
    - Use MCP tools to fetch task by `{TASK_KEY}`
@@ -559,10 +560,15 @@ Breakdown documented in STORY-50 comments.
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Prerequisites Must Pass**: Do not proceed if MCP validation fails, task doesn't exist, or task lacks sufficient detail. STOP and report the issue.
-2. **Intelligent Analysis Required**: Always apply intelligent analysis patterns before decomposition. Do not proceed with vague or incomplete tasks.
-3. **Information Density Scoring**: Use 5-element scoring (0-2: INSUFFICIENT must ask, 3-4: MARGINAL proceed with caution, 5+: SUFFICIENT proceed confidently).
-4. **Subtask Quality Criteria**: All generated subtasks must meet the Task Quality Checklist criteria. If subtasks don't meet criteria, revise before creating in tracker.
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data in task descriptions
+   - **AGENTS.md Optional**: Commands work without AGENTS.md. Standards apply regardless of whether AGENTS.md exists.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Prerequisites Must Pass**: Do not proceed if MCP validation fails, task doesn't exist, or task lacks sufficient detail. STOP and report the issue.
+3. **Intelligent Analysis Required**: Always apply intelligent analysis patterns before decomposition. Do not proceed with vague or incomplete tasks.
+4. **Information Density Scoring**: Use 5-element scoring (0-2: INSUFFICIENT must ask, 3-4: MARGINAL proceed with caution, 5+: SUFFICIENT proceed confidently).
+5. **Subtask Quality Criteria**: All generated subtasks must meet the Task Quality Checklist criteria. If subtasks don't meet criteria, revise before creating in tracker.
 5. **Minimum Subtask Count**: Generate minimum 3-5 subtasks per parent task. If unable to generate sufficient subtasks, the parent task may need further clarification.
 6. **Task Size**: Each subtask should be completable in 1-2 days (1-2 sprint points). Larger tasks should be further decomposed.
 7. **Dependency Clarity**: Clearly identify and document task dependencies. Do not create tasks with unclear or circular dependencies.

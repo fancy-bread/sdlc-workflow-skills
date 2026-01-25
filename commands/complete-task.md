@@ -30,6 +30,7 @@ Before proceeding, verify:
    - Test each configured MCP server connection (Atlassian, GitHub, etc.)
    - Verify all required integrations are authorized and operational
    - **If any MCP server fails validation, STOP and report the failure. Do not proceed.**
+   - **MCP Tool Usage Standards**: MCP tool usage should follow best practices (check schema files, validate parameters, handle errors gracefully). These standards are documented in AGENTS.md §3 Operational Boundaries if AGENTS.md exists, but apply universally regardless.
 
 2. **Branch Verification**:
    - Verify current branch matches expected format: `{type}/{TASK_KEY}`
@@ -70,8 +71,16 @@ Before proceeding, verify:
      - Example: `feat: add user authentication (PROJ-123)`
 
 2. **Run Constitutional Review Gate**
-   - **Read Constitution:**
-     - Read `AGENTS.md` Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
+   - **Check if AGENTS.md exists:**
+     - Use `glob_file_search` or `read_file` to check for `AGENTS.md` in repo root
+     - If AGENTS.md exists:
+       - Read `AGENTS.md` Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
+       - Proceed with full Constitutional Review
+     - If AGENTS.md does NOT exist:
+       - Log: "⚠️ AGENTS.md not found - Constitutional Review skipped"
+       - Store status: "Constitutional Review: SKIPPED (AGENTS.md not found)"
+       - Proceed to next step (commit and push) without Constitutional Review
+   - **If AGENTS.md exists, continue with review:**
      - If spec exists, read `specs/{FEATURE_DOMAIN}/spec.md` for functional context
    - **Get code diff:**
      - Use `run_terminal_cmd`: `git diff main...HEAD` to get all changes in PR
@@ -84,8 +93,9 @@ Before proceeding, verify:
        ```
        You are a Critic Agent performing Constitutional Review.
 
-       **Constitution** (from AGENTS.md Operational Boundaries):
-       [Paste full text of Tier 1 (ALWAYS), Tier 2 (ASK), Tier 3 (NEVER) sections]
+       **Constitution** (from AGENTS.md Operational Boundaries, if AGENTS.md exists):
+       [If AGENTS.md exists: Paste full text of Tier 1 (ALWAYS), Tier 2 (ASK), Tier 3 (NEVER) sections]
+       [If AGENTS.md does not exist: Note "AGENTS.md not found - Constitutional Review skipped. Proceeding with commit/PR without Constitutional Review."]
 
        **Spec** (functional context):
        [If spec exists: Paste Blueprint and Contract sections]
@@ -126,7 +136,7 @@ Before proceeding, verify:
      - Extract violations by severity (CRITICAL, WARNING, INFO)
      - Count violations in each tier
      - Store full report for PR body
-   - **Gate Decision:**
+   - **Gate Decision (only if AGENTS.md exists and review was performed):**
      - **If CRITICAL violations found (Tier 3: NEVER):**
        - STOP immediately
        - Display full violation report with remediation steps
@@ -141,6 +151,11 @@ Before proceeding, verify:
        - Log: "✅ Constitutional Review: PASSED"
        - Store "PASSED" status for PR body
        - Proceed to next step
+   - **If AGENTS.md does not exist:**
+     - Skip Constitutional Review
+     - Log: "⚠️ AGENTS.md not found - Constitutional Review skipped"
+     - Store "SKIPPED" status for PR body
+     - Proceed directly to commit and push (no review gate)
 
 3. **Commit and push changes**
    - Commit staged changes with the conventional commit message
@@ -191,6 +206,7 @@ Before proceeding, verify:
        - **Constitutional Review report** (from Step 2):
          - If PASSED: Include "✅ Constitutional Review: PASSED"
          - If WARNING/INFO: Include full Constitutional Review report with violations
+         - If SKIPPED: Include "⚠️ Constitutional Review: SKIPPED (AGENTS.md not found)"
          - Constitutional Review report should appear first in PR body
        - Feature Spec summary (if spec exists) with Blueprint context and Contract DoD
        - Implementation Plan summary (if plan exists) with extracted sections
@@ -205,6 +221,7 @@ Before proceeding, verify:
        [Insert Constitutional Review report from Step 2]
        - If PASSED: "✅ Constitutional Review: PASSED - No violations found"
        - If WARNING/INFO: Full report with Tier 2 and Tier 1 violations
+       - If SKIPPED: "⚠️ Constitutional Review: SKIPPED (AGENTS.md not found) - Proceeded without Constitutional Review"
 
        ## Feature Spec
        [If spec exists, include Context and Definition of Done]
@@ -464,39 +481,44 @@ Ready for review.
 ### Constraints
 
 **Rules (Must Follow):**
-1. **Same-Commit Rule Check**: If code changes affected API contracts, data models, or quality targets:
+1. **Operational Standards Compliance**: This command follows operational standards (documented in AGENTS.md if present, but apply universally):
+   - **MCP Tool Usage**: Check schema files, validate parameters, handle errors gracefully
+   - **Safety Limits**: Never commit secrets, API keys, or sensitive data. Never commit changes automatically without user review.
+   - **AGENTS.md Optional**: If AGENTS.md exists, Constitutional Review is performed. If missing, review is skipped and command proceeds.
+   - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
+2. **Same-Commit Rule**: If code changes API contracts, data models, or quality targets → update spec in same commit:
    - Verify spec was updated in staged changes
    - If spec exists but wasn't updated: WARN user and recommend including spec update
    - Spec and code changes must be committed together
-2. **Constitutional Review Gate**: Before PR creation, validate code against AGENTS.md:
+3. **Constitutional Review Gate**: Before PR creation, validate code against AGENTS.md:
    - Use Cursor's built-in review capabilities (no external API keys required)
    - Run Critic Agent validation against 3-tier Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER)
    - BLOCK PR creation on Tier 3 (NEVER) violations - display violations and STOP
    - WARN on Tier 2 (ASK) and Tier 1 (ALWAYS) violations but allow PR creation
    - Include Constitutional Review report in PR body
    - If CRITICAL violations found, instruct user on remediation before retrying
-3. **Prerequisites Must Pass**: Do not proceed if MCP validation, branch verification, or test verification fails. STOP and report the issue.
-4. **Conventional Commits**: All commits must follow the format: `{type}: {description} ({TASK_KEY})`
+4. **Prerequisites Must Pass**: Do not proceed if MCP validation, branch verification, or test verification fails. STOP and report the issue.
+5. **Conventional Commits**: All commits must follow the format: `{type}: {description} ({TASK_KEY})`
    - Valid types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
    - Description should be clear and concise
    - Task key must be included in parentheses
-5. **Branch Naming**: Current branch must match short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
+6. **Branch Naming**: Current branch must match short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
    - Use short format: `feat/FB-6` (not descriptive format)
    - **Important**: Be consistent - use short format for all branches
-6. **Test Requirements**: All tests must pass locally before committing. Do not commit failing tests.
-7. **Linting**: All linting errors must be fixed before committing. If errors cannot be fixed automatically, STOP and ask for guidance.
-8. **PR Creation is Optional**: PR creation is optional. You may skip PR creation if you prefer to create it manually or if it's not needed. If creating PR:
+7. **Test Requirements**: All tests must pass locally before committing. Do not commit failing tests.
+8. **Linting**: All linting errors must be fixed before committing. If errors cannot be fixed automatically, STOP and ask for guidance.
+9. **PR Creation is Optional**: PR creation is optional. You may skip PR creation if you prefer to create it manually or if it's not needed. If creating PR:
    - CI/CD runs automatically after PR creation as a gate. Local tests passing is the prerequisite to PR creation. Monitor CI/CD status after PR is created.
    - PR body should include:
      - Constitutional Review report (from Step 2)
      - Feature Spec summary (if spec exists at `specs/{FEATURE_DOMAIN}/spec.md`)
      - Implementation Plan summary (if plan exists at `.plans/{TASK_KEY}-*.plan.md`)
      - If neither spec nor plan exists, note this in PR body
-9. **Documentation File Handling**:
+10. **Documentation File Handling**:
    - Check for both spec and plan files
    - If neither exists, WARN but proceed (PR will lack detailed context)
    - Prefer spec content over plan content when both exist
-10. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
+11. **Error Handling**: If any step fails (push, PR creation, issue transition), STOP and report the specific error. Do not proceed with remaining steps.
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks

@@ -99,6 +99,7 @@ Find commands relevant to your role.
 | `/create-test` | - | ●●● | ●●● | ●●● | ●●● |
 | `/review-code` | - | - | ●●● | ●●● | - |
 | `/mcp-status` | ○ | ○ | ○ | ○ | ○ |
+| `/setup-asdlc` | ○ | ○ | ○ | ○ | ○ |
 
 **Legend:** ●●● Daily | ●● Weekly | ○ Occasional | - Not typical
 

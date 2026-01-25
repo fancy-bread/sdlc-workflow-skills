@@ -4,7 +4,7 @@ title: Commands Reference
 
 # Command Reference
 
-**All 9 commands for AI-assisted development.**
+**Commands for AI-assisted development.**
 
 The canonical command definitions (the markdown files Cursor executes) live in **`commands/`** at the repo root; those files are the source of truth. This documentation describes what each command does. For full instruction content, see the [repository `commands/` folder](https://github.com/fancybread-com/agentic-software-development/tree/main/commands). Command files are plain markdown with structured sections; validate with `python schemas/validate.py commands/<name>.md` (see [schemas/README](https://github.com/fancybread-com/agentic-software-development/blob/main/schemas/README.md)).
 
@@ -13,7 +13,7 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## Product (2 commands)
+## Product
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
@@ -23,7 +23,7 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## Planning (2 commands)
+## Planning
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
@@ -32,7 +32,7 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## Development (2 commands)
+## Development
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
@@ -41,7 +41,7 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## Quality (2 commands)
+## Quality
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
@@ -50,11 +50,12 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## Utilities (1 command)
+## Utilities
 
 | Command | Used By | What It Does |
 |---------|---------|--------------|
 | **[`/mcp-status`](mcp-status.md)** | All Roles | Check MCP server authentication status |
+| **[`/setup-asdlc`](setup-asdlc.md)** | All Roles | Initialize repository for ASDLC adoption |
 
 ---
 

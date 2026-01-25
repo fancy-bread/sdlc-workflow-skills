@@ -15,27 +15,26 @@ title: Quick Reference
 
 ```
 agentic-software-development/
-├── Product (2)
+├── Product
 │   ├── /create-task
 │   └── /decompose-task
 │
-├── Planning (2)
+├── Planning
 │   ├── /refine-task
 │   └── /create-plan
 │
-├── Development (2)
+├── Development
 │   ├── /start-task
 │   └── /complete-task
 │
-├── Quality (2)
+├── Quality
 │   ├── /create-test
 │   └── /review-code
 │
-└── Utilities (1)
-    └── /mcp-status
+└── Utilities
+    ├── /mcp-status
+    └── /setup-asdlc
 ```
-
-**9 commands total**
 
 ---
 
@@ -96,6 +95,9 @@ agentic-software-development/
 ```bash
 # Check MCP server status
 /mcp-status
+
+# Initialize repository for ASDLC
+/setup-asdlc
 ```
 
 ---

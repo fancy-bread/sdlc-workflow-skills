@@ -2,24 +2,21 @@
 title: MCP Status Command
 ---
 
-# `/mcp-status` - Check MCP Server Connections
+# `/mcp-status`
 
-**Verify authentication status of all configured MCP servers.**
+Verify authentication status of all configured MCP servers.
 
-## Quick Start
+| | |
+|---|---|
+| **Roles** | All Roles |
+| **Frequency** | As needed (start of work, troubleshooting) |
+| **Prerequisites** | None |
 
-```bash
-/mcp-status
-```
-
-No arguments needed. Returns status of all configured MCP integrations.
+---
 
 ## What It Does
 
-Checks each configured MCP server (Jira, GitHub, etc.) to verify:
-- ✅ Server is reachable
-- ✅ Authentication is valid
-- ⚠️ Which servers need reconnection
+Verifies the authentication status of all configured MCP servers (Jira, GitHub, ASDLC, ADO, etc.). Tests each server connection and reports which servers are connected and which need reconnection, providing specific guidance for fixing authentication issues.
 
 ---
 
@@ -70,17 +67,19 @@ Settings → Tools & MCP → Click "Connect"
 
 ---
 
-## Used By
+## Usage
 
-- **All Engineers** - Before starting work
-- **All Roles** - When encountering MCP errors
+```bash
+/mcp-status
+```
+
+No arguments needed. Returns status of all configured MCP integrations.
 
 ---
 
 ## Related Commands
 
-**Other utility commands:**
-- Coming soon: Additional MCP management commands
+- **[`/setup-asdlc`](setup-asdlc.md)** - Initialize repository for ASDLC adoption
 
 ---
 

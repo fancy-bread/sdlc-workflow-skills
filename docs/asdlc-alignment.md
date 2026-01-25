@@ -4,7 +4,7 @@ This document provides explicit traceability from commands to ASDLC patterns and
 
 ## Overview
 
-The 9 commands in this project implement ASDLC (Agentic Software Development Lifecycle) patterns and pillars. Each command serves as a specialized station in a Factory Architecture, uses Standardized Parts (schema-enforced structure), and implements Quality Control (validation gates).
+The commands in this project implement ASDLC (Agentic Software Development Lifecycle) patterns and pillars. Each command serves as a specialized station in a Factory Architecture, uses Standardized Parts (schema-enforced structure), and implements Quality Control (validation gates).
 
 ## Command Mapping
 
@@ -19,6 +19,7 @@ The 9 commands in this project implement ASDLC (Agentic Software Development Lif
 | `/create-test` | [The Spec](https://asdlc.io/patterns/the-spec/), [Context Gates](https://asdlc.io/patterns/context-gates/) | Quality Control, Standardized Parts | Test generation as output gate; uses Contract scenarios from Spec |
 | `/review-code` | [Adversarial Code Review](https://asdlc.io/patterns/adversarial-code-review/), [Constitutional Review](https://asdlc.io/patterns/constitutional-review/), [The Spec](https://asdlc.io/patterns/the-spec/) | Quality Control | Review Gate using Critic Agent for dual-contract validation |
 | `/mcp-status` | [Context Gates](https://asdlc.io/patterns/context-gates/) | Quality Control | Pre-flight validation gate for other commands |
+| `/setup-asdlc` | [Agent Constitution](https://asdlc.io/patterns/agent-constitution/), [The Spec](https://asdlc.io/patterns/the-spec/) | Factory Architecture, Standardized Parts | Repository initialization command that creates AGENTS.md template and directory structure |
 
 ## ASDLC Pillars
 

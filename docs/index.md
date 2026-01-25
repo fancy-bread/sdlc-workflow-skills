@@ -95,6 +95,7 @@ A standardized approach to Software Development Lifecycle operations using well-
 - **Cursor IDE** - AI-powered development environment
 - **MCP (Model Context Protocol)** - Connects to Jira, Azure DevOps, GitHub
 - **Natural language commands** - Markdown instructions for AI agents
+- **ASDLC** - Principles for industrial-grade agentic software development.
 
 ---
 

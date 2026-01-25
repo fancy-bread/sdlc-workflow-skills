@@ -4,13 +4,16 @@
 
 [![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/agentic-software-development)
 [![Schema Validation](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/agentic-software-development/actions/workflows/command-validation.yml)
+[![ASDLC](https://img.shields.io/badge/ASDLC-aligned-5e35b1)](https://asdlc.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
 ## What This Is
 
-A proposal to standardize common Software Development Lifecycle operations into well-defined commands that work across teams and projects.
+Standardized common Software Development Lifecycle commands that work across teams and projects.
+
+Built on [ASDLC.io](https://asdlc.io/) principles for industrial-grade agentic software development. Implements Factory Architecture with specialized command stations, schema-enforced Standardized Parts, and automated Quality Control gates. Demonstrates Level 3 Conditional Autonomy where agents execute workflows with human oversight at decision points. See [ASDLC Alignment](docs/asdlc-alignment.md) for detailed pattern mapping.
 
 **Built on:**
 - Cursor IDE (AI-powered development)

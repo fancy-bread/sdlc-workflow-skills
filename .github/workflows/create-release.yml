@@ -200,10 +200,9 @@ jobs:
                   content = f.read()
 
               # Update Latest Release section
-              # Replace everything from "## Latest Release" through the FIRST "---" separator
-              # Use negative lookahead to ensure we stop at the first "---" and don't consume Release History
-              latest_pattern = r'(## Latest Release\n)(?:(?!---).)*?\n(---)'
-              content = re.sub(latest_pattern, r'\1\n' + release_entry + r'\2', content, flags=re.DOTALL)
+              # Replace from "## Latest Release" through the first "---" (handles empty or existing content)
+              latest_pattern = r'(## Latest Release\n)\n*(---)'
+              content = re.sub(latest_pattern, r'\1\n' + release_entry.strip() + r'\n\n\2', content)
 
               # Handle Release History section
               # First, check if the section exists, if not create it after Latest Release section
@@ -221,15 +220,24 @@ jobs:
                       else:
                           content = content.rstrip() + '\n\n## Release History\n\n' + release_entry
               else:
-                  # Section exists, remove any existing entries for this tag to prevent duplicates
+                  # Section exists. Remove duplicate for this tag only from Release History
+                  # (never from Latest Release, or we would wipe Latest)
                   if tag_name:
                       escaped_tag = re.escape(tag_name)
                       duplicate_pattern = r'## \[{}\]\([^\)]+\) - [^\n]+\n\n\*\*\[Download\]\([^\)]+\)\*\* \| \[Release Notes\]\([^\)]+\)\n\n'.format(escaped_tag)
-                      content = re.sub(duplicate_pattern, '', content, flags=re.MULTILINE)
+                      hist_start = content.find('## Release History')
+                      if hist_start != -1:
+                          hist_rest = content[hist_start + 1:]
+                          mm = re.search(r'\n(## (?!\[)|---)', hist_rest)
+                          hist_end = hist_start + 1 + mm.start() if mm else len(content)
+                          hist_section = content[hist_start:hist_end]
+                          hist_section = re.sub(duplicate_pattern, '', hist_section, flags=re.MULTILINE)
+                          content = content[:hist_start] + hist_section + content[hist_end:]
 
                   # Add to Release History section - insert after heading
                   history_pattern = r'(## Release History\n\n)'
-                  history_replacement = r'\1' + release_entry
+                  entry = release_entry.strip() + '\n\n'
+                  history_replacement = r'\1' + entry
                   content = re.sub(history_pattern, history_replacement, content, flags=re.DOTALL)
 
               # Write back

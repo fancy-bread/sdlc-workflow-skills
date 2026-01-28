@@ -74,19 +74,25 @@ jobs:
             exit 1
           fi
 
-          tar -czf "$TAR_NAME" -C commands .
+          # Package with top-level commands/ so "cp -r commands/* ~/.cursor/commands/" works after extract
+          mkdir -p release-package
+          cp -r commands release-package/
+
+          tar -czf "$TAR_NAME" -C release-package .
           if [ ! -f "$TAR_NAME" ]; then
             echo "Error: Failed to create $TAR_NAME"
             exit 1
           fi
 
-          cd commands
+          cd release-package
           zip -r "../$ZIP_NAME" . > /dev/null
           cd ..
           if [ ! -f "$ZIP_NAME" ]; then
             echo "Error: Failed to create $ZIP_NAME"
             exit 1
           fi
+
+          rm -rf release-package
 
           echo "tar_name=$TAR_NAME" >> $GITHUB_OUTPUT
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
@@ -163,84 +169,58 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update releases documentation
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          RELEASE_URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          VERSION=${TAG_NAME#v}
-          RELEASE_DATE=$(date +"%Y-%m-%d")
-          REPO="${{ github.repository }}"
-          RELEASE_URL="https://github.com/${REPO}/releases/tag/${TAG_NAME}"
-
-          # Create release entry markdown
-          cat > /tmp/release_entry.txt << RELEASE_EOF
-          ## [${TAG_NAME}](${RELEASE_URL}) - ${RELEASE_DATE}
-
-          **[Download](${RELEASE_URL})** | [Release Notes](${RELEASE_URL})
-
-          RELEASE_EOF
-
-          # Use Python to update the releases.md file
           python3 << 'PYTHON_EOF'
+          import os
           import re
           import sys
+          from datetime import datetime, timezone
+
+          tag_name = os.environ.get('TAG_NAME', '')
+          release_url = os.environ.get('RELEASE_URL', '')
+          release_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+          release_entry = (
+              f"## [{tag_name}]({release_url}) - {release_date}\n\n"
+              f"[**Download**]({release_url}) | [Release Notes]({release_url})\n"
+          )
 
           releases_file = 'docs/releases.md'
-          release_entry_file = '/tmp/release_entry.txt'
 
           try:
-              # Read release entry
-              with open(release_entry_file, 'r') as f:
-                  release_entry = f.read()
-
-              # Extract tag name from release entry (e.g., "v1.0.0" from "## [v1.0.0](...)")
-              tag_match = re.search(r'## \[([^\]]+)\]', release_entry)
-              tag_name = tag_match.group(1) if tag_match else ''
-
-              # Read releases.md
               with open(releases_file, 'r') as f:
                   content = f.read()
 
-              # Update Latest Release section
-              # Replace from "## Latest Release" through the first "---" (handles empty or existing content)
-              latest_pattern = r'(## Latest Release\n)\n*(---)'
-              content = re.sub(latest_pattern, r'\1\n' + release_entry.strip() + r'\n\n\2', content)
+              latest_pattern = r'(## Latest Release\n\n).*?(\n+---)'
+              new_content = re.sub(latest_pattern, r'\1' + release_entry.strip() + r'\n\n---', content, flags=re.DOTALL)
+              if new_content == content:
+                  print("Warning: Latest Release pattern did not match; section may be unchanged.", file=sys.stderr)
+              content = new_content
 
-              # Handle Release History section
-              # First, check if the section exists, if not create it after Latest Release section
               if '## Release History' not in content:
-                  # Insert Release History section after the first "---" (after Latest Release)
-                  # Pattern: "---\n\n## [next section]" or "---\n\n## Download" etc.
-                  history_insert_pattern = r'(\n---\n\n)(## (?!Release History))'
-                  if re.search(history_insert_pattern, content):
-                      # Insert before the next section (Download, Installation, Changelog, etc.)
-                      content = re.sub(history_insert_pattern, r'\1## Release History\n\n' + release_entry + r'\2', content, flags=re.DOTALL)
+                  pat = r'(\n---\n\n)(## (?!Release History))'
+                  if re.search(pat, content):
+                      content = re.sub(pat, r'\1## Release History\n\n' + release_entry.strip() + '\n\n' + r'\2', content, flags=re.DOTALL)
                   else:
-                      # No next section found, append before final "---" or at end
-                      if content.rstrip().endswith('---'):
-                          content = content.rstrip()[:-3] + '\n\n## Release History\n\n' + release_entry + '\n---'
-                      else:
-                          content = content.rstrip() + '\n\n## Release History\n\n' + release_entry
+                      tail = content.rstrip()
+                      content = (tail[:-3] if tail.endswith('---') else tail) + '\n\n## Release History\n\n' + release_entry.strip() + '\n\n---'
               else:
-                  # Section exists. Remove duplicate for this tag only from Release History
-                  # (never from Latest Release, or we would wipe Latest)
                   if tag_name:
-                      escaped_tag = re.escape(tag_name)
-                      duplicate_pattern = r'## \[{}\]\([^\)]+\) - [^\n]+\n\n\*\*\[Download\]\([^\)]+\)\*\* \| \[Release Notes\]\([^\)]+\)\n\n'.format(escaped_tag)
-                      hist_start = content.find('## Release History')
-                      if hist_start != -1:
-                          hist_rest = content[hist_start + 1:]
-                          mm = re.search(r'\n(## (?!\[)|---)', hist_rest)
-                          hist_end = hist_start + 1 + mm.start() if mm else len(content)
-                          hist_section = content[hist_start:hist_end]
-                          hist_section = re.sub(duplicate_pattern, '', hist_section, flags=re.MULTILINE)
-                          content = content[:hist_start] + hist_section + content[hist_end:]
+                      esc = re.escape(tag_name)
+                      dup = r'## \[{}\]\([^\)]+\) - [^\n]+\n\n[^\n]+\[Release Notes\][^\n]+\n\n'.format(esc)
+                      start = content.find('## Release History')
+                      if start != -1:
+                          rest = content[start + 1:]
+                          m = re.search(r'\n(## (?!\[)|---)', rest)
+                          end = start + 1 + (m.start() if m else len(rest))
+                          hist = re.sub(dup, '', content[start:end], flags=re.MULTILINE)
+                          content = content[:start] + hist + content[end:]
+                  content = re.sub(r'(## Release History\n\n)', r'\1' + release_entry.strip() + '\n\n', content, count=1)
 
-                  # Add to Release History section - insert after heading
-                  history_pattern = r'(## Release History\n\n)'
-                  entry = release_entry.strip() + '\n\n'
-                  history_replacement = r'\1' + entry
-                  content = re.sub(history_pattern, history_replacement, content, flags=re.DOTALL)
+              content = re.sub(latest_pattern, r'\1' + release_entry.strip() + r'\n\n---', content, flags=re.DOTALL)
 
-              # Write back
               with open(releases_file, 'w') as f:
                   f.write(content)
 

@@ -5,7 +5,6 @@ Generate unit tests for code components. The command adapts to backend or fronte
 
 ## Definitions
 
-- **Spec** (this command): `specs/create-test/spec.md` — Blueprint and Contract.
 - **{component}**: Component, class, function, or file to test. Can be specified as:
   - Class name (e.g., `OAuthService`, `UserProfile`)
   - File path (e.g., `auth-utils.ts`, `src/services/payment.ts`)

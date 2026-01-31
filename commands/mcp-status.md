@@ -5,7 +5,6 @@ Check the authentication status of all configured Model Context Protocol (MCP) s
 
 ## Definitions
 
-- **Spec** (this command): `specs/mcp-status/spec.md` — Blueprint and Contract (if present in project).
 - **MCP server**: A configured Model Context Protocol server in Cursor (e.g. github, atlassian, ado, asdlc).
 - **MCP configuration**: The `mcpServers` section in `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows), or configured via Cursor Settings → Features → Model Context Protocol.
 

@@ -5,7 +5,6 @@ Perform adversarial AI-assisted code review on a pull request or branch changes 
 
 ## Definitions
 
-- **Spec** (this command): `specs/review-code/spec.md` — Blueprint and Contract.
 - **{PR_KEY}**: Pull Request identifier (e.g., `PR-12`, `#12`, `12`). Can be specified as:
   - Full format: `PR-12` or `#12`
   - Numeric only: `12`

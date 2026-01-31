@@ -5,7 +5,6 @@ Initialize a repository for ASDLC adoption by creating AGENTS.md template, direc
 
 ## Definitions
 
-- **Spec** (this command): `specs/setup-asdlc/spec.md` — Blueprint and Contract (if created).
 - **AGENTS.md**: Agent Constitution file that defines project context, operational boundaries, and command registry for AI agents.
 - **specs/**: Directory containing permanent living specifications for features.
 - **.plans/**: Directory containing transient task-level implementation plans.

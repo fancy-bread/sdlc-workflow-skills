@@ -5,7 +5,6 @@ Create a living specification (Spec) for a feature by analyzing requirements, re
 
 ## Definitions
 
-- **Spec** (this command): `specs/create-plan/spec.md` — Blueprint and Contract.
 - **{TASK_KEY}**: Story/Issue ID from the issue tracker (e.g., `FB-6`, `PROJ-123`, `KAN-42`)
 - **{FEATURE_DOMAIN}**: Kebab-case feature name (e.g., `user-authentication`, `payment-processing`, `notifications`)
 - **Spec Document**: Living specification saved at `specs/{FEATURE_DOMAIN}/spec.md`

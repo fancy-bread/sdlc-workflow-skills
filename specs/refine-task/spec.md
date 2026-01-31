@@ -16,10 +16,10 @@ Tasks often enter the backlog under-specified or poorly organized. Refinement en
 ### Architecture
 
 - **Command location**: `commands/refine-task.md`. Executed as `/refine-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
-- **Inputs**: `{TASK_KEY}` (e.g. `FB-15`). Optional `--ricco`: include RICCO structure (Role, Intent, Context, Constraints, Output) from embedded content in command. PBI is default; RICCO is an include. DoR: clear description, AC, dependencies, well-organized structure. PBI structure validation (4-part anatomy: Directive, Context Pointer, Verification Pointer, Refinement Rule).
-- **Flow**: (1) MCP validation; (2) fetch task; if status is Done/Completed, STOP; (3) validate PBI structure (4-part anatomy); (4) detect feature domain and check spec existence; (5) refine title, description, AC for clarity and organization, remove fluff; (5b) if `--ricco`: use embedded RICCO, populate and add RICCO section; (6) update issue via `mcp_atlassian_editJiraIssue`.
+- **Inputs**: `{TASK_KEY}` (e.g. `FB-15`). DoR: clear description, AC, dependencies, well-organized structure. PBI structure validation (4-part anatomy: Directive, Context Pointer, Verification Pointer, Refinement Rule).
+- **Flow**: (1) MCP validation; (2) fetch task; if status is Done/Completed, STOP; (3) validate PBI structure (4-part anatomy); (4) detect feature domain and check spec existence; (5) refine title, description, AC for clarity and organization, remove fluff; (6) update issue via `mcp_atlassian_editJiraIssue`.
 - **MCP**: Atlassian (getAccessibleAtlassianResources, getJiraIssue, editJiraIssue). cloudId resolved at runtime.
-- **Dependencies**: Issue tracker, Specs at `specs/{feature-domain}/spec.md` (optional - graceful degradation if missing). PBI and RICCO are embedded in `refine-task`. **Outbound**: Refined tasks are ready for `/start-task` or human refinement meetings.
+- **Dependencies**: Issue tracker, Specs at `specs/{feature-domain}/spec.md` (optional - graceful degradation if missing). PBI structure is embedded in `refine-task`. **Outbound**: Refined tasks are ready for `/start-task` or human refinement meetings.
 
 ### Anti-Patterns
 
@@ -37,7 +37,6 @@ Tasks often enter the backlog under-specified or poorly organized. Refinement en
 - [ ] PBI structure validated (4-part anatomy checked, guidance provided if missing).
 - [ ] Feature domain detected and spec existence checked (warn if spec referenced but missing).
 - [ ] Title, description, AC refined for clarity and organization; fluff removed; content organized for easy scanning; issue updated via MCP.
-- [ ] If `--ricco`: RICCO section included from embedded structure (additive; PBI remains default).
 - [ ] `python schemas/validate_all.py` passes when commands are changed.
 
 ### Regression Guardrails
@@ -62,8 +61,3 @@ Tasks often enter the backlog under-specified or poorly organized. Refinement en
 - **Given**: FB-15 is in status "Done"
 - **When**: The user runs `/refine-task FB-15`
 - **Then**: The command reports "Task FB-15 is already completed and cannot be refined." and does not change the issue.
-
-**Scenario: Optional RICCO include**
-- **Given**: MCP OK, FB-15 is not Done, task has sufficient detail
-- **When**: The user runs `/refine-task FB-15 --ricco`
-- **Then**: The command refines per normal flow, uses embedded RICCO, populates Role/Intent/Context/Constraints/Output from the task, adds a RICCO section to the refined description, and updates the issue. PBI structure remains default; RICCO is additive.

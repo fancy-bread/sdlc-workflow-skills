@@ -5,7 +5,6 @@ Begin development on a task with proper setup and pre-flight checks.
 
 ## Definitions
 
-- **Spec** (this command): `specs/start-task/spec.md` — Blueprint and Contract.
 - **{TASK_KEY}**: Story/Issue ID from the issue tracker (e.g., `FB-6`, `PROJ-123`, `KAN-42`)
 - **Branch Name Format**: Use short format `{type}/{TASK_KEY}` (e.g., `feat/FB-6`, `fix/PROJ-123`)
   - Short format is recommended: `feat/FB-6` (not `feat/FB-6-file-watching-workspace-commands`)

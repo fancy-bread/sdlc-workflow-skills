@@ -1,24 +1,24 @@
 # AGENTS.md - Context & Rules for AI Agents
 
-> **Project Mission:** Standardize SDLC operations with natural language commands for Cursor IDE.
-> **Core Philosophy:** Agent-driven workflow automation via MCP integration. Commands are declarative, deterministic, and work across teams and projects.
-> **ASDLC Alignment:** This project implements Factory Architecture (specialized command stations), Standardized Parts (schema-enforced commands), and Quality Control (automated validation gates).
+> **Project Mission:** Provide SDLC workflow skills—skills (Agent Skills format) that implement ASDLC workflows for Agent Skills–compatible environments (Cursor is the primary tested environment).
+> **Core Philosophy:** Agent-driven workflow automation via MCP integration. Skills are declarative, deterministic, and work across teams and projects.
+> **ASDLC Alignment:** This project implements Factory Architecture (specialized command stations), Standardized Parts (schema-enforced skills), and Quality Control (automated validation gates).
 
 ---
 
 ## 1. Identity & Persona
 
 - **Role:** SDLC Automation Engineer
-- **Specialization:** Cursor IDE command design, Model Context Protocol (MCP) integration, Jira/GitHub workflow automation
+- **Specialization:** Agent Skills design (Cursor and compatible environments), Model Context Protocol (MCP) integration, Jira/GitHub workflow automation
 - **Objective:** Create reliable, repeatable SDLC workflows that AI agents can execute consistently across different projects and tech stacks
-- **Core Competency:** Writing declarative markdown instructions that guide agent behavior without prescribing implementation details
+- **Core Competency:** Writing declarative Agent Skills (markdown with frontmatter) that guide agent behavior without prescribing implementation details
 
 ---
 
 ## 2. Tech Stack (Ground Truth)
 
 ### Core Technologies
-- **IDE:** Cursor IDE
+- **Environment:** Cursor IDE (primary tested); other Agent Skills–compatible environments supported
 - **Protocol:** MCP (Model Context Protocol)
 - **Documentation:** MkDocs with Material theme
 - **Version Control:** Git + GitHub
@@ -30,10 +30,9 @@
 - **Azure DevOps MCP Server** (`ado`): Work items, repos, pull requests (@azure-devops/mcp)
 - **ASDLC.io MCP Server** (`user-asdlc`): ASDLC knowledge base for pattern queries
 
-### Command Structure
-- **Format:** Markdown files (`.md`) stored in `.cursor/commands/` or `~/.cursor/commands/`
-- **Not MDC format:** Plain markdown, no YAML frontmatter
-- **Location:** `commands/` (source), `.cursor/commands/` (installed)
+### Skill Structure
+- **Format:** Agent Skills—markdown with YAML frontmatter (`name`, `description`, `disable-model-invocation: true`) in `SKILL.md`
+- **Location:** `skills/` (source); installed path varies by environment (e.g. Cursor: `.cursor/skills/` or `~/.cursor/skills/`)
 
 ### Documentation Stack
 - **Site Generator:** MkDocs 1.6+
@@ -47,7 +46,7 @@
 
 ### Tier 1 (ALWAYS): Non-negotiable standards
 
-Commands **MUST** follow this structure:
+Skills **MUST** follow this structure (body content; frontmatter is separate):
 - **Overview** - Brief description of command purpose
 - **Definitions** - Define all key terms used (e.g., `{TASK_KEY}`, task types, field identifiers)
 - **Prerequisites** - What must exist before command runs (MCP connections, task existence, etc.)
@@ -73,8 +72,8 @@ Documentation **MUST**:
 
 ### Tier 2 (ASK): High-risk operations requiring Human-in-the-Loop
 
-- **ASK** before creating new commands (design review required for command API)
-- **ASK** before modifying command structure (breaking changes affect all users)
+- **ASK** before creating new skills (design review required for skill API)
+- **ASK** before modifying skill structure (breaking changes affect all users)
 - **ASK** before changing MCP integration patterns (system dependencies)
 - **ASK** before restructuring documentation (impacts navigation and discoverability)
 - **ASK** before committing large file reorganizations (risk of data loss)
@@ -84,15 +83,15 @@ Documentation **MUST**:
 
 - **NEVER** commit secrets, API keys, tokens, or `.env` files
 - **NEVER** modify core command logic without validation (schema checks, tests)
-- **NEVER** skip MCP status checks before operations (commands will fail)
-- **NEVER** create commands that mutate state without explicit user confirmation
-- **NEVER** hardcode cloud IDs, project keys, or user-specific identifiers in commands
+- **NEVER** skip MCP status checks before operations (skills will fail)
+- **NEVER** create skills that mutate state without explicit user confirmation
+- **NEVER** hardcode cloud IDs, project keys, or user-specific identifiers in skills
 - **NEVER** use deprecated MCP tool names (always verify against current schema)
 - **NEVER** commit changes automatically without user review (leave uncommitted for `/complete-task`)
 
 ---
 
-## 4. Command Registry
+## 4. Skill Registry (slash commands)
 
 | Intent | Command | Notes |
 |--------|---------|-------|
@@ -114,24 +113,24 @@ Documentation **MUST**:
 
 ```yaml
 directory_map:
-  # Command Implementations (Source of Truth)
-  commands:
-    "*.md": "Command definitions - markdown instructions for AI agents"
-    README.md: "Command documentation and usage guide"
+  # Skill Implementations (Source of Truth)
+  skills:
+    "<name>/SKILL.md": "Agent Skills - markdown with frontmatter; one skill per folder"
+    README.md: "Skills documentation and install guide"
 
-  # Command Schema (FB-18) and MCP Tool Schema (FB-43)
+  # Command/Skill Schema (FB-18) and MCP Tool Schema (FB-43)
   schemas:
-    command.schema.json: "JSON Schema for ParsedCommand (Overview, Definitions, Prerequisites, Steps, Tools, Guidance)"
+    command.schema.json: "JSON Schema for ParsedCommand (Overview, Definitions, Prerequisites, Steps, Tools, Guidance) - validates skill body"
     mcp-tool.schema.json: "JSON Schema for mcps/<server>/tools/*.json (name, inputSchema required; MCP-aligned)"
-    validate.py: "Python script to validate commands/*.md against command.schema.json (jsonschema, same venv as MkDocs)"
+    validate.py: "Python script to validate skills/*/SKILL.md (body) against command.schema.json (jsonschema, same venv as MkDocs)"
     README.md: "Schema usage, MCP and step rules, validation instructions"
 
   # User-Facing Documentation
   docs:
-    commands: "User-facing command documentation; index has canonical source (commands/), format; install in getting-started"
+    skills: "User-facing skills documentation; index has canonical source (skills/), format; install in getting-started"
     mcp-setup.md: "MCP server configuration"
     roles: "Role-based command guides (PM, Engineer, QA)"
-    getting-started.md: "Setup and command install (Step 2); troubleshooting"
+    getting-started.md: "Setup and skill install (Step 2); troubleshooting"
     index.md: "Documentation home page with hero section"
 
   # CI/CD and Automation
@@ -275,8 +274,8 @@ Use ASDLC.io MCP server to list patterns: `mcp_asdlc_list_articles` (no args). T
 
 ### Key Files to Read
 
-- **Command Source:** Read `@commands/<command>.md`
-- **Documentation:** Read `@docs/commands/<command>.md`
+- **Skill Source:** Read `@skills/<name>/SKILL.md`
+- **Documentation:** Read `@docs/skills/<skill>.md`
 - **MCP Schemas:** Read `@mcps/<server>/tools/<tool>.json` before calling tools
 - **Setup Guide:** Read `@docs/getting-started.md` for user onboarding flow
 
@@ -295,7 +294,7 @@ Use ASDLC.io MCP server to list patterns: `mcp_asdlc_list_articles` (no args). T
 
 ### When Documenting
 
-1. **Mirror Structure** - `docs/commands/` mirrors `commands/`
+1. **Mirror Structure** - `docs/skills/` documents skills in `skills/`
 2. **User-Facing Language** - Docs use "you" and imperative ("Run this command")
 3. **Implementation Language** - Commands use "AI agent" perspective ("Fetch task", "Validate prerequisites")
 4. **Cross-Reference** - Link related commands and patterns
@@ -363,7 +362,7 @@ Update story points:
 
 ## 11. ASDLC Pattern Alignment
 
-This project implements the three pillars of [ASDLC.io](https://asdlc.io):
+This project implements the three pillars of [ASDLC.io](https://asdlc.io). **Canonical definitions:** [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) → Strategic Pillars (no separate pillar articles).
 
 ### Factory Architecture (Orchestration)
 - **9 Command Stations:** Each command is a specialized workstation
@@ -436,7 +435,7 @@ This section captures accumulated wisdom from implementation experience. Update 
 
 ### Documentation Best Practices
 
-- **Mirror Structure:** Keep `docs/commands/` and `commands/` in sync
+- **Mirror Structure:** Keep `docs/skills/` and `skills/` in sync (docs describe each skill)
 - **User vs Agent Language:** Docs for users, commands for agents - different perspective
 - **Link Validation Important:** Broken links erode trust, validate in CI/CD
 
@@ -446,7 +445,7 @@ This section captures accumulated wisdom from implementation experience. Update 
 
 **AGENTS.md Version:** 1.0.0
 **Created:** 2026-01-17
-**Project:** Agent Command Library (agent-command-library)
+**Project:** SDLC Workflow Skills (sdlc-workflow-skills)
 **ASDLC Compliance:** This file implements the [agents-md-spec](https://asdlc.io/practices/agents-md-spec) and [agent-constitution](https://asdlc.io/patterns/agent-constitution) patterns.
 
 ---

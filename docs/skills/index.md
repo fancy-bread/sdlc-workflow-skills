@@ -1,12 +1,12 @@
 ---
-title: Commands Reference
+title: Skills Reference
 ---
 
-# Command Reference
+# Skills Reference
 
-**Commands for AI-assisted development.**
+**SDLC workflow skills (Agent Skills format) for AI-assisted development.**
 
-The canonical command definitions (the markdown files Cursor executes) live in **`commands/`** at the repo root; those files are the source of truth. This documentation describes what each command does. For full instruction content, see the [repository `commands/` folder](https://github.com/fancybread-com/agent-command-library/tree/main/commands). Command files are plain markdown with structured sections; validate with `python schemas/validate.py commands/<name>.md` (see [schemas/README](https://github.com/fancybread-com/agent-command-library/blob/main/schemas/README.md)).
+The canonical skill definitions live in **`skills/`** at the repo root (each skill is `skills/<name>/SKILL.md`). This documentation describes what each skill does. For full instruction content, see the [repository `skills/` folder](https://github.com/fancybread-com/sdlc-workflow-skills/tree/main/skills). Skills are validated with `python schemas/validate.py skills/<name>/SKILL.md` (see [schemas/README](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/schemas/README.md)).
 
 [:octicons-zap-24: Quick Reference](quick-reference.md){ .md-button }
 
@@ -64,10 +64,10 @@ The canonical command definitions (the markdown files Cursor executes) live in *
 
 ---
 
-## How Commands Work
+## How Skills Work
 
-Commands are markdown files that tell AI agents what to achieve. The AI reads your project structure, issue tracker, implementation plans, and team conventions, then executes contextually - same command, different projects, intelligent adaptation.
+Skills are Agent Skills (markdown with frontmatter) that tell AI agents what to achieve. The AI reads your project structure, issue tracker, implementation plans, and team conventions, then executes contextually—same skill, different projects, intelligent adaptation.
 
-Each command aligns with specific [ASDLC](https://asdlc.io) patterns and pillars (Factory Architecture, Standardized Parts, Quality Control); see individual command pages for details.
+Each skill aligns with specific [ASDLC](https://asdlc.io) patterns and pillars (Factory Architecture, Standardized Parts, Quality Control); see [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) section 5. Strategic Pillars for details.
 
 [See the full product flow →](../index.md#how-it-works)

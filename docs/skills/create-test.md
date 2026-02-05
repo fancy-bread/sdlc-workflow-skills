@@ -58,7 +58,7 @@ AI:
 
 ## Full command (source)
 
-[commands/create-test.md](https://github.com/fancybread-com/agent-command-library/blob/main/commands/create-test.md)
+[skills/create-test/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/create-test/SKILL.md)
 
 ## Related Commands
 

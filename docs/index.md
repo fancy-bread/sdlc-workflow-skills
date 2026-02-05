@@ -75,12 +75,12 @@ hide:
 </style>
 
 <div class="hero">
-  <h1>Agent Command Library</h1>
-  <p>Standardize your SDLC with natural language commands. Built for Cursor IDE and MCP tools. Works with Jira, Azure DevOps, and GitHub.</p>
+  <h1>SDLC Workflow Skills</h1>
+  <p>SDLC workflow skills (Agent Skills format) that implement ASDLC workflows. Works in any Agent Skills–compatible environment (including Cursor) with MCP. Jira, Azure DevOps, and GitHub.</p>
   <p>
     <a href="getting-started/" class="md-button md-button--primary">Get Started</a>
-    <a href="commands/" class="md-button">View Commands</a>
-    <a href="https://github.com/fancybread-com/agent-command-library" class="md-button">GitHub</a>
+    <a href="skills/" class="md-button">View Skills</a>
+    <a href="https://github.com/fancybread-com/sdlc-workflow-skills" class="md-button">GitHub</a>
   </p>
 </div>
 
@@ -88,14 +88,13 @@ hide:
 
 ## What This Is
 
-A standardized approach to Software Development Lifecycle operations using well-defined, organized commands that work across teams and projects.
+SDLC Workflow Skills provides skills in Agent Skills format that implement ASDLC workflows. They work across teams and projects in any environment that supports Agent Skills (Cursor IDE is the primary tested environment).
 
 **Built on:**
 
-- **Cursor IDE** - AI-powered development environment
-- **MCP (Model Context Protocol)** - Connects to Jira, Azure DevOps, GitHub
-- **Natural language commands** - Markdown instructions for AI agents
-- **ASDLC** - Principles for industrial-grade agentic software development.
+- **Agent Skills** – Markdown instructions with frontmatter (Cursor and other compatible environments)
+- **MCP (Model Context Protocol)** – Connects to Jira, Azure DevOps, GitHub
+- **ASDLC** – Principles for industrial-grade agentic software development
 
 ---
 
@@ -103,7 +102,7 @@ A standardized approach to Software Development Lifecycle operations using well-
 
 ```mermaid
 graph LR
-    A[You] -->|/command| B[Cursor AI]
+    A[You] -->|/skill| B[AI Agent]
     B -->|invokes| C[MCP Tools]
     C --> D[Jira]
     C --> E[Azure DevOps]
@@ -114,8 +113,8 @@ graph LR
 
 **Flow:**
 
-1. **You invoke a command** (e.g., `/start-task PROJ-123`)
-2. **Cursor AI reads the command** (markdown instruction file)
+1. **You invoke a skill** (e.g. `/start-task PROJ-123`)
+2. **Your AI agent reads the skill** (markdown instruction file)
 3. **AI invokes MCP tools** to interact with:
    - **Jira** - Issue tracking and project management
    - **Azure DevOps** - Work items and boards
@@ -127,7 +126,7 @@ graph LR
 
 ---
 
-[:octicons-zap-24: Quick Reference](commands/quick-reference.md){ .md-button }
+[:octicons-zap-24: Quick Reference](skills/quick-reference.md){ .md-button }
 
 ---
 
@@ -135,15 +134,15 @@ graph LR
 
 ### 1. Setup MCP Connections
 
-Connect Cursor to your services (Jira, Azure DevOps, GitHub, filesystem).
+Connect your IDE or agent to your services (Jira, Azure DevOps, GitHub, filesystem). In Cursor: Settings → Features → Model Context Protocol.
 
-### 2. Install Commands
+### 2. Install Skills
 
-Add command library to your Cursor workspace.
+Add the skill library to your environment (e.g. Cursor: `~/.cursor/skills/` or `.cursor/skills/`).
 
 ### 3. Start Using
 
-Invoke your first command: `/create-task --type=story for [your feature]`
+Invoke your first skill: `/create-task --type=story for [your feature]`
 
 [:octicons-arrow-right-24: Full Setup Guide](getting-started.md){ .md-button .md-button--primary }
 
@@ -151,6 +150,6 @@ Invoke your first command: `/create-task --type=story for [your feature]`
 
 ## Learn More
 
-- **[Commands Reference](commands/index.md)** - Commands with previews
+- **[Skills Reference](skills/index.md)** - All skills with previews
 - **[How It Works](getting-started.md#how-it-works)** - Core principles
 - **[Setup Instructions](mcp-setup.md)** - Detailed configuration

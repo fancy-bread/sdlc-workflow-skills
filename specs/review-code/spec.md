@@ -15,7 +15,7 @@ Code changes need review against both the **Spec** (functional contract) and the
 
 ### Architecture
 
-- **Command location**: `commands/review-code.md`. Executed as `/review-code` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/review-code/SKILL.md`. Executed as `/review-code` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{PR_KEY}` (e.g. `#12`, `12`) or `{BRANCH_NAME}` (e.g. `feat/FB-39`). `{FEATURE_DOMAIN}` derived from branch, PR, or user to select `specs/{FEATURE_DOMAIN}/spec.md`.
 - **Flow**: **[Builder]** (1) Resolve PR or branch; get changed files and diff (`git diff main...{BRANCH}` or GitHub PR diff); (2) determine feature domain and read Spec Blueprint + Contract if `specs/{FEATURE_DOMAIN}/spec.md` exists; (3) read `AGENTS.md` Operational Boundaries (Tier 1 ALWAYS, Tier 2 ASK, Tier 3 NEVER). **[Critic — fresh context]** (4) Invoke Critic with: Spec Blueprint+Contract, Constitution, full diff, file list; (5) Critic outputs structured violations (Spec and Constitution) and gate: PASS / FAIL (Spec CRITICAL or Tier 3) / WARNING (Spec warnings or Tier 2); (6) return violation report and gate to user.
 - **MCP**: GitHub (get_pull_request, get_pull_request_files, list_commits, etc.) for PR/branch and diff. Optionally Atlassian to resolve `{TASK_KEY}` from branch for feature context.

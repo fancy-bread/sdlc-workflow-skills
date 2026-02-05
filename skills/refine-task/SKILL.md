@@ -1,3 +1,9 @@
+---
+name: refine-task
+description: Refine Task
+disable-model-invocation: true
+---
+
 # Refine Task
 
 ## Overview
@@ -43,9 +49,9 @@ Before proceeding, verify:
 4. **Task is Refinable**: Verify task is not already in "Done" or "Completed" status
    - **If task is already completed, STOP and report: "Task {TASK_KEY} is already completed and cannot be refined."**
 
-## Embedded: PBI 4-part anatomy (validation reference)
+## PBI 4-part anatomy (validation reference)
 
-Use to validate and refine tasks. **Directive** (what to do, scope, constraints) → **Context Pointer** (`specs/{feature-domain}/spec.md#blueprint`) → **Verification Pointer** (`specs/{feature-domain}/spec.md#contract`) → **Refinement Rule** (STOP / update spec same commit / flag review if boundaries affected).
+Use to validate and refine tasks. **Shared template:** [../create-task/assets/pbi-anatomy.md](../create-task/assets/pbi-anatomy.md) — load when validating PBI structure. **Summary:** Directive (what to do, scope, constraints) → Context Pointer (`specs/{feature-domain}/spec.md#blueprint`) → Verification Pointer (`specs/{feature-domain}/spec.md#contract`) → Refinement Rule (STOP / update spec same commit / flag review if boundaries affected).
 
 ## Steps
 
@@ -172,7 +178,7 @@ Use to validate and refine tasks. **Directive** (what to do, scope, constraints)
      - **PBI Structure Validation:**
        - If PBI structure complete: "✅ Task follows PBI 4-part anatomy (Directive, Context Pointer, Verification Pointer, Refinement Rule)"
        - If PBI structure partial: "⚠️ Task has partial PBI structure. Missing: {list missing parts}. Consider adding missing sections for better organization."
-       - If PBI structure missing: "ℹ️ Task does not follow PBI 4-part anatomy. Consider restructuring for better organization (see embedded PBI structure in this command)."
+       - If PBI structure missing: "ℹ️ Task does not follow PBI 4-part anatomy. Consider restructuring for better organization (see create-task/assets/pbi-anatomy.md)."
      - **Feature Domain and Spec Existence:**
        - If feature domain detected: "Feature domain: `{feature-domain}`"
        - If spec exists: "✅ Spec found at `specs/{feature-domain}/spec.md`"
@@ -221,7 +227,7 @@ Use to validate and refine tasks. **Directive** (what to do, scope, constraints)
 ### Filesystem Tools
 - `glob_file_search` - Check for spec existence at `specs/{feature-domain}/spec.md`
   - Pattern: `**/specs/*/spec.md`
-- PBI structure is embedded in this command (see "Embedded: PBI 4-part anatomy").
+- PBI template: [../create-task/assets/pbi-anatomy.md](../create-task/assets/pbi-anatomy.md) (see "PBI 4-part anatomy (validation reference)" section).
 
 ## Pre-flight Checklist
 - [ ] MCP status validation performed (see `mcp-status.md`)
@@ -361,7 +367,7 @@ Output:
 
 **Existing Standards (Reference):**
 - MCP status validation: See `mcp-status.md` for detailed MCP server connection checks
-- PBI structure: 4-part anatomy embedded in this command; ASDLC patterns
+- PBI structure: Shared template at create-task/assets/pbi-anatomy.md; ASDLC patterns
 - Task refinement: Conservative approach (preserve existing, enhance minimally)
 - Spec location: `specs/{feature-domain}/spec.md` for permanent context
 

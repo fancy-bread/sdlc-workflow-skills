@@ -31,7 +31,7 @@ Pre-commit hooks automatically validate changes before committing:
    **Important:** Install pre-commit hooks from within the activated virtual environment. The hooks are configured to use the virtual environment's Python, so they'll have access to all dependencies (like `jsonschema`).
 
 3. **Hooks run automatically** on `git commit`:
-   - Schema validation for `commands/` and `mcps/` files
+   - Schema validation for `skills/` and `mcps/` files
    - Link checking for markdown documentation files
    - Fast execution (<10 seconds) on changed files only
 
@@ -43,13 +43,14 @@ Pre-commit hooks automatically validate changes before committing:
 
 ## Schema validation
 
-If you change files in `commands/` or `mcps/`, run before committing:
+If you change files in `skills/` or `mcps/`, run before committing:
 
 ```bash
+python scripts/verify_github_install.py   # Layout for Cursor GitHub install
 python schemas/validate_all.py
 ```
 
-CI runs this on pull requests; passing locally avoids validation failures.
+CI runs both on pull requests; passing locally avoids validation failures.
 
 **Note:** Pre-commit hooks automatically run schema validation on changed files. You can still run `validate_all.py` manually to validate all files.
 
@@ -57,4 +58,4 @@ CI runs this on pull requests; passing locally avoids validation failures.
 
 - Link PRs to the relevant Jira or GitHub issue.
 - When behavior or contracts change, **update the spec in the same commit** as the code (see `specs/README.md`).
-- Ensure `python schemas/validate_all.py` passes when `commands/` or `mcps/` are modified.
+- Ensure `python schemas/validate_all.py` passes when `skills/` or `mcps/` are modified.

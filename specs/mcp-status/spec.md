@@ -17,7 +17,7 @@ MCP servers (Atlassian, GitHub, ASDLC, ADO, etc.) can disconnect or lose authent
 
 ### Architecture
 
-- **Command location**: `commands/mcp-status.md`. Executed as `/mcp-status` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/mcp-status/SKILL.md`. Executed as `/mcp-status` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Server discovery**: Read the MCP configuration file and extract `mcpServers` keys. If the config file is not accessible, try common server names (e.g. `github`, `atlassian`, `ado`, `asdlc`, including `user-`-prefixed variants) as fallback.
 - **Flow**: (1) Discover configured servers from MCP config; (2) for each server, call one lightweight read-only MCP tool (e.g. `getAccessibleAtlassianResources`, `list_commits` / `list_branches`, `list_articles`, `core_list_projects`, or common `list_*` / `get_*` patterns); (3) report connected / disconnected; for disconnected, provide reconnection steps (Cursor Settings → Features → Model Context Protocol).
 - **Dependencies**: MCP configuration (`mcp.json` or Cursor UI), MCP servers configured in Cursor. **Outbound**: commands that require MCP (e.g. `/start-task`) should direct users to run `/mcp-status` when MCP is in doubt.
@@ -34,7 +34,7 @@ MCP servers (Atlassian, GitHub, ASDLC, ADO, etc.) can disconnect or lose authent
 
 ### Definition of Done
 
-- [ ] Command exists at `commands/mcp-status.md` and conforms to the command schema.
+- [ ] Skill exists at `skills/mcp-status/SKILL.md` and body conforms to the command schema.
 - [ ] Command discovers configured servers from the MCP configuration file (`mcp.json`) or, if inaccessible, tries common server names as fallback.
 - [ ] For each discovered server, the command calls one lightweight read-only MCP tool (per patterns in the command) and records success or failure.
 - [ ] Output clearly reports each server as connected or disconnected; for disconnected, includes reconnection steps (e.g. Cursor Settings → Features → Model Context Protocol).

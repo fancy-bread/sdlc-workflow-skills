@@ -15,11 +15,11 @@ Tasks often enter the backlog under-specified or poorly organized. Refinement en
 
 ### Architecture
 
-- **Command location**: `commands/refine-task.md`. Executed as `/refine-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/refine-task/SKILL.md`. Executed as `/refine-task` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{TASK_KEY}` (e.g. `FB-15`). DoR: clear description, AC, dependencies, well-organized structure. PBI structure validation (4-part anatomy: Directive, Context Pointer, Verification Pointer, Refinement Rule).
 - **Flow**: (1) MCP validation; (2) fetch task; if status is Done/Completed, STOP; (3) validate PBI structure (4-part anatomy); (4) detect feature domain and check spec existence; (5) refine title, description, AC for clarity and organization, remove fluff; (6) update issue via `mcp_atlassian_editJiraIssue`.
 - **MCP**: Atlassian (getAccessibleAtlassianResources, getJiraIssue, editJiraIssue). cloudId resolved at runtime.
-- **Dependencies**: Issue tracker, Specs at `specs/{feature-domain}/spec.md` (optional - graceful degradation if missing). PBI structure is embedded in `refine-task`. **Outbound**: Refined tasks are ready for `/start-task` or human refinement meetings.
+- **Dependencies**: Issue tracker, Specs at `specs/{feature-domain}/spec.md` (optional - graceful degradation if missing). PBI template: `skills/create-task/assets/pbi-anatomy.md` (refine-task references create-task's asset). **Outbound**: Refined tasks are ready for `/start-task` or human refinement meetings.
 
 ### Anti-Patterns
 

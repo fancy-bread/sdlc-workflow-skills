@@ -1,6 +1,6 @@
-# MCP Setup for Cursor
+# MCP Setup
 
-Model Context Protocol (MCP) connects Cursor to version control and issue tracking services.
+Model Context Protocol (MCP) connects your IDE or agent to version control and issue tracking services. This page uses **Cursor** as the primary example; other environments may use different settings locations.
 
 **MCP combinations:**
 
@@ -13,9 +13,9 @@ ASDLC is optional.
 
 ## Configuration
 
-**Location:** Cursor Settings → Features → Model Context Protocol
-
-Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows)
+**Cursor:** Settings → Features → Model Context Protocol  
+Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows).  
+Other environments: see your IDE or agent’s MCP documentation.
 
 ---
 
@@ -39,7 +39,7 @@ Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (
 
 **GitHub:** [github.com/settings/tokens](https://github.com/settings/tokens) — scopes: `repo`, `read:org`
 
-**Jira:** On first use, Cursor prompts for Atlassian OAuth. Test: *"Get Jira issues in my current sprint"*
+**Jira:** On first use, your environment may prompt for Atlassian OAuth (e.g. Cursor). Test: *"Get Jira issues in my current sprint"*
 
 ---
 
@@ -60,7 +60,7 @@ Azure DevOps provides both repository management and issue tracking, so it can b
 
 Replace `your-org-name` with your Azure DevOps organization (e.g. `contoso` for `https://dev.azure.com/contoso`).
 
-**ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server’s `env` if your MCP or Cursor config supports it.
+**ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server’s `env` if your MCP config supports it.
 
 Test: *"Get work items in my current sprint"* or *"List repositories in my organization"*
 
@@ -68,7 +68,7 @@ Test: *"Get work items in my current sprint"* or *"List repositories in my organ
 
 ## Troubleshooting
 
-**MCP not connecting?** Restart Cursor, verify URLs, check internet connection.
+**MCP not connecting?** Restart your IDE or agent, verify URLs, check internet connection.
 
 **GitHub auth fails?** Verify token has `repo` and `read:org` scopes.
 

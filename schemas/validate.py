@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-Validates a Cursor command markdown file against schemas/command.schema.json.
+Validates a Cursor command/skill markdown file against schemas/command.schema.json.
 
-Usage: python schemas/validate.py <path-to-command.md>
+Usage: python schemas/validate.py <path>
+Example: python schemas/validate.py skills/create-plan/SKILL.md
 Example: python schemas/validate.py commands/create-plan.md
 
+Supports:
+- skills/<name>/SKILL.md — strips YAML frontmatter (--- ... ---), validates body
+
 Parses ## Overview, ## Definitions, ## Prerequisites, ## Steps, ## Tools, ## Guidance,
-extracts step numbers from Steps, and MCP refs (mcp_Server_ToolName) from the full doc.
+extracts step numbers from Steps, and MCP refs (mcp_Server_ToolName) from the content.
 """
 
 import json
@@ -56,15 +60,26 @@ def parse_command_md(md: str) -> dict:
     return parsed
 
 
+def strip_frontmatter(md: str) -> str:
+    """If content has YAML frontmatter (--- ... ---), return body only."""
+    if not md.strip().startswith("---"):
+        return md
+    parts = md.split("---", 2)
+    if len(parts) < 3:
+        return md
+    return parts[2].lstrip("\n")
+
+
 def main() -> None:
-    md_path = sys.argv[1] if len(sys.argv) > 1 else "commands/create-plan.md"
+    md_path = sys.argv[1] if len(sys.argv) > 1 else "skills/create-plan/SKILL.md"
     schema_path = Path(__file__).parent / "command.schema.json"
 
     if not Path(md_path).exists():
         print(f"File not found: {md_path}", file=sys.stderr)
         sys.exit(1)
 
-    md = Path(md_path).read_text(encoding="utf-8")
+    raw = Path(md_path).read_text(encoding="utf-8")
+    md = strip_frontmatter(raw)
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     parsed = parse_command_md(md)
 

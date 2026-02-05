@@ -1,3 +1,9 @@
+---
+name: decompose-task
+description: Decompose Task
+disable-model-invocation: true
+---
+
 # Decompose Task
 
 ## Overview
@@ -99,17 +105,9 @@ Before proceeding, verify:
 
 ---
 
-## Embedded: PBI 4-part anatomy
+## PBI 4-part anatomy (for subtasks)
 
-Use this structure when generating subtask descriptions (Stories/Epics). Populate from parent task and inherited `{feature-domain}`; link to `specs/{feature-domain}/spec.md`. Same spec as parent.
-
-**1. Directive** — What to do for this subtask; explicit scope (narrower than parent). Scope: in/out; Constraints; dependencies on other subtasks.
-
-**2. Context Pointer** — See `specs/{feature-domain}/spec.md#blueprint`. Same spec as parent; subtask-specific scope.
-
-**3. Verification Pointer** — See `specs/{feature-domain}/spec.md#contract`. Reference parent's Contract.
-
-**4. Refinement Rule** — Same as parent: if implementation diverges from Spec, STOP / update spec same commit / flag review if architectural boundaries affected.
+Use this structure when generating subtask descriptions (Stories/Epics). **PBI template:** Use create-task's asset — [../create-task/assets/pbi-anatomy.md](../create-task/assets/pbi-anatomy.md) — load when building subtask PBI descriptions (same anatomy as create-task; child issues follow the same structure). Populate from parent task and inherited `{feature-domain}`; link to `specs/{feature-domain}/spec.md`. Same spec as parent; for subtasks, Directive scope is narrower than parent.
 
 **Examples:**
 - `/decompose-task PROJ-100` (epic)
@@ -225,7 +223,7 @@ Use this structure when generating subtask descriptions (Stories/Epics). Populat
      - For user stories: "As a [user], I want [goal], so that [benefit]" format
      - For technical tasks: Use clear action-oriented descriptions
    - **Generate subtask descriptions with PBI structure** (for Stories and Epics):
-     - **Use the embedded PBI 4-part anatomy** (see "Embedded: PBI 4-part anatomy" in this command).
+     - **Use the shared PBI 4-part anatomy** — load [../create-task/assets/pbi-anatomy.md](../create-task/assets/pbi-anatomy.md) (see "PBI 4-part anatomy (for subtasks)" section above).
      - **For each subtask, populate 4-part anatomy:**
        1. **Directive Section:**
           - Specific scope for this subtask (narrower than parent)
@@ -240,7 +238,7 @@ Use this structure when generating subtask descriptions (Stories/Epics). Populat
           - Generate link: `../../specs/{feature-domain}/spec.md#contract`
           - Reference parent's Contract for overall goals
        4. **Refinement Rule Section:**
-          - Use embedded Refinement Rule; same as parent's refinement rule
+          - Use the Refinement Rule from the shared PBI template; same as parent's refinement rule
      - **Validate PBI structure for each subtask:**
        - Verify all 4 sections present
        - Verify feature domain matches parent
@@ -398,7 +396,7 @@ Use this structure when generating subtask descriptions (Stories/Epics). Populat
 - `read_file` - Read plan files or external docs referenced in task
   - Read plan files if referenced in task
   - Parameters: `target_file` = path to document
-  - PBI structure is embedded in this command (see "Embedded: PBI 4-part anatomy").
+  - PBI template: [../create-task/assets/pbi-anatomy.md](../create-task/assets/pbi-anatomy.md) (see "PBI 4-part anatomy (for subtasks)" section).
   - Use when task references external documentation or plan files
 - `glob_file_search` - Search for specs
   - Find specs: Pattern `**/specs/{feature-domain}/spec.md`
@@ -589,7 +587,7 @@ Breakdown documented in STORY-50 comments.
 11. **Feature Domain Inheritance**: Extract feature domain from parent task (from labels, description, or epic). All subtasks must inherit same domain.
 12. **PBI Structure for Subtasks** (Stories/Epics): Generate subtask descriptions with ASDLC PBI 4-part anatomy (Directive, Context Pointer, Verification Pointer, Refinement Rule).
 13. **Spec Reference Consistency**: All subtasks must reference the same spec as parent (`specs/{feature-domain}/spec.md`).
-14. **PBI structure** (Stories/Epics): Use the embedded PBI 4-part anatomy in this command; populate for each subtask.
+14. **PBI structure** (Stories/Epics): Use the shared PBI template at create-task/assets/pbi-anatomy.md; populate for each subtask.
 15. **Feature Label Inheritance**: Add label `feature:{domain}` to all subtasks (inherited from parent).
 
 **Existing Standards (Reference):**
@@ -597,7 +595,7 @@ Breakdown documented in STORY-50 comments.
 - Task creation patterns: See `create-task.md` for task creation workflows and validation patterns
 - User story format: "As a [user], I want [goal], so that [benefit]"
 - Subtask criteria: Defined in Definitions section above
-- PBI structure: Embedded in this command ("Embedded: PBI 4-part anatomy")
+- PBI structure: Shared template at create-task/assets/pbi-anatomy.md
 - Spec Structure: See `specs/README.md` for Blueprint + Contract format
 - ASDLC Patterns: The PBI (4-part anatomy), The Spec (permanent pointer target)
 

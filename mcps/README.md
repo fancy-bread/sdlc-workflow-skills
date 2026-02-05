@@ -8,7 +8,7 @@
 
 **MCP combinations:** **GitHub + Jira** or **GitHub + ADO** (issue tracker). ASDLC optional.
 
-**Curated for tool limits:** We only include tools that are referenced in `commands/*.md` or `commands/mcp-status.md`. This keeps the list small so developers with multiple MCP servers stay under IDE tool limits. Add a tool only when a command or mcp-status uses it.
+**Curated for tool limits:** We only include tools that are referenced in `skills/*/SKILL.md` or `skills/mcp-status/SKILL.md`. This keeps the list small so developers with multiple MCP servers stay under IDE tool limits. Add a tool only when a skill or mcp-status uses it.
 
 ## Servers
 
@@ -43,7 +43,7 @@ The `--list` output is derived from `mcps/` only (filesystem); no MCP calls. Use
 
 ## Adding or updating tools
 
-1. **Only add tools that are referenced in `commands/*.md` or `commands/mcp-status.md`** (see “Curated for tool limits” above).
+1. **Only add tools that are referenced in `skills/*/SKILL.md` or `skills/mcp-status/SKILL.md`** (see “Curated for tool limits” above).
 2. Create or edit `mcps/<server>/tools/<tool>.json`.
 3. Ensure `name` and `inputSchema` (with `type: "object"` and `properties`) are present.
 4. Run `python schemas/validate_mcps.py`.

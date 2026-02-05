@@ -48,7 +48,7 @@ Configured servers:
   ✅ github - Connected
 
 ⚠️ To reconnect:
-Cursor Settings → Features → Model Context Protocol → Connect
+Your environment’s MCP settings (e.g. Cursor: Settings → Features → Model Context Protocol → Connect)
 ```
 
 ## When to Use
@@ -62,7 +62,7 @@ Cursor Settings → Features → Model Context Protocol → Connect
 
 ---
 
-**[View full command (source)](https://github.com/fancybread-com/agent-command-library/blob/main/commands/mcp-status.md)**
+**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/mcp-status/SKILL.md)**
 
 ---
 

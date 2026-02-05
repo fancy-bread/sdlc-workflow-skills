@@ -15,11 +15,11 @@ Teams adopting ASDLC patterns need to set up foundational repository structure (
 
 **Problem**: Teams must manually create AGENTS.md, specs/, .plans/ directories, and understand ASDLC structure before using commands. This creates a barrier to entry and leads to inconsistent setups across teams.
 
-**Solution**: A single command that creates the foundational structure (AGENTS.md template, specs/, .plans/, optional schemas/) with intelligent detection and clear feedback. The command is idempotent, never overwrites existing files, and provides optional MCP verification.
+**Solution**: A single skill that creates the foundational structure (AGENTS.md template, specs/, .plans/, optional schemas/) with intelligent detection and clear feedback. The skill is idempotent, never overwrites existing files, and provides optional MCP verification.
 
 ### Architecture
 
-- **Command location**: `commands/setup-asdlc.md`. Executed as `/setup-asdlc` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/setup-asdlc/SKILL.md`. Executed as `/setup-asdlc` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Template sources**: 
   - AGENTS.md template based on existing `AGENTS.md` in this repository (if available)
   - `specs/README.md` copied from this repository (if available)
@@ -54,7 +54,7 @@ Teams adopting ASDLC patterns need to set up foundational repository structure (
 
 ### Definition of Done
 
-- [ ] Command exists at `commands/setup-asdlc.md` and conforms to command schema (`schemas/command.schema.json`).
+- [ ] Skill exists at `skills/setup-asdlc/SKILL.md` and body conforms to command schema (`schemas/command.schema.json`).
 - [ ] Command checks for existing `AGENTS.md` before creating; if exists, skips and reports.
 - [ ] Command generates `AGENTS.md` template with 3-tier Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER) when missing.
 - [ ] Command creates `specs/` directory with `specs/README.md` (copied from this repository if available) when missing.

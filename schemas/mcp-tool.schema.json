@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/fancybread-com/agent-command-library/schemas/mcp-tool.schema.json",
+  "$id": "https://github.com/fancybread-com/sdlc-workflow-skills/schemas/mcp-tool.schema.json",
   "title": "MCP Tool Definition",
   "description": "Schema for an MCP tool definition in mcps/<server>/tools/*.json. Aligns with Model Context Protocol tool shape: name, inputSchema (required), and optional description, title, outputSchema, annotations.",
   "type": "object",

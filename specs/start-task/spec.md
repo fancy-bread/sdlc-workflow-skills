@@ -15,7 +15,7 @@ Developers need a consistent way to begin work on a task: run pre-flight checks 
 
 ### Architecture
 
-- **Command location**: `commands/start-task.md`. Executed as `/start-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/start-task/SKILL.md`. Executed as `/start-task` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{TASK_KEY}` (e.g. `FB-6`). Branch format: `{type}/{TASK_KEY}` (e.g. `feat/FB-6`, `fix/PROJ-123`). Type from issue: Story→`feat/`, Bug→`fix/`, Task/Chore→`chore/`, Refactor→`refactor/`.
 - **Flow**: (1) MCP status checks; (2) read spec (if `specs/{FEATURE_DOMAIN}/spec.md`) and/or plan (`.plans/{TASK_KEY}-*.plan.md`); (3) verify story in "In Progress" (transition via MCP if not); (4) create branch `{type}/{TASK_KEY}`; (5) post work checklist to Jira; (6) implement per spec/plan. Leaves changes uncommitted; `/complete-task` handles commit/push/PR.
 - **MCP**: Atlassian (getJiraIssue, getTransitionsForJiraIssue, transitionJiraIssue, addCommentToJiraIssue), GitHub (list_branches, create_branch). cloudId from getAccessibleAtlassianResources.
@@ -38,7 +38,7 @@ Developers need a consistent way to begin work on a task: run pre-flight checks 
 - [ ] Story in "In Progress" and assigned to current user (transition via MCP if needed).
 - [ ] Branch `{type}/{TASK_KEY}` created and checked out; work checklist posted to the issue with the actual branch name.
 - [ ] Implementation performed per spec/plan; changes left uncommitted.
-- [ ] `python schemas/validate_all.py` passes (when commands/specs are involved).
+- [ ] `python schemas/validate_all.py` passes (when skills/specs are involved).
 
 ### Regression Guardrails
 

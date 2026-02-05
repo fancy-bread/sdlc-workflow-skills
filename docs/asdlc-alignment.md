@@ -4,7 +4,7 @@ This document provides explicit traceability from commands to ASDLC patterns and
 
 ## Overview
 
-The commands in this project implement ASDLC (Agent Command Library Lifecycle) patterns and pillars. Each command serves as a specialized station in a Factory Architecture, uses Standardized Parts (schema-enforced structure), and implements Quality Control (validation gates).
+The skills in this project implement ASDLC patterns and pillars. Each skill serves as a specialized station in a Factory Architecture, uses Standardized Parts (schema-enforced structure), and implements Quality Control (validation gates).
 
 ## Command Mapping
 
@@ -23,7 +23,7 @@ The commands in this project implement ASDLC (Agent Command Library Lifecycle) p
 
 ## ASDLC Pillars
 
-The three ASDLC pillars are implemented across the command set:
+The three ASDLC pillars are implemented across the command set. **On ASDLC.io they are defined in one place:** [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) → **Strategic Pillars** (Factory Architecture, Standardized Parts, Quality Control). There are no separate pillar articles; use that concept page and scroll to section 5.
 
 - **Factory Architecture**: Specialized command stations that handle specific workflow phases
 
@@ -60,10 +60,11 @@ The command mapping table above shows which patterns each command implements. Ke
 
 ## Related Documentation
 
-- [Commands Reference](commands/index.md) - Detailed documentation for each command
+- [Skills Reference](skills/index.md) - Detailed documentation for each skill
 - [Getting Started](getting-started.md) - Setup and usage guide
-- [AGENTS.md](https://github.com/fancybread-com/agent-command-library/blob/main/AGENTS.md) - Agent Constitution and operational boundaries
+- [AGENTS.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/AGENTS.md) - Agent Constitution and operational boundaries
 
 ## External Resources
 
 - [ASDLC.io](https://asdlc.io/) - ASDLC methodology and patterns
+- [Agentic SDLC → Strategic Pillars](https://asdlc.io/concepts/agentic-sdlc/) - Where Factory Architecture, Standardized Parts, and Quality Control are defined (one concept page, scroll to section 5)

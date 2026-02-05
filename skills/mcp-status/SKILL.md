@@ -1,3 +1,9 @@
+---
+name: mcp-status
+description: MCP Status
+disable-model-invocation: true
+---
+
 # MCP Status
 
 ## Overview
@@ -139,4 +145,3 @@ Read the MCP configuration file (`~/.cursor/mcp.json` or Windows equivalent) to 
    - See AGENTS.md §3 Operational Boundaries (if present) for detailed standards
 2. **Read-only Operations**: This command performs read-only operations only; no data is modified or created.
 3. **Error Handling**: If a server test fails, distinguish authentication errors (needs reconnect) from other errors and provide specific guidance.
-

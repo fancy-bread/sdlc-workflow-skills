@@ -1,3 +1,9 @@
+---
+name: create-task
+description: Create Task
+disable-model-invocation: true
+---
+
 # Create Task
 
 ## Overview
@@ -79,25 +85,11 @@ The command supports two syntax styles:
 
 ---
 
-## Embedded: PBI 4-part anatomy
+## PBI 4-part anatomy
 
-Use this structure when generating Stories and Epics. Populate from user input and `{feature-domain}`; link to `specs/{feature-domain}/spec.md` (Blueprint and Contract). If spec is missing, use placeholders and warn.
+Use this structure when generating **Stories** and **Epics**. **Template:** [assets/pbi-anatomy.md](assets/pbi-anatomy.md) — load when building PBI descriptions. Populate from user input and `{feature-domain}`; link to `specs/{feature-domain}/spec.md` (Blueprint and Contract). If spec is missing, use placeholders and warn.
 
-**1. Directive** — What to do, with explicit scope boundaries (constrained instruction, not a request).
-- **Scope:** In scope: [included]; Out of scope: [excluded].
-- **Constraints:** Technical/business constraints; dependencies.
-
-**2. Context Pointer** — See `specs/{feature-domain}/spec.md#blueprint` for: Why, Architecture, Anti-Patterns. If spec missing: placeholder + note to create via `/create-plan {TASK_KEY}`.
-
-**3. Verification Pointer** — See `specs/{feature-domain}/spec.md#contract` for: DoD, Regression Guardrails, Test Scenarios. If spec missing: placeholder; note that AC must be defined in spec.
-
-**4. Refinement Rule** — If implementation diverges from Spec: STOP, document divergence; update spec in same commit (Same-Commit Rule); flag for review if architectural boundaries affected.
-
-**Explicit Flag:**
-- `/create-task --type=story for user authentication`
-- `/create-task --type=epic from phase-one.md`
-- `/create-task --type=bug login fails with OAuth`
-- `/create-task --type=task refactor auth service`
+**Summary:** (1) **Directive** — scope and constraints; (2) **Context Pointer** — spec#blueprint; (3) **Verification Pointer** — spec#contract; (4) **Refinement Rule** — Same-Commit Rule on divergence.
 
 ## Task Types
 
@@ -481,7 +473,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
    - **Generate appropriate content based on type:**
      - Write clear, descriptive title
      - **Generate description with PBI structure (for Stories and Epics):**
-       - **Use the embedded PBI 4-part anatomy** (see "Embedded: PBI 4-part anatomy" section in this command).
+       - **Use the PBI 4-part anatomy** — load [assets/pbi-anatomy.md](assets/pbi-anatomy.md) when building PBI descriptions (see "PBI 4-part anatomy" section above).
        - **Populate 4-part anatomy:**
          1. **Directive Section:**
             - Extract what to do from user input/task description
@@ -500,7 +492,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
             - If spec missing: Use placeholder link
             - Explain what's in Contract: DoD, Guardrails, Scenarios
          4. **Refinement Rule Section:**
-            - Use embedded Refinement Rule (STOP / update spec same commit / flag review if architectural boundaries affected)
+            - Use the Refinement Rule from the PBI template (STOP / update spec same commit / flag review if architectural boundaries affected)
             - Customize if specific review needs (e.g., security, performance)
        - **Validate PBI structure:**
          - Verify all 4 sections present
@@ -580,7 +572,7 @@ For any other task type (e.g., "subtask", "improvement", "spike", etc.), the com
 - `read_file` - Read epic plan files
   - Read plan files: `.plans/phase-one.md`, `.cursor/plans/phase-one.md`
   - Parameters: `target_file` = path to file
-  - Use to read plan documents when creating epics from files. PBI structure is embedded in this command (see "Embedded: PBI 4-part anatomy").
+  - Use to read plan documents when creating epics from files. PBI template: [assets/pbi-anatomy.md](assets/pbi-anatomy.md) (see "PBI 4-part anatomy" section).
 - `glob_file_search` - Search for specs and plan files
   - Find specs: Pattern `**/specs/{feature-domain}/spec.md`
   - Find plans: Pattern `**/.plans/*.md` or `**/.cursor/plans/*.md`
@@ -735,7 +727,7 @@ Workflow:
    - Check existing specs: specs/user-authentication/spec.md ✅ EXISTS
    - Domain confirmed: user-authentication
 4. Validate information (after user provides details): SUFFICIENT
-5. Generate story with PBI structure (use embedded 4-part anatomy):
+5. Generate story with PBI structure (use template assets/pbi-anatomy.md):
    - Populate 4 sections with feature-domain = "user-authentication"
 6. Create story in Jira with PBI description + label "feature:user-authentication"
 
@@ -856,7 +848,7 @@ Note: Assumed scope includes only authentication service, not related services.
 13. **Feature Domain Detection**: For Stories/Epics, determine feature domain using detection strategies (labels, parent, title parsing, or ask user).
 14. **Feature Domain Format**: Must be kebab-case (e.g., `user-authentication`, `payment-processing`).
 15. **Spec Validation**: Check if spec exists at `specs/{feature-domain}/spec.md`. Warn if missing but don't block creation.
-16. **PBI structure** (Stories/Epics): Use the embedded PBI 4-part anatomy in this command; populate with task-specific content.
+16. **PBI structure** (Stories/Epics): Use the PBI template at assets/pbi-anatomy.md; populate with task-specific content.
 17. **Feature Label**: Add label `feature:{domain}` to Stories/Epics for domain tracking.
 
 **Existing Standards (Reference):**
@@ -864,7 +856,7 @@ Note: Assumed scope includes only authentication service, not related services.
 - Validation logic: See "Intelligent Information Validation" section below for detailed validation patterns and examples
 - Plan file format: See `create-plan.md` for plan file structure
 - Epic breakdown: See `decompose-task.md` for breaking down epics into stories
-- PBI structure: Embedded in this command ("Embedded: PBI 4-part anatomy")
+- PBI structure: Template at assets/pbi-anatomy.md (see "PBI 4-part anatomy" section)
 - Spec Structure: See `specs/README.md` for Blueprint + Contract format
 - ASDLC Patterns: The PBI (4-part anatomy), The Spec (permanent pointer target)
 

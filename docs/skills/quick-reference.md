@@ -13,7 +13,7 @@ title: Quick Reference
 ## Command Organization
 
 ```
-agent-command-library/
+sdlc-workflow-skills/
 ├── Product
 │   ├── /create-task
 │   └── /decompose-task

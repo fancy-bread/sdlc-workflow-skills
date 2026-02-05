@@ -162,7 +162,7 @@ Begin development on a task with proper setup and pre-flight checks.
 - Output: Development work with incremental commits
 ```
 
-**[View full command (source)](https://github.com/fancybread-com/agent-command-library/blob/main/commands/start-task.md)**
+**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/start-task/SKILL.md)**
 
 ---
 

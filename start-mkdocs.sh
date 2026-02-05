@@ -30,8 +30,8 @@ check_venv() {
         print_msg $YELLOW "Virtual environment not found. Creating..."
         python3 -m venv $VENV_DIR
         source $VENV_DIR/bin/activate
-        pip install --upgrade pip
-        pip install -r requirements.txt
+        "$VENV_DIR/bin/pip" install --upgrade pip
+        "$VENV_DIR/bin/pip" install -r requirements.txt
         print_msg $GREEN "Virtual environment created and dependencies installed."
     fi
 }
@@ -73,7 +73,7 @@ start_server() {
     activate_venv
 
     print_msg $BLUE "Starting MkDocs server..."
-    nohup mkdocs serve --dev-addr 127.0.0.1:$PORT > $LOG_FILE 2>&1 &
+    nohup "$VENV_DIR/bin/mkdocs" serve --dev-addr 127.0.0.1:$PORT > $LOG_FILE 2>&1 &
     local pid=$!
     echo $pid > $PID_FILE
 
@@ -91,7 +91,7 @@ start_server() {
     fi
 }
 
-# Stop MkDocs server
+# Stop MkDocs server (uses PID file only)
 stop_server() {
     if is_running; then
         local pid=$(cat $PID_FILE)
@@ -102,6 +102,20 @@ stop_server() {
     else
         print_msg $YELLOW "MkDocs server is not running"
     fi
+}
+
+# Kill any MkDocs serve process (e.g. after renaming project directory when PID file is stale/missing)
+kill_server() {
+    local pids
+    pids=$(pgrep -f "mkdocs serve" 2>/dev/null || true)
+    if [ -n "$pids" ]; then
+        print_msg $BLUE "Killing MkDocs server process(es): $pids"
+        echo "$pids" | xargs kill 2>/dev/null || true
+        print_msg $GREEN "✓ MkDocs server killed"
+    else
+        print_msg $YELLOW "No MkDocs serve process found"
+    fi
+    rm -f $PID_FILE
 }
 
 # Show server status
@@ -165,11 +179,24 @@ setup() {
     activate_venv
 
     print_msg $BLUE "Installing dependencies..."
-    pip install --upgrade pip
-    pip install -r requirements.txt
+    "$VENV_DIR/bin/pip" install --upgrade pip
+    "$VENV_DIR/bin/pip" install -r requirements.txt
 
     print_msg $GREEN "✓ Setup complete"
     print_msg $YELLOW "Run './start-mkdocs.sh start' to start the server"
+}
+
+# Kill server, remove venv and pid/log, then setup (use after renaming project directory)
+reset_env() {
+    print_msg $BLUE "Resetting environment (kill server, remove venv, re-setup)..."
+    kill_server
+    if [ -d "$VENV_DIR" ]; then
+        print_msg $BLUE "Removing existing venv..."
+        rm -rf "$VENV_DIR"
+    fi
+    rm -f $LOG_FILE
+    setup
+    print_msg $GREEN "✓ Reset complete. Run './start-mkdocs.sh start' to start the server"
 }
 
 # Show usage
@@ -181,20 +208,22 @@ Usage: $0 [command]
 
 Commands:
     start       Start MkDocs development server in background
-    stop        Stop MkDocs development server
+    stop        Stop MkDocs development server (uses PID file)
+    kill        Kill any mkdocs serve process (use if directory was renamed)
     restart     Restart MkDocs development server
     status      Show server status
     logs        Show and follow server logs (Ctrl+C to exit)
     build       Build the static site (strict mode)
     clean       Stop server and clean build artifacts
     setup       Set up virtual environment and install dependencies
+    reset       Kill server, remove venv and re-setup (use after renaming directory)
     help        Show this help message
 
 Examples:
     $0 start        # Start the server
-    $0 logs         # View logs in real-time
-    $0 restart      # Restart after config changes
-    $0 build        # Build for production
+    $0 kill         # After renaming project dir: kill stray mkdocs process
+    $0 reset        # After renaming: kill, fresh venv, then run start
+    $0 logs        # View logs in real-time
 
 Server will be available at: http://127.0.0.1:$PORT
 EOF
@@ -207,6 +236,12 @@ case "${1:-}" in
         ;;
     stop)
         stop_server
+        ;;
+    kill)
+        kill_server
+        ;;
+    reset)
+        reset_env
         ;;
     restart)
         restart_server

@@ -1,3 +1,9 @@
+---
+name: create-plan
+description: Create a living specification (Spec) or plan for a feature by analyzing requirements and codebase
+disable-model-invocation: true
+---
+
 # Create Spec
 
 ## Overview

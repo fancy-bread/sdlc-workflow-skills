@@ -280,7 +280,7 @@ The command adapts its workflow based on the task type.
    - Provide link to created task
 ```
 
-**[View full command (source)](https://github.com/fancybread-com/agent-command-library/blob/main/commands/create-task.md)**
+**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/create-task/SKILL.md)**
 
 ---
 

@@ -59,7 +59,7 @@ AI:
 
 ## Full command (source)
 
-[commands/complete-task.md](https://github.com/fancybread-com/agent-command-library/blob/main/commands/complete-task.md)
+[skills/complete-task/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/complete-task/SKILL.md)
 
 ## Related Commands
 

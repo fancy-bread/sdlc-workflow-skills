@@ -15,7 +15,7 @@ Teams need either a **Spec** (permanent Blueprint+Contract at `specs/{FEATURE_DO
 
 ### Architecture
 
-- **Command location**: `commands/create-plan.md`. Executed as `/create-plan` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/create-plan/SKILL.md`. Executed as `/create-plan` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{TASK_KEY}`. Optional: `{FEATURE_DOMAIN}` for Spec (kebab-case). **Spec** when: new feature domain, API contracts, cross-team deps. **Plan** when: bug, task-level implementation, transient work.
 - **Flow**: (1) MCP validation; (2) fetch story (Jira `getJiraIssue` or GitHub `issue_read`); (3) validate story (description, ≥3 AC; if not, STOP or ask); (4) extract keywords from story for ASDLC pattern queries; (5) analyze codebase (codebase_search, grep, patterns); (6) query ASDLC knowledge base (`mcp_asdlc_search_knowledge_base`) for relevant patterns (3-5 most relevant); (7) design: for Spec — Blueprint (Context, Architecture, Anti-Patterns) + Contract (DoD, Guardrails, Scenarios); for Plan — Story, Context, Scope, AC, Technical Design, Implementation Steps, Testing, Dependencies, Referenced ASDLC Patterns, Status; (8) create file: `specs/{FEATURE_DOMAIN}/spec.md` or `.plans/{TASK_KEY}-{kebab}.plan.md`; (9) for Plan: post summary comment to issue (if posting fails, note but do not fail).
 - **MCP**: Atlassian (getAccessibleAtlassianResources, getJiraIssue, addCommentToJiraIssue), GitHub (issue_read, add_issue_comment), ASDLC (search_knowledge_base, get_article) for pattern lookup.
@@ -49,7 +49,7 @@ Teams need either a **Spec** (permanent Blueprint+Contract at `specs/{FEATURE_DO
 ### Scenarios
 
 **Scenario: Plan created and summary posted**
-- **Given**: MCP OK, FB-44 exists with description and ≥3 AC, codebase has `.plans/` and `commands/`
+- **Given**: MCP OK, FB-44 exists with description and ≥3 AC, codebase has `.plans/` and `skills/`
 - **When**: The user runs `/create-plan FB-44` and the outcome is a Plan
 - **Then**: `.plans/FB-44-create-specs-for-8-commands.plan.md` exists with Story, Scope, AC, Technical Design, Implementation Steps, and a plan summary is posted to FB-44.
 

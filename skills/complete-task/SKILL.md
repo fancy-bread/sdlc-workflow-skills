@@ -1,3 +1,9 @@
+---
+name: complete-task
+description: Complete Task
+disable-model-invocation: true
+---
+
 # Complete Task
 
 ## Overview

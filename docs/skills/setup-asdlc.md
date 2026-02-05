@@ -101,7 +101,7 @@ Next steps:
 
 ## See Also
 
-- [Living Specifications](https://github.com/fancybread-com/agent-command-library/blob/main/specs/README.md) - Guide to creating and maintaining specs
+- [Living Specifications](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/specs/README.md) - Guide to creating and maintaining specs
 - [Agent Constitution Pattern](https://asdlc.io/patterns/agent-constitution/) - AGENTS.md specification
 - [MCP Setup](../mcp-setup.md) - Configure Model Context Protocol servers
 

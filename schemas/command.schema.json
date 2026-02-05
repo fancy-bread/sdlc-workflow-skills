@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/fancybread-com/agent-command-library/schemas/command.schema.json",
+  "$id": "https://github.com/fancybread-com/sdlc-workflow-skills/schemas/command.schema.json",
   "title": "ParsedCommand",
   "description": "Logical structure of a Cursor command markdown file, parsed for validation. Required sections per AGENTS.md §6: Overview, Definitions, Prerequisites, Steps, Tools, Guidance.",
   "type": "object",

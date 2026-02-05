@@ -15,7 +15,7 @@ Developers need tests generated from a component and, when available, from the S
 
 ### Architecture
 
-- **Command location**: `commands/create-test.md`. Executed as `/create-test` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/create-test/SKILL.md`. Executed as `/create-test` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{component}` — class name, file path, or component name (e.g. `OAuthService`, `src/services/payment.ts`, `LoginForm`). Test type: unit (primary), integration, e2e. Framework and naming inferred from config and existing tests.
 - **Flow**: (1) If spec exists for the feature domain, read Contract Scenarios and derive test cases from Gherkin; else use code analysis; (2) detect codebase type (backend/frontend) and test framework (Jest, Vitest, pytest, xUnit, etc.) and naming (`*.test.ts`, `*_test.py`, etc.); (3) analyze component: inputs, outputs, side effects, mocks; (4) identify test cases (from Spec scenarios or code paths); (5) generate test file following project conventions; (6) place next to component or in test dir per project layout.
 - **Dependencies**: `specs/` (Contract Scenarios), codebase layout, test framework config. **Outbound**: New test files are run by the project’s test runner and by `/complete-task` before commit.

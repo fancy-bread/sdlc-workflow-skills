@@ -1,3 +1,9 @@
+---
+name: review-code
+description: Review Code
+disable-model-invocation: true
+---
+
 # Review Code
 
 ## Overview

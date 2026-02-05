@@ -15,7 +15,7 @@ Developers need a single command to finalize work: run tests and lint, stage cha
 
 ### Architecture
 
-- **Command location**: `commands/complete-task.md`. Executed as `/complete-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/complete-task/SKILL.md`. Executed as `/complete-task` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{TASK_KEY}`. Branch must match `{type}/{TASK_KEY}`. Uses spec at `specs/{FEATURE_DOMAIN}/spec.md` and plan at `.plans/{TASK_KEY}-*.plan.md` for PR body and CR context.
 - **Flow**: (1) MCP validation, branch check, tests, lint; (2) if code changed contracts — check spec updated in staged changes (Same-Commit); (3) **Constitutional Review**: read AGENTS.md (Tier 1/2/3), spec (if exists), `git diff main...HEAD`; invoke Critic in a fresh context; PASS → continue, Tier 3 violations → STOP, no commit/PR; (4) commit with `{type}: {description} ({TASK_KEY})`; (5) push; (6) optionally create PR (Constitutional Review report, spec/plan summary, verification); (7) transition to "Code Review"; post completed checklist.
 - **MCP**: Atlassian (getJiraIssue, getTransitionsForJiraIssue, transitionJiraIssue, addCommentToJiraIssue), GitHub (list_commits, create_pull_request, get_pull_request, etc.).
@@ -38,7 +38,7 @@ Developers need a single command to finalize work: run tests and lint, stage cha
 - [ ] Constitutional Review run; no Tier 3 violations (Tier 2/1 permit proceed with warnings).
 - [ ] Changes committed with conventional format `{type}: {description} ({TASK_KEY})`, pushed to remote.
 - [ ] If PR created: PR includes CR report, spec/plan summary, verification; issue updated with PR link and transitioned to "Code Review". If PR skipped: issue updated with push confirmation and transitioned to "Code Review".
-- [ ] `python schemas/validate_all.py` passes when commands/specs are changed.
+- [ ] `python schemas/validate_all.py` passes when skills/specs are changed.
 
 ### Regression Guardrails
 

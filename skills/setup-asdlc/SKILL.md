@@ -1,3 +1,9 @@
+---
+name: setup-asdlc
+description: Initialize a repository for ASDLC adoption with AGENTS.md and directory structure
+disable-model-invocation: true
+---
+
 # Setup ASDLC
 
 ## Overview

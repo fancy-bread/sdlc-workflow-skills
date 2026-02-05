@@ -33,7 +33,7 @@ Commands reference MCP tools (e.g. `mcp_atlassian_getJiraIssue`, `mcp_github_lis
 - **Don’t use a tool file that fails `mcp-tool.schema.json`** — validators and CI must be able to assume conformance.
 - **Don’t hardcode server or tool names in validators** — derive from `mcp_Server_Tool` and path conventions.
 - **Don’t skip `mcps/README.md`** — it documents the layout, the schema, and how to add or update tools.
-- **Don’t add a tool to `mcps/` unless it is referenced in `commands/*.md` or `commands/mcp-status.md`** — we curate for tool limits. With multiple MCP servers, developers can hit IDE caps; only tools used by commands or mcp-status belong in the list of record.
+- **Don’t add a tool to `mcps/` unless it is referenced in `skills/*/SKILL.md` or `skills/mcp-status/SKILL.md`** — we curate for tool limits. With multiple MCP servers, developers can hit IDE caps; only tools used by skills or mcp-status belong in the list of record.
 
 ---
 

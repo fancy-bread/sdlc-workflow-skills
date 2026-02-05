@@ -22,11 +22,14 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Validate commands and mcps
+      - name: Verify GitHub install layout
+        run: python scripts/verify_github_install.py
+
+      - name: Validate skills and mcps
         run: python schemas/validate_all.py
 
       - name: Check links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/agent-command-library' --exclude 'asdlc.io' --exclude 'getting-started' ./docs ./commands ./specs ./mcps ./schemas README.md AGENTS.md
+          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/sdlc-workflow-skills' --exclude 'fancybread-com.github.io' --exclude 'asdlc.io' --exclude 'getting-started' ./docs ./skills ./specs ./mcps ./schemas README.md AGENTS.md
           fail: true

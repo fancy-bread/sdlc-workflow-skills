@@ -1,9 +1,9 @@
-# Agent Command Library
+# SDLC Workflow Skills
 
-**Standardize SDLC operations with natural language commands for Cursor IDE.**
+**SDLC workflow skills: skills (Agent Skills format) that implement ASDLC workflows.**
 
-[![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/agent-command-library)
-[![Schema Validation](https://github.com/fancybread-com/agent-command-library/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/agent-command-library/actions/workflows/command-validation.yml)
+[![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/sdlc-workflow-skills)
+[![Schema Validation](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/command-validation.yml)
 [![ASDLC](https://img.shields.io/badge/ASDLC-aligned-5e35b1)](https://asdlc.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -11,14 +11,14 @@
 
 ## What This Is
 
-Standardized common Software Development Lifecycle commands that work across teams and projects.
+SDLC Workflow Skills provides **SDLC workflow skills**—skills in [Agent Skills](https://cursor.com/docs/context/skills) format that implement [ASDLC](https://asdlc.io/) workflows. They work in any environment that supports Agent Skills (including Cursor IDE) and across teams and projects.
 
-Built on [ASDLC.io](https://asdlc.io/) principles for industrial-grade agentic software development. Implements Factory Architecture with specialized command stations, schema-enforced Standardized Parts, and automated Quality Control gates. Demonstrates Level 3 Conditional Autonomy where agents execute workflows with human oversight at decision points. See [ASDLC Alignment](docs/asdlc-alignment.md) for detailed pattern mapping.
+Built on ASDLC principles: Factory Architecture (specialized command stations), Standardized Parts (schema-enforced structure), and Quality Control (automated gates). See [ASDLC Alignment](docs/asdlc-alignment.md) for pattern mapping.
 
 **Built on:**
-- Cursor IDE (AI-powered development)
-- MCP (connects to Jira, Azure DevOps, GitHub)
-- Natural language commands (markdown instructions)
+- **Agent Skills** – Markdown instructions with frontmatter (supported by Cursor and other Agent Skills–compatible environments)
+- **MCP** – Jira, Azure DevOps, GitHub
+- **Cursor IDE** – Primary tested environment; others may work where the format is supported
 
 ---
 
@@ -26,7 +26,7 @@ Built on [ASDLC.io](https://asdlc.io/) principles for industrial-grade agentic s
 
 ### 1. Configure MCP
 
-**Cursor Settings → Features → Model Context Protocol:**
+Configure MCP in your IDE or agent (e.g. **Cursor:** Settings → Features → Model Context Protocol):
 
 ```json
 {
@@ -44,13 +44,24 @@ Built on [ASDLC.io](https://asdlc.io/) principles for industrial-grade agentic s
 }
 ```
 
-### 2. Install Commands
+### 2. Install Skills
+
+**Cursor:** Install from GitHub: **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancybread-com/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
+
+**Or** copy skills into your environment’s skills directory (same layout works for Cursor, Claude, and Codex):
 
 ```bash
-cp -r commands/* ~/.cursor/commands/
+# Cursor
+cp -r skills/* ~/.cursor/skills/
+
+# Claude
+cp -r skills/* ~/.claude/skills/
+
+# Codex
+cp -r skills/* ~/.codex/skills/
 ```
 
-### 3. Use Commands
+### 3. Use Skills (slash commands)
 
 ```
 /create-task --type=story for user authentication
@@ -59,46 +70,46 @@ cp -r commands/* ~/.cursor/commands/
 /complete-task PROJ-123
 ```
 
-[Full setup guide →](https://fancybread-com.github.io/agent-command-library/getting-started/) | [Try a Development Workflow →](https://fancybread-com.github.io/agent-command-library/getting-started/#try-a-development-workflow)
+[Full setup guide →](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/) | [Try a Development Workflow →](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/#try-a-development-workflow)
 
 ---
 
-## Available Commands
+## Available Skills
 
 - **Product (2):** `/create-task`, `/decompose-task`
 - **Planning (2):** `/refine-task`, `/create-plan`
 - **Development (2):** `/start-task`, `/complete-task`
 - **Quality (2):** `/create-test`, `/review-code`
-- **Utilities (1):** `/mcp-status`
+- **Utilities (2):** `/mcp-status`, `/setup-asdlc`
 
-[View all commands →](https://fancybread-com.github.io/agent-command-library/commands/)
+[View all skills →](https://fancybread-com.github.io/sdlc-workflow-skills/skills/)
 
 ---
 
 ## How It Works
 
-Commands connect you to AI agents that interact with Jira, GitHub, and your codebase. The AI reads your project context and executes operations consistently across projects.
+Skills connect you to AI agents that interact with Jira, GitHub, and your codebase. The AI reads your project context and executes workflows consistently across projects.
 
-[Full explanation →](https://fancybread-com.github.io/agent-command-library/#how-it-works)
+[Full explanation →](https://fancybread-com.github.io/sdlc-workflow-skills/#how-it-works)
 
 ---
 
 ## Documentation
 
-📚 **[Full Documentation](https://fancybread-com.github.io/agent-command-library)**
+📚 **[Full Documentation](https://fancybread-com.github.io/sdlc-workflow-skills)**
 
-- [Getting Started](https://fancybread-com.github.io/agent-command-library/getting-started/) - 3-step setup
-- [Commands Reference](https://fancybread-com.github.io/agent-command-library/commands/) - All commands
-- [Methodology](https://fancybread-com.github.io/agent-command-library/getting-started/#how-it-works) - Core principles
+- [Getting Started](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/) - 3-step setup
+- [Skills Reference](https://fancybread-com.github.io/sdlc-workflow-skills/skills/) - All skills
+- [Methodology](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/#how-it-works) - Core principles
 
 ---
 
 ## Requirements
 
-- **Cursor IDE** - [Download](https://cursor.com)
-- **Jira or Azure DevOps** - Issue tracking
-- **GitHub** - Version control
-- **GitHub token** - For MCP access
+- **Agent Skills–compatible environment** (e.g. [Cursor IDE](https://cursor.com))
+- **Jira or Azure DevOps** – Issue tracking
+- **GitHub** – Version control
+- **GitHub token** – For MCP access
 
 ---
 

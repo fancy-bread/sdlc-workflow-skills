@@ -60,7 +60,7 @@ AI:
 
 ## Full command (source)
 
-[commands/create-plan.md](https://github.com/fancybread-com/agent-command-library/blob/main/commands/create-plan.md)
+[skills/create-plan/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/create-plan/SKILL.md)
 
 ---
 

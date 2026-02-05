@@ -1,10 +1,10 @@
-site_name: Agent Command Library
-site_description: Development methodology for Cursor IDE + Jira + GitHub with AI workflow automation
+site_name: SDLC Workflow Skills
+site_description: SDLC workflow skills for Agent Skills–compatible environments (e.g. Cursor) + MCP, Jira, GitHub
 site_author: Paul
-site_url: https://github.com/fancybread-com/agent-command-library
+site_url: https://github.com/fancybread-com/sdlc-workflow-skills
 
-repo_name: agent-command-library
-repo_url: https://github.com/fancybread-com/agent-command-library
+repo_name: sdlc-workflow-skills
+repo_url: https://github.com/fancybread-com/sdlc-workflow-skills
 edit_uri: edit/main/docs/
 
 theme:
@@ -69,24 +69,24 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
 
-  - Commands:
-    - commands/index.md
-    - Quick Reference: commands/quick-reference.md
+  - Skills:
+    - skills/index.md
+    - Quick Reference: skills/quick-reference.md
     - Product:
-      - Create Task: commands/create-task.md
-      - Decompose Task: commands/decompose-task.md
+      - Create Task: skills/create-task.md
+      - Decompose Task: skills/decompose-task.md
     - Planning:
-      - Refine Task: commands/refine-task.md
-      - Create Plan: commands/create-plan.md
+      - Refine Task: skills/refine-task.md
+      - Create Plan: skills/create-plan.md
     - Development:
-      - Start Task: commands/start-task.md
-      - Complete Task: commands/complete-task.md
+      - Start Task: skills/start-task.md
+      - Complete Task: skills/complete-task.md
     - Quality:
-      - Create Test: commands/create-test.md
-      - Review Code: commands/review-code.md
+      - Create Test: skills/create-test.md
+      - Review Code: skills/review-code.md
     - Utilities:
-      - MCP Status: commands/mcp-status.md
-      - Setup ASDLC: commands/setup-asdlc.md
+      - MCP Status: skills/mcp-status.md
+      - Setup ASDLC: skills/setup-asdlc.md
 
   - Reference:
     - MCP Setup: mcp-setup.md
@@ -155,7 +155,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/fancybread-com/agent-command-library
+      link: https://github.com/fancybread-com/sdlc-workflow-skills
       name: GitHub Repository
 
 # Copyright

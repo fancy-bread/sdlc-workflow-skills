@@ -30,7 +30,7 @@ jobs:
       - name: Generate release notes from CHANGELOG
         id: changelog
         run: |
-          CHANGELOG_FILE="commands/CHANGELOG.md"
+          CHANGELOG_FILE="CHANGELOG.md"
           VERSION=${GITHUB_REF#refs/tags/v}
 
           if [ -f "$CHANGELOG_FILE" ]; then
@@ -61,22 +61,22 @@ jobs:
             fi
           fi
 
-      - name: Create commands archives
+      - name: Create skills archives
         id: archive
         run: |
           set -e
           TAG_NAME=${GITHUB_REF#refs/tags/}
-          TAR_NAME="commands-${TAG_NAME}.tar.gz"
-          ZIP_NAME="commands-${TAG_NAME}.zip"
+          TAR_NAME="skills-${TAG_NAME}.tar.gz"
+          ZIP_NAME="skills-${TAG_NAME}.zip"
 
-          if [ ! -d "commands" ]; then
-            echo "Error: commands folder not found"
+          if [ ! -d "skills" ]; then
+            echo "Error: skills folder not found"
             exit 1
           fi
 
-          # Package with top-level commands/ so "cp -r commands/* ~/.cursor/commands/" works after extract
+          # Package with top-level skills/ so "cp -r skills/* ~/.cursor/skills/" works after extract
           mkdir -p release-package
-          cp -r commands release-package/
+          cp -r skills release-package/
 
           tar -czf "$TAR_NAME" -C release-package .
           if [ ! -f "$TAR_NAME" ]; then
@@ -127,14 +127,14 @@ jobs:
 
           # GitHub creates source archives with names like: repo-name-version.tar.gz
           # Match assets that start with repo-name-version and end with .tar.gz or .zip
-          # but exclude our custom archives (commands-*.tar.gz and commands-*.zip)
+          # but exclude our custom archives (skills-*.tar.gz and skills-*.zip)
 
           # Get all assets and filter for source archives
           ASSETS_JSON=$(gh release view "$TAG_NAME" --json assets 2>/dev/null || echo '{"assets":[]}')
 
           # Extract asset names matching the pattern, excluding our custom archives
           SOURCE_ARCHIVES=$(echo "$ASSETS_JSON" | jq -r --arg repo "$REPO_NAME" --arg version "$VERSION" \
-            '.assets[] | select(.name | startswith($repo + "-" + $version) and (.name | endswith(".tar.gz") or .name | endswith(".zip")) and (.name | startswith("commands-") | not)) | .name' 2>/dev/null || echo "")
+            '.assets[] | select(.name | startswith($repo + "-" + $version) and (.name | endswith(".tar.gz") or .name | endswith(".zip")) and (.name | startswith("skills-") | not)) | .name' 2>/dev/null || echo "")
 
           if [ -n "$SOURCE_ARCHIVES" ]; then
             echo "Found source archives to remove:"
@@ -156,6 +156,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # CHANGELOG is updated before the tag (by /create-release or manually). This job only updates docs/releases.md on main.
       - name: Checkout main for documentation update
         uses: actions/checkout@v4
         with:

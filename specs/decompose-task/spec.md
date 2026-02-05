@@ -15,7 +15,7 @@ Epics and large stories need to be split into smaller, actionable subtasks with 
 
 ### Architecture
 
-- **Command location**: `commands/decompose-task.md`. Executed as `/decompose-task` when installed in `.cursor/commands/` or `~/.cursor/commands/`.
+- **Skill location**: `skills/decompose-task/SKILL.md`. Executed as `/decompose-task` when installed in `.cursor/skills/` or `~/.cursor/skills/`.
 - **Inputs**: `{TASK_KEY}` — epic or large story key (e.g. `FB-6`, `PROJ-100`). Subtask criteria: clear AC (3–5), appropriate size (1–2 days / 1–2 points), standalone or explicit deps, testable.
 - **Flow**: (1) MCP validation; (2) fetch task via `mcp_atlassian_getJiraIssue` or GitHub equivalent; (3) validate information density (goals, scope, context, success criteria, constraints); if &lt;3 elements or too vague, STOP and ask 3–5 questions; (4) analyze scope and boundaries; (5) design subtasks (titles, descriptions, AC); (6) create children via MCP (`createJiraIssue` with `parent` or equivalent), inheriting `{FEATURE_DOMAIN}` from parent when applicable; (7) link and optionally estimate.
 - **MCP**: Atlassian (getJiraIssue, getJiraProjectIssueTypesMetadata, createJiraIssue, searchJiraIssuesUsingJql), GitHub (issue_read, create_issue). cloudId from getAccessibleAtlassianResources.

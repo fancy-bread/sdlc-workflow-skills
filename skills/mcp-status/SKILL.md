@@ -12,7 +12,9 @@ Check the authentication status of all configured Model Context Protocol (MCP) s
 ## Definitions
 
 - **MCP server**: A configured Model Context Protocol server in Cursor (e.g. github, atlassian, ado, asdlc).
-- **MCP configuration**: The `mcpServers` section in `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows), or configured via Cursor Settings → Features → Model Context Protocol.
+- **User-level MCP configuration**: The `mcpServers` section in `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows), or configured via Cursor Settings → Features → Model Context Protocol.
+- **Project-level MCP configuration**: Optional `mcpServers` in `.cursor/mcp.json` at the workspace root. When present, Cursor may merge or override with user-level config; discover from this file so status reflects project-configured servers. If the file is missing, skip (not an error).
+- **Extension-exposed MCP**: An MCP server provided by a VS Code/Cursor extension (e.g. Agent Context Explorer / extension-ace). Tools may use prefixes like `mcp_<vendor>_*`. When the agent has access to such tools, include them in status and tag as source **(extension)**.
 
 ## Prerequisites
 
@@ -24,14 +26,14 @@ MCP servers can disconnect or lose authentication after periods of inactivity. U
 
 ## Steps
 
-1. **Discover configured MCP servers**
-   - Read the MCP configuration file: `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows).
-   - Extract the `mcpServers` object keys to get the list of configured server names (e.g. `github`, `atlassian`, `ado`, `asdlc`).
-   - If the config file is not accessible, try common server names: `github`, `atlassian`, `ado`, `asdlc`, `user-github`, `user-atlassian`, `user-ado`, `user-asdlc` (with and without `user-` prefix).
-   - Note: Server names in the config may differ from tool prefixes (e.g., config has `github` but tools use `mcp_github_*` or `mcp_user-github_*`).
+1. **Discover configured MCP servers (user, project, extension)**
+   - **User-level**: Read `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows). Extract `mcpServers` keys. Tag each server as source **(user)**. If the file is not accessible, try common server names: `github`, `atlassian`, `ado`, `asdlc`, `user-github`, `user-atlassian`, `user-ado`, `user-asdlc`.
+   - **Project-level**: If workspace root is available, read `.cursor/mcp.json` at workspace root. If the file exists, extract `mcpServers` keys and tag each as **(project)**. If a server name already appeared from user config, record both sources (e.g. "user, project") or report once with combined source. If the file is missing, skip (not an error).
+   - **Extension-exposed**: When the agent has access to MCP tools from extensions (e.g. Agent Context Explorer; tool names use a prefix pattern such as `mcp_<vendor>_<suffix>`), treat each distinct extension server as one entry. Call one read-only tool per known extension server (e.g. extension-ace: list rules or list commands) and tag as **(extension)**. If no extension tools are available, skip (not an error).
+   - Note: Server names in config may differ from tool prefixes (e.g. config has `github` but tools use `mcp_github_*`).
 
 2. **Test each server connection**
-   - For each discovered server, attempt to call a lightweight read-only tool to verify connectivity and authentication.
+   - For each discovered server (from any source), attempt to call one lightweight read-only tool to verify connectivity and authentication. Record the server's **source** (user / project / extension) with the result.
    - Use common tool patterns for known server types:
      - **github** / **user-github** → Try `list_commits` (may require owner/repo args) or `list_branches`
      - **atlassian** / **user-atlassian** → Try `getAccessibleAtlassianResources` or `atlassianUserInfo`
@@ -41,46 +43,53 @@ MCP servers can disconnect or lose authentication after periods of inactivity. U
    - Record success or failure for each server. Handle "server not found" vs "authentication error" vs "tool not found" differently.
 
 3. **Report status**
-   - Display results in a clear, formatted list
-   - Show server name and authentication status
-   - For disconnected servers, provide reconnection instructions
+   - Display results in a clear, formatted list. Group or label by source (User config, Project config, Extensions) so users see where each server comes from.
+   - Show server name, authentication status, and source (e.g. "(user)", "(project)", "(extension)").
+   - For disconnected servers, provide reconnection instructions (Cursor Settings → Features → Model Context Protocol).
 
 ## Tools
 
 ### Filesystem
-- Read MCP configuration: `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows)
-- Parse JSON to extract `mcpServers` keys
+- Read user MCP configuration: `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows). Parse JSON to extract `mcpServers` keys.
+- Read project MCP configuration: `.cursor/mcp.json` at workspace root (if present). Parse JSON to extract `mcpServers` keys. If file is missing, skip.
 
 ### MCP (per discovered server)
 - **github** / **user-github** → Try `list_commits`, `list_branches`, or other read-only tools
 - **atlassian** / **user-atlassian** → Try `getAccessibleAtlassianResources`, `atlassianUserInfo`
 - **ado** / **user-ado** → Try `core_list_projects`
 - **asdlc** / **user-asdlc** → Try `list_articles`
+- **Extension-exposed** (e.g. extension-ace): Try a read-only tool such as list rules or list commands (no args or minimal args). Tag result as (extension).
 - **Other servers**: Try common read-only tool patterns (`list_*`, `get_*`, `*_info`) with minimal or empty args
-- Note: Tool names may be prefixed with `mcp_<server>_` or `mcp_user-<server>_` depending on configuration
+- Note: Tool names may be prefixed with `mcp_<server>_` or `mcp_user-<server>_` depending on configuration. Record source (user / project / extension) with each result.
 
 ## Expected Output
 
-### All Connected
+### All Connected (with sources)
 ```
 🔌 MCP Server Status
 
-Configured servers:
-  ✅ atlassian - Connected
-  ✅ github - Connected
-  ✅ filesystem - Connected
+User config:
+  ✅ atlassian - Connected (user)
+  ✅ github - Connected (user)
+
+Project config:
+  (none)
+
+Extensions:
+  ✅ extension-ace - Connected (extension)
 
 All systems operational!
 ```
+
+(When only user-level config exists and no extensions, output may show no "Project config" or "Extensions" sections, and servers with "(user)" or no source label for backward compatibility.)
 
 ### Some Disconnected
 ```
 🔌 MCP Server Status
 
-Configured servers:
-  ❌ atlassian - Needs authentication
-  ✅ github - Connected
-  ✅ filesystem - Connected
+User config:
+  ❌ atlassian - Needs authentication (user)
+  ✅ github - Connected (user)
 
 ⚠️ Action Required:
 1. Open Cursor Settings (Cmd+, or Ctrl+,)
@@ -99,7 +108,9 @@ Configured servers:
 ## Error Handling
 
 If unable to discover MCP servers:
-- If config file is not accessible, try common server names as fallback
+- If user config file is not accessible, try common server names as fallback
+- If project `.cursor/mcp.json` is missing, skip (not an error)
+- If no extension tools are available, skip extension section (not an error)
 - If no servers respond, report that no MCP servers are configured or accessible
 - Provide link to MCP setup documentation (e.g., `docs/mcp-setup.md` if present, or general MCP setup instructions)
 
@@ -127,8 +138,8 @@ Read the MCP configuration file (`~/.cursor/mcp.json` or Windows equivalent) to 
 
 ### Context
 - MCP servers can disconnect or lose auth after inactivity. Use at start of day, after inactivity, or before critical commands.
-- Discover servers from the MCP configuration file, not from project-specific directories or scripts.
-- If config file is not accessible, try common server names and test connectivity.
+- Discover servers from three sources: (1) user-level `mcp.json`, (2) project-level `.cursor/mcp.json` at workspace root when present, (3) extension-exposed MCPs when the agent has access to their tools. Report each server with its source (user / project / extension).
+- If user config file is not accessible, try common server names and test connectivity. Missing project or extension config is not an error.
 - **ASDLC patterns**: [Context Gates](asdlc://context-gates)
 - **ASDLC pillars**: **Quality Control** (pre-flight validation for other commands)
 

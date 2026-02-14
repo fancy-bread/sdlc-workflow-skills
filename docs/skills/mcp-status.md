@@ -15,7 +15,7 @@ Verify authentication status of all configured MCP servers.
 
 ## What It Does
 
-Verifies the authentication status of all configured MCP servers (Jira, GitHub, ASDLC, ADO, etc.). Tests each server connection and reports which servers are connected and which need reconnection, providing specific guidance for fixing authentication issues.
+Verifies the authentication status of all configured MCP servers (Jira, GitHub, ASDLC, ADO, etc.). Discovers servers from **user-level** config (`~/.cursor/mcp.json`), optional **project-level** config (`.cursor/mcp.json` at workspace root), and **extension-exposed** MCPs (e.g. Agent Context Explorer) when present. Tests each server connection and reports which are connected and which need reconnection, with the **source** (user / project / extension) for each. Provides specific guidance for fixing authentication issues.
 
 ---
 
@@ -26,15 +26,35 @@ Verifies the authentication status of all configured MCP servers (Jira, GitHub, 
 
 ---
 
+## Configuration sources
+
+Servers are discovered from:
+
+| Source | Location | When used |
+|--------|----------|-----------|
+| **User** | `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows) | Always (or common server names as fallback) |
+| **Project** | `.cursor/mcp.json` at workspace root | When the file exists in the project |
+| **Extension** | MCPs exposed by VS Code/Cursor extensions (e.g. Agent Context Explorer) | When the extension is enabled and exposes tools |
+
+Output labels each server with its source: **(user)**, **(project)**, or **(extension)**. Reconnection steps apply to user- and project-configured servers.
+
+---
+
 ## Example Output
 
-**All connected:**
+**All connected (with sources):**
 ```
 🔌 MCP Server Status
 
-Configured servers:
-  ✅ atlassian - Connected
-  ✅ github - Connected
+User config:
+  ✅ atlassian - Connected (user)
+  ✅ github - Connected (user)
+
+Project config:
+  (none)
+
+Extensions:
+  ✅ extension-ace - Connected (extension)
 
 All systems operational!
 ```
@@ -43,12 +63,12 @@ All systems operational!
 ```
 🔌 MCP Server Status
 
-Configured servers:
-  ❌ atlassian - Needs authentication
-  ✅ github - Connected
+User config:
+  ❌ atlassian - Needs authentication (user)
+  ✅ github - Connected (user)
 
 ⚠️ To reconnect:
-Your environment’s MCP settings (e.g. Cursor: Settings → Features → Model Context Protocol → Connect)
+Cursor: Settings → Features → Model Context Protocol → Connect for the failing server, then run /mcp-status again.
 ```
 
 ## When to Use

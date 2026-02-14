@@ -69,6 +69,7 @@ Documentation **MUST**:
 - **ALWAYS** use proper markdown formatting
 - **ALWAYS** validate internal links
 - **ALWAYS** reference ASDLC patterns where applicable (use `asdlc://pattern-slug` format)
+- **ALWAYS** update both agent docs (specs) and user docs (e.g. `docs/skills/*.md`) in the **same commit** when a skill or feature changes (Same-Commit Rule applies to both)
 
 ### Tier 2 (ASK): High-risk operations requiring Human-in-the-Loop
 
@@ -295,9 +296,10 @@ Use ASDLC.io MCP server to list patterns: `mcp_asdlc_list_articles` (no args). T
 ### When Documenting
 
 1. **Mirror Structure** - `docs/skills/` documents skills in `skills/`
-2. **User-Facing Language** - Docs use "you" and imperative ("Run this command")
-3. **Implementation Language** - Commands use "AI agent" perspective ("Fetch task", "Validate prerequisites")
-4. **Cross-Reference** - Link related commands and patterns
+2. **Same-Commit Rule (both docs)** - When a skill or feature changes, update **both** the spec (agent documentation at `specs/{domain}/spec.md`) and user-facing docs (e.g. `docs/skills/<skill>.md`) in the same commit. No code/spec change without matching doc updates.
+3. **User-Facing Language** - Docs use "you" and imperative ("Run this command")
+4. **Implementation Language** - Commands use "AI agent" perspective ("Fetch task", "Validate prerequisites")
+5. **Cross-Reference** - Link related commands and patterns
 
 ### When Validating
 

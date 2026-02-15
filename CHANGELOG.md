@@ -8,6 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-02-14
+
+### Added
+
+- **MCP discovery:** mcp-status skill now discovers project-level (`.cursor/mcp.json`) and extension-exposed MCP servers in addition to user-level config.
+- **MkDocs spec:** New `specs/mkdocs/spec.md` for docs build and deployment.
+
+### Changed
+
+- **Schema:** Command schema renamed to `skill.schema.json`; validation and references updated (FB-71).
+- **Specs:** `command-audit` and `commands` specs renamed to `skill-audit` and `skills` (FB-68).
+- **CI:** Workflow renamed from command-validation to skill-validation.
+
 ## [2.0.0] - 2026-02-03
 
 ### Added
@@ -37,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-[Unreleased]: https://github.com/fancybread-com/sdlc-workflow-skills/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/fancybread-com/sdlc-workflow-skills/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/fancybread-com/sdlc-workflow-skills/releases/tag/v2.1.0
 [2.0.0]: https://github.com/fancybread-com/sdlc-workflow-skills/releases/tag/v2.0.0
 [1.1.5]: https://github.com/fancybread-com/sdlc-workflow-skills/releases/tag/v1.1.5

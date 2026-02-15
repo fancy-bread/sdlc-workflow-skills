@@ -130,7 +130,7 @@ Before proceeding, verify:
          - **Tier 1 (ALWAYS)**: Non-negotiable standards
          - **Tier 2 (ASK)**: High-risk operations requiring human approval
          - **Tier 3 (NEVER)**: Safety limits
-       - Extract **Command Structure Standards** (if reviewing command file changes)
+       - Extract **Skill Structure Standards** (if reviewing skill file changes)
        - Store for Critic Agent context
      - If AGENTS.md does NOT exist:
        - Log: "⚠️ AGENTS.md not found - Constitutional validation skipped"

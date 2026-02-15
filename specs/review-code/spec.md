@@ -37,7 +37,7 @@ Code changes need review against both the **Spec** (functional contract) and the
 - [ ] Builder: diff, file list, Spec (if exists), and AGENTS.md are gathered and passed to Critic.
 - [ ] Critic runs in a fresh context and produces a structured report: violations (Spec + Constitution), severity, location, remediation.
 - [ ] Gate: PASS (no critical), FAIL (Spec CRITICAL or Tier 3), WARNING (Spec warnings or Tier 2).
-- [ ] `python schemas/validate_all.py` passes when commands are changed.
+- [ ] `python schemas/validate_all.py` passes when skills are changed.
 
 ### Regression Guardrails
 

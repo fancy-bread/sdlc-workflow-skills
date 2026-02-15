@@ -36,7 +36,7 @@ Developers need tests generated from a component and, when available, from the S
 - [ ] Test framework and file-naming convention are identified; if not, user is prompted or creation is blocked.
 - [ ] Test file generated using Arrange-Act-Assert (or project equivalent), placed according to project layout, and consistent with existing test patterns.
 - [ ] If spec has Scenarios: at least one test case is derived from a Gherkin scenario when the component maps to that spec.
-- [ ] `python schemas/validate_all.py` passes when commands are changed.
+- [ ] `python schemas/validate_all.py` passes when skills are changed.
 
 ### Regression Guardrails
 

@@ -226,7 +226,7 @@ Execute the setup workflow to prepare a repository for ASDLC by creating AGENTS.
 - This command enables teams to quickly adopt ASDLC patterns
 - Command is optional—other commands work without running setup
 - Based on recommendations from FB-32 analysis
-- Follows command structure standards from AGENTS.md
+- Follows skill structure standards from AGENTS.md
 - **ASDLC patterns**: [Agent Constitution](asdlc://agent-constitution), [The Spec](asdlc://the-spec), [Standardized Parts](asdlc://standardized-parts)
 - **ASDLC pillars**: **Factory Architecture** (command station), **Standardized Parts** (schema-enforced structure), **Quality Control** (validation gates)
 

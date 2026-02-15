@@ -3,7 +3,7 @@
 **SDLC workflow skills: skills (Agent Skills format) that implement ASDLC workflows.**
 
 [![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/sdlc-workflow-skills)
-[![Schema Validation](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/command-validation.yml/badge.svg)](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/command-validation.yml)
+[![Schema Validation](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/skill-validation.yml/badge.svg)](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/skill-validation.yml)
 [![ASDLC](https://img.shields.io/badge/ASDLC-aligned-5e35b1)](https://asdlc.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 

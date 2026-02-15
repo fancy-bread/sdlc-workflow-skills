@@ -1,6 +1,6 @@
-# ASDLC Alignment: Commands → Patterns
+# ASDLC Alignment: Skills → Patterns
 
-This document provides explicit traceability from commands to ASDLC patterns and pillars, helping users understand the methodology behind the factory.
+This document provides explicit traceability from skills to ASDLC patterns and pillars, helping users understand the methodology behind the factory.
 
 ## Overview
 
@@ -23,11 +23,11 @@ The skills in this project implement ASDLC patterns and pillars. Each skill serv
 
 ## ASDLC Pillars
 
-The three ASDLC pillars are implemented across the command set. **On ASDLC.io they are defined in one place:** [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) → **Strategic Pillars** (Factory Architecture, Standardized Parts, Quality Control). There are no separate pillar articles; use that concept page and scroll to section 5.
+The three ASDLC pillars are implemented across the skill set. **On ASDLC.io they are defined in one place:** [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) → **Strategic Pillars** (Factory Architecture, Standardized Parts, Quality Control). There are no separate pillar articles; use that concept page and scroll to section 5.
 
-- **Factory Architecture**: Specialized command stations that handle specific workflow phases
+- **Factory Architecture**: Specialized skill stations that handle specific workflow phases
 
-- **Standardized Parts**: Schema-enforced commands with consistent structure and validation
+- **Standardized Parts**: Schema-enforced skills with consistent structure and validation
 
 - **Quality Control**: Automated validation gates that ensure correctness before proceeding
 
@@ -49,14 +49,14 @@ The three ASDLC pillars are implemented across the command set. **On ASDLC.io th
 
 - **[Agent Constitution](https://asdlc.io/patterns/agent-constitution/)**: Persistent high-level directives shaping agent behavior
 
-## How Commands Implement ASDLC
+## How Skills Implement ASDLC
 
-The command mapping table above shows which patterns each command implements. Key implementation details:
+The skill mapping table above shows which patterns each skill implements. Key implementation details:
 
-- **Context Gates**: Multiple commands implement validation checkpoints (see commands with Context Gates in the mapping table)
-- **The Spec Pattern**: Commands create, read, or validate against Specs (permanent state documents)
-- **The PBI Pattern**: Commands create or work with PBIs (transient execution units that reference Specs)
-- **Constitutional Review**: Commands validate against both functional requirements (Spec) and architectural values (Constitution)
+- **Context Gates**: Multiple skills implement validation checkpoints (see skills with Context Gates in the mapping table)
+- **The Spec Pattern**: Skills create, read, or validate against Specs (permanent state documents)
+- **The PBI Pattern**: Skills create or work with PBIs (transient execution units that reference Specs)
+- **Constitutional Review**: Skills validate against both functional requirements (Spec) and architectural values (Constitution)
 
 ## Related Documentation
 

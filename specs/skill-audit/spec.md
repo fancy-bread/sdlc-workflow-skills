@@ -157,7 +157,7 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the skills only.
 
 ### Deliverable Structure
 
-**Audit Report** (`docs/asdlc-audit/command-audit-report.md`):
+**Audit Report** (`docs/asdlc-audit/skill-audit-report.md`):
 1. Executive Summary (alignment assessment, key findings, critical gaps, go/no-go)
 2. Skill-by-Skill Analysis (for each skill)
 3. Gap Analysis (missing practices, severity)

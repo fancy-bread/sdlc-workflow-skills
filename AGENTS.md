@@ -2,7 +2,7 @@
 
 > **Project Mission:** Provide SDLC workflow skills—skills (Agent Skills format) that implement ASDLC workflows for Agent Skills–compatible environments (Cursor is the primary tested environment).
 > **Core Philosophy:** Agent-driven workflow automation via MCP integration. Skills are declarative, deterministic, and work across teams and projects.
-> **ASDLC Alignment:** This project implements Factory Architecture (specialized command stations), Standardized Parts (schema-enforced skills), and Quality Control (automated validation gates).
+> **ASDLC Alignment:** This project implements Factory Architecture (specialized skill stations), Standardized Parts (schema-enforced skills), and Quality Control (automated validation gates).
 
 ---
 
@@ -47,9 +47,9 @@
 ### Tier 1 (ALWAYS): Non-negotiable standards
 
 Skills **MUST** follow this structure (body content; frontmatter is separate):
-- **Overview** - Brief description of command purpose
+- **Overview** - Brief description of skill purpose
 - **Definitions** - Define all key terms used (e.g., `{TASK_KEY}`, task types, field identifiers)
-- **Prerequisites** - What must exist before command runs (MCP connections, task existence, etc.)
+- **Prerequisites** - What must exist before skill runs (MCP connections, task existence, etc.)
 - **Steps** - Ordered execution steps with MCP tool calls
 - **Tools** - MCP tools reference section documenting required tools
 - **Guidance** - Role, Instruction, Context, Examples, Constraints, Output
@@ -78,12 +78,12 @@ Documentation **MUST**:
 - **ASK** before changing MCP integration patterns (system dependencies)
 - **ASK** before restructuring documentation (impacts navigation and discoverability)
 - **ASK** before committing large file reorganizations (risk of data loss)
-- **ASK** before creating new command types beyond the 9 standard commands
+- **ASK** before creating new skill types beyond the 9 standard skills
 
 ### Tier 3 (NEVER): Safety limits
 
 - **NEVER** commit secrets, API keys, tokens, or `.env` files
-- **NEVER** modify core command logic without validation (schema checks, tests)
+- **NEVER** modify core skill logic without validation (schema checks, tests)
 - **NEVER** skip MCP status checks before operations (skills will fail)
 - **NEVER** create skills that mutate state without explicit user confirmation
 - **NEVER** hardcode cloud IDs, project keys, or user-specific identifiers in skills
@@ -119,11 +119,11 @@ directory_map:
     "<name>/SKILL.md": "Agent Skills - markdown with frontmatter; one skill per folder"
     README.md: "Skills documentation and install guide"
 
-  # Command/Skill Schema (FB-18) and MCP Tool Schema (FB-43)
+  # Skill Schema (FB-18) and MCP Tool Schema (FB-43)
   schemas:
-    command.schema.json: "JSON Schema for ParsedCommand (Overview, Definitions, Prerequisites, Steps, Tools, Guidance) - validates skill body"
+    skill.schema.json: "JSON Schema for ParsedSkill (Overview, Definitions, Prerequisites, Steps, Tools, Guidance) - validates skill body"
     mcp-tool.schema.json: "JSON Schema for mcps/<server>/tools/*.json (name, inputSchema required; MCP-aligned)"
-    validate.py: "Python script to validate skills/*/SKILL.md (body) against command.schema.json (jsonschema, same venv as MkDocs)"
+    validate.py: "Python script to validate skills/*/SKILL.md (body) against skill.schema.json (jsonschema, same venv as MkDocs)"
     README.md: "Schema usage, MCP and step rules, validation instructions"
 
   # User-Facing Documentation
@@ -157,14 +157,14 @@ directory_map:
 
 ---
 
-## 6. Command Structure Standards
+## 6. Skill Structure Standards
 
-Commands follow a rigorous structure to ensure consistency and agent comprehension:
+Skills follow a rigorous structure to ensure consistency and agent comprehension:
 
 ```xml
-<command_structure>
+<skill_structure>
   <required_sections>
-    <section name="Overview" purpose="Brief description of command goal" />
+    <section name="Overview" purpose="Brief description of skill goal" />
     <section name="Definitions" purpose="Define all domain terms and variables (e.g., {TASK_KEY})" />
     <section name="Prerequisites" purpose="Validation checks before execution" />
     <section name="Steps" purpose="Ordered execution with MCP tool calls" />
@@ -198,12 +198,12 @@ Commands follow a rigorous structure to ensure consistency and agent comprehensi
     <!-- Comprehensive error handling -->
     <good>If cloudId cannot be determined, STOP and report error with remediation steps.</good>
   </preferred_patterns>
-</command_structure>
+</skill_structure>
 ```
 
 ### MCP Tool Call Standards
 
-When documenting MCP tools in commands:
+When documenting MCP tools in skills:
 
 ```xml
 <mcp_tool_documentation>
@@ -238,10 +238,10 @@ When documenting MCP tools in commands:
 - **MCP Tool References:** Must match actual tools in `mcps/<server>/tools/*.json`
 - **ASDLC Pattern References:** Must link to valid patterns on asdlc.io
 
-### Command Validation
+### Skill Validation
 
-Commands will be validated against:
-- **Schema:** JSON Schema or Zod validation of command structure
+Skills will be validated against:
+- **Schema:** JSON Schema or Zod validation of skill structure
 - **Links:** Markdown link checker for broken references
 - **MCP Tools:** Validator ensuring referenced tools exist
 - **Constitution:** Constitutional Review checking adherence to Operational Boundaries
@@ -252,7 +252,7 @@ Commands will be validated against:
   - Types: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`
 - **Commit Messages:** Conventional Commits format with task ID
   - Format: `type(scope): message [TASK-123]`
-  - Example: `feat(commands): add AGENTS.md protocol [FB-17]`
+  - Example: `feat(skills): add AGENTS.md protocol [FB-17]`
 - **PR Linking:** PRs must reference story/task ID in title and description
 
 ---
@@ -261,7 +261,7 @@ Commands will be validated against:
 
 ### ASDLC Patterns (Query via MCP)
 
-When implementing or documenting commands, reference these ASDLC patterns:
+When implementing or documenting skills, reference these ASDLC patterns:
 
 - **[agents-md-spec](asdlc://agents-md-spec)**: AGENTS.md specification and structure
 - **[agent-constitution](asdlc://agent-constitution)**: Agent Constitution pattern (this file implements it)
@@ -299,13 +299,13 @@ Use ASDLC.io MCP server to list patterns: `mcp_asdlc_list_articles` (no args). T
 2. **Same-Commit Rule (both docs)** - When a skill or feature changes, update **both** the spec (agent documentation at `specs/{domain}/spec.md`) and user-facing docs (e.g. `docs/skills/<skill>.md`) in the same commit. No code/spec change without matching doc updates.
 3. **User-Facing Language** - Docs use "you" and imperative ("Run this command")
 4. **Implementation Language** - Commands use "AI agent" perspective ("Fetch task", "Validate prerequisites")
-5. **Cross-Reference** - Link related commands and patterns
+5. **Cross-Reference** - Link related skills and patterns
 
 ### When Validating
 
 1. **Check Schema First** - Before calling MCP tool, read its schema file
 2. **Verify Field Names** - Custom fields vary by Jira instance (e.g., `customfield_10036` for Story Points)
-3. **Test Error Paths** - Ensure commands handle missing tasks, auth failures, etc.
+3. **Test Error Paths** - Ensure skills handle missing tasks, auth failures, etc.
 4. **Validate Against Constitution** - Check adherence to 3-tier boundaries
 
 ---
@@ -367,7 +367,7 @@ Update story points:
 This project implements the three pillars of [ASDLC.io](https://asdlc.io). **Canonical definitions:** [Agentic SDLC](https://asdlc.io/concepts/agentic-sdlc/) → Strategic Pillars (no separate pillar articles).
 
 ### Factory Architecture (Orchestration)
-- **9 Command Stations:** Each command is a specialized workstation
+- **9 Skill Stations:** Each skill is a specialized workstation
 - **Phase Boundaries:** Product → Planning → Development → Quality
 - **MCP as Conveyor Belt:** Data flows between systems (Jira → Plans → Code → GitHub)
 
@@ -408,7 +408,7 @@ graph LR
 
 ### Validation Points
 
-- **Pre-flight:** MCP status check (required for all commands)
+- **Pre-flight:** MCP status check (required for all skills)
 - **Pre-decompose:** Information density validation (5-element scoring)
 - **Pre-refinement:** Definition of Ready check
 - **Pre-start:** Plan existence or clear acceptance criteria
@@ -438,7 +438,7 @@ This section captures accumulated wisdom from implementation experience. Update 
 ### Documentation Best Practices
 
 - **Mirror Structure:** Keep `docs/skills/` and `skills/` in sync (docs describe each skill)
-- **User vs Agent Language:** Docs for users, commands for agents - different perspective
+- **User vs Agent Language:** Docs for users, skills for agents - different perspective
 - **Link Validation Important:** Broken links erode trust, validate in CI/CD
 
 ---

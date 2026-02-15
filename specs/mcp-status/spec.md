@@ -34,12 +34,12 @@ MCP servers (Atlassian, GitHub, ASDLC, ADO, etc.) can disconnect or lose authent
 
 ### Definition of Done
 
-- [ ] Skill exists at `skills/mcp-status/SKILL.md` and body conforms to the command schema.
+- [ ] Skill exists at `skills/mcp-status/SKILL.md` and body conforms to the skill schema (schemas/skill.schema.json).
 - [ ] Command discovers servers from user-level `mcp.json`, project-level `.cursor/mcp.json` at workspace root (when present), and extension-exposed MCPs (when the agent has access to their tools). If user config is inaccessible, tries common server names as fallback.
 - [ ] For each discovered server, the command calls one lightweight read-only MCP tool and records success or failure with **source** (user / project / extension).
 - [ ] Output clearly reports each server as connected or disconnected and distinguishes source (user / project / extension); for disconnected, includes reconnection steps (Cursor Settings → Features → Model Context Protocol).
 - [ ] MkDocs docs for mcp-status (e.g. `docs/skills/mcp-status.md`) describe project-level config, extension-exposed MCPs, and example output with sources; updated in same commit as skill/spec (Same-Commit Rule).
-- [ ] `python schemas/validate_all.py` passes (command file validates against `schemas/command.schema.json`).
+- [ ] `python schemas/validate_all.py` passes (skill file validates against `schemas/skill.schema.json`).
 
 ### Regression Guardrails
 

@@ -54,7 +54,7 @@ Teams adopting ASDLC patterns need to set up foundational repository structure (
 
 ### Definition of Done
 
-- [ ] Skill exists at `skills/setup-asdlc/SKILL.md` and body conforms to command schema (`schemas/command.schema.json`).
+- [ ] Skill exists at `skills/setup-asdlc/SKILL.md` and body conforms to skill schema (`schemas/skill.schema.json`).
 - [ ] Command checks for existing `AGENTS.md` before creating; if exists, skips and reports.
 - [ ] Command generates `AGENTS.md` template with 3-tier Operational Boundaries (Tier 1: ALWAYS, Tier 2: ASK, Tier 3: NEVER) when missing.
 - [ ] Command creates `specs/` directory with `specs/README.md` (copied from this repository if available) when missing.
@@ -64,7 +64,7 @@ Teams adopting ASDLC patterns need to set up foundational repository structure (
 - [ ] Command performs optional MCP verification (non-blocking); reports status but continues regardless of result.
 - [ ] Command generates clear summary report showing what was created vs skipped.
 - [ ] Command is idempotent—safe to run multiple times without side effects.
-- [ ] `python schemas/validate_all.py` passes (command file validates against schema).
+- [ ] `python schemas/validate_all.py` passes (skill file validates against schema).
 
 ### Regression Guardrails
 

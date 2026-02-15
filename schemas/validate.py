@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-Validates a Cursor command/skill markdown file against schemas/command.schema.json.
+Validates a skill markdown file (e.g. skills/<name>/SKILL.md body) against schemas/skill.schema.json.
 
 Usage: python schemas/validate.py <path>
 Example: python schemas/validate.py skills/create-plan/SKILL.md
-Example: python schemas/validate.py commands/create-plan.md
 
 Supports:
 - skills/<name>/SKILL.md — strips YAML frontmatter (--- ... ---), validates body
@@ -24,7 +23,7 @@ SECTION_NAMES = ["Overview", "Definitions", "Prerequisites", "Steps", "Tools", "
 MCP_REF_PATTERN = re.compile(r"mcp_[A-Za-z0-9-]+_[a-zA-Z0-9_]+")
 
 
-def parse_command_md(md: str) -> dict:
+def parse_skill_md(md: str) -> dict:
     chunks = re.split(r"\r?\n## ", md)
     found = {}
 
@@ -72,7 +71,7 @@ def strip_frontmatter(md: str) -> str:
 
 def main() -> None:
     md_path = sys.argv[1] if len(sys.argv) > 1 else "skills/create-plan/SKILL.md"
-    schema_path = Path(__file__).parent / "command.schema.json"
+    schema_path = Path(__file__).parent / "skill.schema.json"
 
     if not Path(md_path).exists():
         print(f"File not found: {md_path}", file=sys.stderr)
@@ -81,7 +80,7 @@ def main() -> None:
     raw = Path(md_path).read_text(encoding="utf-8")
     md = strip_frontmatter(raw)
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
-    parsed = parse_command_md(md)
+    parsed = parse_skill_md(md)
 
     validator = Draft7Validator(schema)
     errors = list(validator.iter_errors(parsed))
@@ -92,7 +91,7 @@ def main() -> None:
             print(f"  {e.json_path}: {e.message}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"OK: {md_path} validates against command.schema.json")
+    print(f"OK: {md_path} validates against skill.schema.json")
     sys.exit(0)
 
 

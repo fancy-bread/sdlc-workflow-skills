@@ -6,13 +6,13 @@ repos:
   # Local hooks for schema validation
   - repo: local
     hooks:
-      # Schema validation for commands and MCPs
+      # Schema validation for skills and MCPs
       - id: validate-schemas
-        name: Validate command and MCP schemas
+        name: Validate skill and MCP schemas
         entry: venv/bin/python schemas/validate_changed.py
         language: system
         types: [text]
-        files: ^(commands/.*\.md|mcps/.*\.json)$
+        files: ^(skills/.*/SKILL\.md|mcps/.*\.json)$
         pass_filenames: true
         always_run: false
 
@@ -22,6 +22,6 @@ repos:
         entry: venv/bin/python scripts/check_links.py
         language: system
         types: [markdown]
-        files: ^(docs/.*\.md|commands/.*\.md|specs/.*\.md|README\.md|AGENTS\.md)$
+        files: ^(docs/.*\.md|skills/.*\.md|specs/.*\.md|README\.md|AGENTS\.md)$
         pass_filenames: true
         always_run: false

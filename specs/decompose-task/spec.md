@@ -37,7 +37,7 @@ Epics and large stories need to be split into smaller, actionable subtasks with 
 - [ ] Parent information density checked; if insufficient, user is asked and decomposition does not proceed until improved.
 - [ ] Subtasks created in the tracker with correct parent link, clear AC, and inherited `{FEATURE_DOMAIN}` when applicable.
 - [ ] Each subtask is standalone or has explicit dependencies and is testable.
-- [ ] `python schemas/validate_all.py` passes when commands are changed.
+- [ ] `python schemas/validate_all.py` passes when skills are changed.
 
 ### Regression Guardrails
 

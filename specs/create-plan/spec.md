@@ -39,7 +39,7 @@ Teams need either a **Spec** (permanent Blueprint+Contract at `specs/{FEATURE_DO
 - [ ] Codebase analyzed; Spec or Plan (or both) designed and written.
 - [ ] **If Spec**: `specs/{FEATURE_DOMAIN}/spec.md` created with Blueprint and Contract. **If Plan**: `.plans/{TASK_KEY}-{kebab}.plan.md` created with required sections including "Referenced ASDLC Patterns" (if patterns found); summary posted to issue (or noted if post fails).
 - [ ] Document is coherent (no unfulfilled placeholders for Spec; Plan has Implementation Steps and Testing).
-- [ ] `python schemas/validate_all.py` passes when commands are touched.
+- [ ] `python schemas/validate_all.py` passes when skills are touched.
 
 ### Regression Guardrails
 

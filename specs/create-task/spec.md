@@ -36,7 +36,7 @@ Teams need to create well-formed work items (epic, story, bug, task, etc.) in Ji
 - [ ] MCP and tracker access validated; type and description/source parsed.
 - [ ] Information density assessed; if INSUFFICIENT, user is asked and creation does not proceed until sufficient.
 - [ ] Issue created with correct type, title, description, and required fields; left unassigned in "To Do". For story/epic: PBI structure and `feature:{domain}` label when applicable.
-- [ ] Task key/ID and link returned. `python schemas/validate_all.py` passes when commands are changed.
+- [ ] Task key/ID and link returned. `python schemas/validate_all.py` passes when skills are changed.
 
 ### Regression Guardrails
 

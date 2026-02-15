@@ -37,7 +37,7 @@ Tasks often enter the backlog under-specified or poorly organized. Refinement en
 - [ ] PBI structure validated (4-part anatomy checked, guidance provided if missing).
 - [ ] Feature domain detected and spec existence checked (warn if spec referenced but missing).
 - [ ] Title, description, AC refined for clarity and organization; fluff removed; content organized for easy scanning; issue updated via MCP.
-- [ ] `python schemas/validate_all.py` passes when commands are changed.
+- [ ] `python schemas/validate_all.py` passes when skills are changed.
 
 ### Regression Guardrails
 

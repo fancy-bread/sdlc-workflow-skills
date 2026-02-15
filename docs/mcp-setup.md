@@ -13,8 +13,8 @@ ASDLC is optional.
 
 ## Configuration
 
-**Cursor:** Settings → Features → Model Context Protocol  
-Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows).  
+**Cursor:** Settings → Features → Model Context Protocol
+Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows).
 Other environments: see your IDE or agent’s MCP documentation.
 
 ---
@@ -31,7 +31,8 @@ Other environments: see your IDE or agent’s MCP documentation.
       }
     },
     "atlassian": {
-      "url": "https://mcp.atlassian.com/v1/sse"
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/mcp"]
     }
   }
 }

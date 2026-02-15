@@ -32,8 +32,9 @@ Open your environment’s MCP settings (e.g. **Cursor:** Settings → Features �
       }
     },
     "atlassian": {
-      "url": "https://mcp.atlassian.com/v1/sse"
-    },
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/mcp"]
+    }
   }
 }
 ```

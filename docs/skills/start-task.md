@@ -162,7 +162,7 @@ Begin development on a task with proper setup and pre-flight checks.
 - Output: Development work with incremental commits
 ```
 
-**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/start-task/SKILL.md)**
+**[View full skill (source)](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/start-task/SKILL.md)**
 
 ---
 

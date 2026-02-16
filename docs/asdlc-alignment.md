@@ -62,7 +62,7 @@ The skill mapping table above shows which patterns each skill implements. Key im
 
 - [Skills Reference](skills/index.md) - Detailed documentation for each skill
 - [Getting Started](getting-started.md) - Setup and usage guide
-- [AGENTS.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/AGENTS.md) - Agent Constitution and operational boundaries
+- [AGENTS.md](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/AGENTS.md) - Agent Constitution and operational boundaries
 
 ## External Resources
 

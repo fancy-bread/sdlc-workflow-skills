@@ -136,5 +136,5 @@ Use `/decompose-task` when:
 
 ---
 
-**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/decompose-task/SKILL.md)**
+**[View full skill (source)](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/decompose-task/SKILL.md)**
 

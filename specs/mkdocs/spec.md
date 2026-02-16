@@ -25,7 +25,7 @@ The documentation site is the user-facing entry point for this repo. It needs a 
 - **Plugins:** `search` (required for site search). Optional plugins (e.g. `git-revision-date-localized`, `minify`, `mermaid2`) may be added; document in this spec if they become required.
 - **Markdown extensions:** Python Markdown + pymdownx (admonition, def_list, tables, toc, superfences with mermaid, tasklist, etc.). See `mkdocs.yml`; `includes/abbreviations.md` is auto-appended via pymdownx.snippets.
 - **Build:** `mkdocs build --strict` (CI and local). Strict mode fails on broken nav or missing files.
-- **Link check:** Lychee runs in CI (`.github/workflows/build-docs.yml`) over `./site/**/*.html` with exclusions for external domains (e.g. asdlc.io, github.com/fancybread-com/...).
+- **Link check:** Lychee runs in CI (`.github/workflows/build-docs.yml`) over `./site/**/*.html` with exclusions for external domains (e.g. asdlc.io, github.com/fancy-bread/...).
 - **Deployment:** GitHub Pages via Actions. Deploy runs only on `workflow_dispatch` with `ref == refs/heads/main`; artifact from build job is uploaded and deployed with `actions/deploy-pages`.
 - **Dependencies:** `requirements.txt` — MkDocs 1.5+ (&lt;2), mkdocs-material 9.5+ (&lt;10). Same venv can be used for `schemas/validate.py` (AGENTS.md §5).
 

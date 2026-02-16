@@ -31,5 +31,5 @@ jobs:
       - name: Check links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/sdlc-workflow-skills' --exclude 'fancybread-com.github.io' --exclude 'asdlc.io' --exclude 'getting-started' ./docs ./skills ./specs ./mcps ./schemas README.md AGENTS.md
+          args: --verbose --no-progress --exclude 'fonts.gstatic.com' --exclude 'github.com/fancy-bread/sdlc-workflow-skills' --exclude 'fancy-bread.github.io' --exclude 'asdlc.io' --exclude 'getting-started' ./docs ./skills ./specs ./mcps ./schemas README.md AGENTS.md
           fail: true

@@ -4,7 +4,7 @@
 
 ## Install
 
-- **Cursor:** **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancybread-com/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
+- **Cursor:** **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancy-bread/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
 - **Or** copy `skills/*` to your environment’s skills directory:
   - **Cursor:** `~/.cursor/skills/` or `.cursor/skills/`
   - **Claude:** `~/.claude/skills/` or `.claude/skills/`

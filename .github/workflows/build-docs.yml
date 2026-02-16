@@ -38,7 +38,7 @@ jobs:
       - name: Check links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress --exclude 'auditledger.github.io' --exclude 'fonts.gstatic.com' --exclude 'github.com/fancybread-com/sdlc-workflow-skills' --exclude 'asdlc.io' './site/**/*.html'
+          args: --verbose --no-progress --exclude 'fonts.gstatic.com' --exclude 'github.com/fancy-bread/sdlc-workflow-skills' --exclude 'asdlc.io' './site/**/*.html'
           fail: true
 
       - name: Upload artifact

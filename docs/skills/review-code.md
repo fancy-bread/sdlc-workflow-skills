@@ -57,7 +57,7 @@ AI (Critic): Validating against Spec Contract and Constitution...
 
 ## Full command (source)
 
-[skills/review-code/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/review-code/SKILL.md)
+[skills/review-code/SKILL.md](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/review-code/SKILL.md)
 
 ## Related Commands
 

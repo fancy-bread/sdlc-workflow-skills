@@ -2,8 +2,8 @@
 
 **SDLC workflow skills: skills (Agent Skills format) that implement ASDLC workflows.**
 
-[![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancybread-com.github.io/sdlc-workflow-skills)
-[![Schema Validation](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/skill-validation.yml/badge.svg)](https://github.com/fancybread-com/sdlc-workflow-skills/actions/workflows/skill-validation.yml)
+[![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancy-bread.github.io/sdlc-workflow-skills)
+[![Schema Validation](https://github.com/fancy-bread/sdlc-workflow-skills/actions/workflows/skill-validation.yml/badge.svg)](https://github.com/fancy-bread/sdlc-workflow-skills/actions/workflows/skill-validation.yml)
 [![ASDLC](https://img.shields.io/badge/ASDLC-aligned-5e35b1)](https://asdlc.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -46,7 +46,7 @@ Configure MCP in your IDE or agent (e.g. **Cursor:** Settings → Features → M
 
 ### 2. Install Skills
 
-**Cursor:** Install from GitHub: **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancybread-com/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
+**Cursor:** Install from GitHub: **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancy-bread/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
 
 **Or** copy skills into your environment’s skills directory (same layout works for Cursor, Claude, and Codex):
 
@@ -70,7 +70,7 @@ cp -r skills/* ~/.codex/skills/
 /complete-task PROJ-123
 ```
 
-[Full setup guide →](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/) | [Try a Development Workflow →](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/#try-a-development-workflow)
+[Full setup guide →](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/) | [Try a Development Workflow →](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/#try-a-development-workflow)
 
 ---
 
@@ -82,7 +82,7 @@ cp -r skills/* ~/.codex/skills/
 - **Quality (2):** `/create-test`, `/review-code`
 - **Utilities (2):** `/mcp-status`, `/setup-asdlc`
 
-[View all skills →](https://fancybread-com.github.io/sdlc-workflow-skills/skills/)
+[View all skills →](https://fancy-bread.github.io/sdlc-workflow-skills/skills/)
 
 ---
 
@@ -90,17 +90,17 @@ cp -r skills/* ~/.codex/skills/
 
 Skills connect you to AI agents that interact with Jira, GitHub, and your codebase. The AI reads your project context and executes workflows consistently across projects.
 
-[Full explanation →](https://fancybread-com.github.io/sdlc-workflow-skills/#how-it-works)
+[Full explanation →](https://fancy-bread.github.io/sdlc-workflow-skills/#how-it-works)
 
 ---
 
 ## Documentation
 
-📚 **[Full Documentation](https://fancybread-com.github.io/sdlc-workflow-skills)**
+📚 **[Full Documentation](https://fancy-bread.github.io/sdlc-workflow-skills)**
 
-- [Getting Started](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/) - 3-step setup
-- [Skills Reference](https://fancybread-com.github.io/sdlc-workflow-skills/skills/) - All skills
-- [Methodology](https://fancybread-com.github.io/sdlc-workflow-skills/getting-started/#how-it-works) - Core principles
+- [Getting Started](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/) - 3-step setup
+- [Skills Reference](https://fancy-bread.github.io/sdlc-workflow-skills/skills/) - All skills
+- [Methodology](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/#how-it-works) - Core principles
 
 ---
 

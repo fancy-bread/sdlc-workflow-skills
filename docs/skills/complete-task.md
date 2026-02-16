@@ -59,7 +59,7 @@ AI:
 
 ## Full command (source)
 
-[skills/complete-task/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/complete-task/SKILL.md)
+[skills/complete-task/SKILL.md](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/complete-task/SKILL.md)
 
 ## Related Commands
 

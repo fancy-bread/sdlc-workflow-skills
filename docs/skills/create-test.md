@@ -58,7 +58,7 @@ AI:
 
 ## Full command (source)
 
-[skills/create-test/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/create-test/SKILL.md)
+[skills/create-test/SKILL.md](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/create-test/SKILL.md)
 
 ## Related Commands
 

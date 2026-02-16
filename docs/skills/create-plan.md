@@ -60,7 +60,7 @@ AI:
 
 ## Full command (source)
 
-[skills/create-plan/SKILL.md](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/create-plan/SKILL.md)
+[skills/create-plan/SKILL.md](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/create-plan/SKILL.md)
 
 ---
 

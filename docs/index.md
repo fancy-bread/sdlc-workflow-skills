@@ -80,7 +80,7 @@ hide:
   <p>
     <a href="getting-started/" class="md-button md-button--primary">Get Started</a>
     <a href="skills/" class="md-button">View Skills</a>
-    <a href="https://github.com/fancybread-com/sdlc-workflow-skills" class="md-button">GitHub</a>
+    <a href="https://github.com/fancy-bread/sdlc-workflow-skills" class="md-button">GitHub</a>
   </p>
 </div>
 
@@ -138,7 +138,7 @@ Connect your IDE or agent to your services (Jira, Azure DevOps, GitHub, filesyst
 
 ### 2. Install Skills
 
-Add the skill library to your environment (e.g. Cursor: `~/.cursor/skills/` or `.cursor/skills/`).
+Recommended: `npx skills add fancy-bread/sdlc-workflow-skills -a cursor` (choose **Copy** for Cursor). Or copy into your environment’s skills directory (e.g. Cursor: `~/.cursor/skills/` or `.cursor/skills/`). See [Getting Started](getting-started.md#step-2-install-skills).
 
 ### 3. Start Using
 

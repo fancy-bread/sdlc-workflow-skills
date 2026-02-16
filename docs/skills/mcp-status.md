@@ -82,7 +82,7 @@ Cursor: Settings → Features → Model Context Protocol → Connect for the fai
 
 ---
 
-**[View full skill (source)](https://github.com/fancybread-com/sdlc-workflow-skills/blob/main/skills/mcp-status/SKILL.md)**
+**[View full skill (source)](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/skills/mcp-status/SKILL.md)**
 
 ---
 

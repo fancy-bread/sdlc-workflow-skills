@@ -1,10 +1,10 @@
 site_name: SDLC Workflow Skills
 site_description: SDLC workflow skills for Agent Skills–compatible environments (e.g. Cursor) + MCP, Jira, GitHub
 site_author: Paul
-site_url: https://github.com/fancybread-com/sdlc-workflow-skills
+site_url: https://github.com/fancy-bread/sdlc-workflow-skills
 
 repo_name: sdlc-workflow-skills
-repo_url: https://github.com/fancybread-com/sdlc-workflow-skills
+repo_url: https://github.com/fancy-bread/sdlc-workflow-skills
 edit_uri: edit/main/docs/
 
 theme:
@@ -155,7 +155,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/fancybread-com/sdlc-workflow-skills
+      link: https://github.com/fancy-bread/sdlc-workflow-skills
       name: GitHub Repository
 
 # Copyright

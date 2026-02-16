@@ -106,7 +106,7 @@ Documentation **MUST**:
 | **Write Tests** | `/create-test --type=<type> for <component>` | Types: unit, integration, e2e. Adapts for backend/frontend |
 | **Review Code** | `/review-code for PR #<number>` | Adversarial code review with dual-contract validation (Spec + Constitution). Acts as Review Gate |
 
-**Workflow:** `/create-task` → `/decompose-task` → `/refine-task` → `/create-plan` (creates spec/plan) → `/start-task` → `/complete-task` → `/review-code`
+**Workflow:** `/create-task` → `/decompose-task` → `/refine-task` → `/create-plan` (creates spec/plan) → `/start-task` → `/complete-task` → `/review-code`. **Utilities:** `/mcp-status`, `/setup-asdlc`. **Project skills** (in `.cursor/skills/`, versioned in repo, not in docs): e.g. `/audit-skills`, prepare-changelog, create-release.
 
 ---
 

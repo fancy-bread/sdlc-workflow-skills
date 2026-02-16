@@ -1,19 +1,19 @@
-# Feature: Skill Audit (ASDLC Alignment Spike)
+# Feature: Skill Audit (ASDLC Alignment)
 
 > **ASDLC Pattern**: [The Spec](https://asdlc.io/patterns/the-spec/)
 > **Status**: Active
-> **Last Updated**: 2026-01-17
+> **Last Updated**: 2026-02-16
 
 ---
 
 ## Blueprint
 
 ### Context
-Before defining schemas for our Cursor skills (FB-18), we need to validate that their design aligns with ASDLC principles. This spike investigates skill coverage, artifact alignment, and pattern implementation to identify gaps and provide actionable refinement recommendations.
+Before defining schemas for our Cursor skills (FB-18), we need to validate that their design aligns with ASDLC principles. An **executable audit skill** runs on demand to check skill coverage, artifact alignment, and pattern implementation, and writes a single report for human review.
 
 **Business Problem**: Skills (formerly commands) were designed organically for workflow automation. Without validating against ASDLC patterns first, we risk locking down schemas for misaligned structures.
 
-**Solution**: Systematic audit of all skills against ASDLC's Factory Architecture, Standardized Parts, and Quality Control pillars.
+**Solution**: A project skill (like prepare-changelog) that audits all skills in `skills/` against ASDLC's Factory Architecture, Standardized Parts, and Quality Control pillars, and against Agent Skills format (SKILL.md structure, frontmatter). The skill is **read-only**: it does not edit skills; it produces one markdown report in `.plans/` per run.
 
 ### Architecture
 
@@ -65,13 +65,20 @@ For each skill, perform structured analysis:
 - **Outbound**: Depends on ASDLC MCP server, AGENTS.md
 - **Blocks**: FB-18 and other Phase 1 refinement stories
 
+#### Executable Audit Skill (When Invoked)
+- **Purpose**: On-demand audit of all skills against ASDLC alignment and Agent Skills format.
+- **Inputs**: This spec (`specs/skill-audit/spec.md`), `AGENTS.md`, and all `skills/*/SKILL.md`.
+- **Steps**: For each skill in `skills/`: apply Audit Methodology (Purpose & Phase, Artifact Analysis, Pattern Implementation, Field Manual Alignment, Gap Identification, Recommendation). Also validate Agent Skills format (Overview, Definitions, Prerequisites, Steps, Tools, Guidance; frontmatter). Aggregate findings.
+- **Output**: One markdown report per run, written to `.plans/` (e.g. `.plans/skill-audit-YYYY-MM-DD.md`). Report structure: Executive Summary, Skill-by-Skill Analysis, Gap Analysis, Skill-to-ASDLC Mapping, Recommendations, Next Steps. The skill **does not edit** any file in `skills/`.
+- **Placement**: Project skill in `.cursor/skills/audit-skills/` (project-local; same as prepare-changelog). Not in `skills/` and not in docs.
+
 ### Anti-Patterns
 
 **❌ Analysis Paralysis**
 Don't over-research. Time-box the spike. Focus on actionable findings, not academic perfection.
 
-**❌ Implementation During Spike**
-This is research only. Don't implement changes. Document recommendations for separate stories.
+**❌ Editing Skills From the Audit**
+The audit skill is read-only. It must not modify any file in `skills/`. It only produces a report in `.plans/` for human review.
 
 **❌ Vague Recommendations**
 "Command needs improvement" is not actionable. Provide specific changes: "Rename `/create-plan` to `/create-spec` and update output to Blueprint + Contract format."
@@ -87,20 +94,19 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the skills only.
 ## Contract
 
 ### Definition of Done
-- [x] All skills audited with structured analysis
-- [x] Gap analysis complete (missing ASDLC practices identified)
-- [x] Recommendations provided (specific, actionable stories)
-- [x] Skill-to-ASDLC mapping documented (Phase, Artifact, Pattern)
-- [x] Go/No-Go decision for FB-18 with rationale
-- [x] Audit report created and accessible
-- [x] Summary posted to FB-36
-- [x] Refinement stories created (if needed)
+- [ ] Audit skill exists and is invocable (e.g. `/audit-skills` or project command).
+- [ ] When invoked, the skill produces one markdown report in `.plans/` (e.g. `.plans/skill-audit-YYYY-MM-DD.md`) for human review.
+- [ ] Report contains: Executive Summary, Skill-by-Skill Analysis, Gap Analysis, Skill-to-ASDLC Mapping, Recommendations, Next Steps.
+- [ ] Skill does not edit any file in `skills/` (read-only audit).
+- [ ] Each skill in `skills/` is checked for ASDLC alignment and Agent Skills format (Overview, Definitions, Prerequisites, Steps, Tools, Guidance; frontmatter).
+- [ ] Spec updated to describe executable audit workflow and output path (this document).
 
 ### Regression Guardrails
 - **Findings must be actionable**: Every gap identified must have a concrete recommendation
 - **Go/No-Go decision required**: FB-18 cannot proceed without clear guidance
 - **Skill count stability**: Don't recommend adding 10+ new skills (keep skill set minimal)
 - **Backward compatibility**: Refinements must not break existing workflow without migration path
+- **Audit is read-only**: The audit skill must not modify any file in `skills/`; output is a single report in `.plans/`
 
 ### Scenarios
 
@@ -123,6 +129,11 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the skills only.
 - **Given**: Audit complete
 - **When**: Stakeholder reviews findings
 - **Then**: Audit report is readable, well-structured, and actionable for next steps
+
+**Scenario: Audit skill writes report to .plans/**
+- **Given**: The audit skill is invoked (e.g. `/audit-skills`)
+- **When**: The skill runs to completion
+- **Then**: Exactly one markdown file is created in `.plans/` (e.g. `.plans/skill-audit-YYYY-MM-DD.md`) with the Deliverable Structure; no files in `skills/` are modified
 
 **Scenario: Audit validates ASDLC artifact lifecycle**
 - **Given**: Skills claim to implement ASDLC artifacts (Spec, PBI, AGENTS.md)
@@ -157,7 +168,7 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the skills only.
 
 ### Deliverable Structure
 
-**Audit Report** (`docs/asdlc-audit/skill-audit-report.md`):
+**Audit Report** (output of the audit skill; one file per run in `.plans/`, e.g. `.plans/skill-audit-YYYY-MM-DD.md`):
 1. Executive Summary (alignment assessment, key findings, critical gaps, go/no-go)
 2. Skill-by-Skill Analysis (for each skill)
 3. Gap Analysis (missing practices, severity)
@@ -165,8 +176,10 @@ Don't audit adjacent systems (CI/CD, documentation). Focus on the skills only.
 5. Recommendations (refine, merge, remove, add)
 6. Next Steps (stories to create, FB-18 decision)
 
+The audit skill writes this report to `.plans/` for human review. It does not write to `docs/asdlc-audit/` or modify any skill files.
+
 ---
 
-**Status**: Completed (FB-36)
-**Last Updated**: 2026-01-17
-**Pattern**: ASDLC Spike for alignment validation
+**Status**: Active (executable audit skill per FB-74)
+**Last Updated**: 2026-02-16
+**Pattern**: The Spec (living spec for on-demand audit); Context Gates (read-only validation)

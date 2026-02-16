@@ -112,7 +112,7 @@ If unable to discover MCP servers:
 - If project `.cursor/mcp.json` is missing, skip (not an error)
 - If no extension tools are available, skip extension section (not an error)
 - If no servers respond, report that no MCP servers are configured or accessible
-- Provide link to MCP setup documentation (e.g., `docs/mcp-setup.md` if present, or general MCP setup instructions)
+- Provide link to MCP setup documentation (e.g., `docs/reference/mcp-setup.md` if present, or general MCP setup instructions)
 
 If a server test fails:
 - **Server not found**: Server name doesn't exist in MCP configuration

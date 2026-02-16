@@ -89,8 +89,10 @@ nav:
       - Setup ASDLC: skills/setup-asdlc.md
 
   - Reference:
-    - MCP Setup: mcp-setup.md
-    - ASDLC Alignment: asdlc-alignment.md
+    - MCP Setup: reference/mcp-setup.md
+    - ASDLC Alignment: reference/asdlc-alignment.md
+    - Agent Skills: reference/agent-skills.md
+    - Skills Directory: reference/skills-directory.md
 
   - Releases: releases.md
 

@@ -54,7 +54,7 @@ MCP Status:
 
 Next steps:
   1. Customize AGENTS.md with your project details
-  2. Configure MCP servers (see docs/mcp-setup.md)
+  2. Configure MCP servers (see reference/mcp-setup.md)
   3. Create your first spec with /create-plan
 ```
 
@@ -103,7 +103,7 @@ Next steps:
 
 - [Living Specifications](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/specs/README.md) - Guide to creating and maintaining specs
 - [Agent Constitution Pattern](https://asdlc.io/patterns/agent-constitution/) - AGENTS.md specification
-- [MCP Setup](../mcp-setup.md) - Configure Model Context Protocol servers
+- [MCP Setup](../reference/mcp-setup.md) - Configure Model Context Protocol servers
 
 ---
 

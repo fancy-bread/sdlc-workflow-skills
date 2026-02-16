@@ -18,7 +18,7 @@ title: Getting Started
 - **GitHub + Jira** — GitHub for repos/PRs, Jira for issue tracking
 - **ADO only** — Azure DevOps provides both repo management and issue tracking
 
-[Full MCP setup →](mcp-setup.md) (Option A or B).
+[Full MCP setup →](reference/mcp-setup.md) (Option A or B).
 
 Open your environment’s MCP settings (e.g. **Cursor:** Settings → Features → Model Context Protocol) and add:
 
@@ -52,7 +52,7 @@ First time you use Jira, your environment may prompt for OAuth (e.g. Cursor prom
 
 
 
-[Detailed MCP setup →](mcp-setup.md)
+[Detailed MCP setup →](reference/mcp-setup.md)
 
 ---
 

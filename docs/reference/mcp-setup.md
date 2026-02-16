@@ -15,7 +15,7 @@ ASDLC is optional.
 
 **Cursor:** Settings → Features → Model Context Protocol
 Or edit `~/.cursor/mcp.json` (macOS/Linux) or `%USERPROFILE%\.cursor\mcp.json` (Windows).
-Other environments: see your IDE or agent’s MCP documentation.
+Other environments: see your IDE or agent's MCP documentation.
 
 ---
 
@@ -61,7 +61,7 @@ Azure DevOps provides both repository management and issue tracking, so it can b
 
 Replace `your-org-name` with your Azure DevOps organization (e.g. `contoso` for `https://dev.azure.com/contoso`).
 
-**ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server’s `env` if your MCP config supports it.
+**ADO auth:** On first use, @azure-devops/mcp prompts for Microsoft sign-in. For unattended or CI, set `AZURE_DEVOPS_PAT` (and optionally `AZURE_DEVOPS_ORG_URL`) in the server's `env` if your MCP config supports it.
 
 Test: *"Get work items in my current sprint"* or *"List repositories in my organization"*
 
@@ -77,4 +77,4 @@ Test: *"Get work items in my current sprint"* or *"List repositories in my organ
 
 ---
 
-[:octicons-arrow-left-24: Back to Getting Started](getting-started.md)
+[:octicons-arrow-left-24: Back to Getting Started](../getting-started.md)

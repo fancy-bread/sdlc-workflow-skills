@@ -37,5 +37,5 @@ Edit files in `skills/<name>/SKILL.md`, then copy to your environment’s skills
 
 ## Learn more
 
-- [MCP Setup](../docs/mcp-setup.md) — Configure MCP servers
+- [MCP Setup](../docs/reference/mcp-setup.md) — Configure MCP servers
 - [Cursor Skills Docs](https://cursor.com/docs/context/skills) — Agent Skills format (Cursor); other environments may adopt the same format

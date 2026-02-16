@@ -152,4 +152,4 @@ Invoke your first skill: `/create-task --type=story for [your feature]`
 
 - **[Skills Reference](skills/index.md)** - All skills with previews
 - **[How It Works](getting-started.md#how-it-works)** - Core principles
-- **[Setup Instructions](mcp-setup.md)** - Detailed configuration
+- **[Setup Instructions](reference/mcp-setup.md)** - Detailed configuration

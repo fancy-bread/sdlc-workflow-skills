@@ -129,7 +129,7 @@ directory_map:
   # User-Facing Documentation
   docs:
     skills: "User-facing skills documentation; index has canonical source (skills/), format; install in getting-started"
-    mcp-setup.md: "MCP server configuration"
+    reference/mcp-setup.md: "MCP server configuration"
     roles: "Role-based command guides (PM, Engineer, QA)"
     getting-started.md: "Setup and skill install (Step 2); troubleshooting"
     index.md: "Documentation home page with hero section"

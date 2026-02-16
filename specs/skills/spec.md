@@ -12,7 +12,7 @@
 
 This repo is built for **Cursor IDE**. The **skills** (Agent Skills format: markdown with frontmatter in `skills/<name>/SKILL.md`) are the primary product—not compiled code. A short, top-level path makes the canonical source obvious and simplifies install instructions.
 
-**Solution:** Canonical path is **`skills/`** at repo root. Each skill is a folder with `SKILL.md`. Users copy from `skills/` into `.cursor/skills/` or `~/.cursor/skills/`. MCP setup and other Cursor docs live under `docs/` (e.g. `docs/mcp-setup.md`). Release artifacts are `skills-{tag}.tar.gz` and `skills-{tag}.zip`.
+**Solution:** Canonical path is **`skills/`** at repo root. Each skill is a folder with `SKILL.md`. Users copy from `skills/` into `.cursor/skills/` or `~/.cursor/skills/`. MCP setup and other Cursor docs live under `docs/` (e.g. `docs/reference/mcp-setup.md`). Release artifacts are `skills-{tag}.tar.gz` and `skills-{tag}.zip`.
 
 ### Architecture
 
@@ -22,13 +22,13 @@ This repo is built for **Cursor IDE**. The **skills** (Agent Skills format: mark
   - Project: `.cursor/skills/`
   - Global: `~/.cursor/skills/`
 - **Format:** Agent Skills—markdown with frontmatter; no compilation. Cursor loads these as skills (slash commands).
-- **Docs:** User-facing skill docs stay in `docs/skills/` (nav label "Skills"). MCP setup is `docs/mcp-setup.md`.
+- **Docs:** User-facing skill docs stay in `docs/skills/` (nav label "Skills"). MCP setup is `docs/reference/mcp-setup.md`.
 - **Release:** CHANGELOG at repo root `CHANGELOG.md`. Workflow packages `skills/` as `skills-{tag}.tar.gz` and `.zip`.
 - **Validation:** `schemas/validate.py` validates each `skills/*/SKILL.md` (body only; frontmatter stripped). `schemas/validate_all.py` runs over all skills, mcps, and MCP refs.
 
 ### Anti-Patterns
 
-- **Don’t put non-skill files in `skills/`** — e.g. `mcp-setup.md` lives in `docs/`, not in `skills/`.
+- **Don’t put non-skill files in `skills/`** — e.g. `mcp-setup.md` lives in `docs/reference/`, not in `skills/`.
 - **Don’t change skill behavior in a pure relocation** — only paths and references change; instruction content is preserved.
 
 ---

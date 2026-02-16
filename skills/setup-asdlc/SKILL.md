@@ -97,7 +97,7 @@ Enable teams to quickly adopt ASDLC patterns by automating initial repository se
    - Report what was created vs skipped
    - Provide next steps guidance:
      - "Next steps: Customize AGENTS.md with your project details"
-     - "Configure MCP servers (see docs/mcp-setup.md)"
+     - "Configure MCP servers (see docs/reference/mcp-setup.md)"
      - "Create your first spec with /create-plan"
 
 ## Tools
@@ -139,7 +139,7 @@ MCP Status:
 
 Next steps:
   1. Customize AGENTS.md with your project details
-  2. Configure MCP servers (see docs/mcp-setup.md)
+  2. Configure MCP servers (see docs/reference/mcp-setup.md)
   3. Create your first spec with /create-plan
 ```
 
@@ -265,7 +265,7 @@ Result: Skips existing files, creates missing directories, reports what was adde
 - Command structure: See AGENTS.md §6 Command Structure Standards
 - Directory conventions: specs/ for specs, .plans/ for plans
 - File naming: AGENTS.md at root, specs/README.md for specs documentation
-- MCP setup: See docs/mcp-setup.md for MCP configuration
+- MCP setup: See docs/reference/mcp-setup.md for MCP configuration
 - Schema validation: See schemas/README.md for when schemas are needed
 
 ### Output

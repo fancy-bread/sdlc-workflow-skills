@@ -1,6 +1,6 @@
 # SDLC Workflow Skills
 
-**SDLC workflow skills: skills (Agent Skills format) that implement ASDLC workflows.**
+**Agent Skills that implement ASDLC workflows.**
 
 [![Documentation](https://img.shields.io/badge/docs-live-blue)](https://fancy-bread.github.io/sdlc-workflow-skills)
 [![Schema Validation](https://github.com/fancy-bread/sdlc-workflow-skills/actions/workflows/skill-validation.yml/badge.svg)](https://github.com/fancy-bread/sdlc-workflow-skills/actions/workflows/skill-validation.yml)
@@ -11,9 +11,9 @@
 
 ## What This Is
 
-SDLC Workflow Skills provides **SDLC workflow skills**—skills in [Agent Skills](https://cursor.com/docs/context/skills) format that implement [ASDLC](https://asdlc.io/) workflows. They work in any environment that supports Agent Skills (including Cursor IDE) and across teams and projects.
+SDLC Workflow Skills provides [Agent Skills](https://agentskills.io) that implement [ASDLC](https://asdlc.io/) workflows. They work in any environment that supports Agent Skills and across teams and projects.
 
-Built on ASDLC principles: Factory Architecture (specialized command stations), Standardized Parts (schema-enforced structure), and Quality Control (automated gates). See [ASDLC Alignment](docs/reference/asdlc-alignment.md) for pattern mapping.
+Built on ASDLC principles: Factory Architecture (specialized command stations), Standardized Parts (schema-enforced structure), and Quality Control (automated gates). See [ASDLC Alignment](https://fancy-bread.github.io/sdlc-workflow-skills/reference/asdlc-alignment/) for pattern mapping.
 
 **Built on:**
 - **Agent Skills** – Markdown instructions with frontmatter (supported by Cursor and other Agent Skills–compatible environments)
@@ -26,7 +26,7 @@ Built on ASDLC principles: Factory Architecture (specialized command stations), 
 
 ### 1. Configure MCP
 
-Configure MCP in your IDE or agent (e.g. **Cursor:** Settings → Features → Model Context Protocol):
+Configure MCP in your IDE or agent (e.g. **Cursor:** Settings → Features → Model Context Protocol). Example for **GitHub + Jira**:
 
 ```json
 {
@@ -38,28 +38,36 @@ Configure MCP in your IDE or agent (e.g. **Cursor:** Settings → Features → M
       }
     },
     "atlassian": {
-      "url": "https://mcp.atlassian.com/v1/sse"
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/mcp"]
     }
   }
 }
 ```
 
+GitHub token: [github.com/settings/tokens](https://github.com/settings/tokens) (scopes: `repo`, `read:org`). Jira: your environment will prompt for Atlassian OAuth on first use. [Full MCP setup →](https://fancy-bread.github.io/sdlc-workflow-skills/reference/mcp-setup/)
+
 ### 2. Install Skills
 
-**Cursor:** Install from GitHub: **Settings → Rules → Add Rule → Remote Rule (Github)** and enter `https://github.com/fancy-bread/sdlc-workflow-skills`. See [Installing skills from GitHub](https://cursor.com/docs/context/skills#installing-skills-from-github).
-
-**Or** copy skills into your environment’s skills directory (same layout works for Cursor, Claude, and Codex):
+**Recommended:** Install with the [skills CLI](https://github.com/vercel-labs/skills) (Cursor, Claude, Codex):
 
 ```bash
-# Cursor
-cp -r skills/* ~/.cursor/skills/
-
-# Claude
-cp -r skills/* ~/.claude/skills/
-
-# Codex
-cp -r skills/* ~/.codex/skills/
+npx skills add fancy-bread/sdlc-workflow-skills -a cursor
 ```
+
+Choose **Copy** when prompted (symlinks can prevent Cursor from listing skills).
+
+**Or** copy the repo's `skills/` folder into your environment's skills directory:
+
+| Environment | User-level | Project-level |
+|-------------|------------|---------------|
+| **Cursor**  | `~/.cursor/skills/`  | `.cursor/skills/`  |
+| **Claude**  | `~/.claude/skills/`  | `.claude/skills/`  |
+| **Codex**   | `~/.codex/skills/`   | `.codex/skills/`   |
+
+**Or** use a [packaged release](https://github.com/fancy-bread/sdlc-workflow-skills/releases): download the `.tar.gz` or `.zip` for the latest version, extract it, and copy the `skills/` folder into your environment's directory (see table above).
+
+[Full installation options →](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/#step-2-install-skills) (npx, packaged releases, Cursor Remote Rule)
 
 ### 3. Use Skills (slash commands)
 
@@ -98,23 +106,22 @@ Skills connect you to AI agents that interact with Jira, GitHub, and your codeba
 
 📚 **[Full Documentation](https://fancy-bread.github.io/sdlc-workflow-skills)**
 
-- [Getting Started](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/) - 3-step setup
-- [Skills Reference](https://fancy-bread.github.io/sdlc-workflow-skills/skills/) - All skills
-- [Methodology](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/#how-it-works) - Core principles
+- [Getting Started](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/) — 3-step setup
+- [Skills Reference](https://fancy-bread.github.io/sdlc-workflow-skills/skills/) — All skills
+- [MCP Setup](https://fancy-bread.github.io/sdlc-workflow-skills/reference/mcp-setup/) — Configure GitHub, Jira, ADO
+- [Methodology](https://fancy-bread.github.io/sdlc-workflow-skills/getting-started/#how-it-works) — Core principles
 
 ---
 
 ## Requirements
 
 - **Agent Skills–compatible environment** (e.g. [Cursor IDE](https://cursor.com))
-- **Jira or Azure DevOps** – Issue tracking
+- **Jira or Azure DevOps** – Issue tracking (Jira uses OAuth on first use)
 - **GitHub** – Version control
-- **GitHub token** – For MCP access
+- **GitHub token** – For MCP (scopes: `repo`, `read:org`)
 
 ---
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details
-
--
+MIT License — See [LICENSE](LICENSE) for details.

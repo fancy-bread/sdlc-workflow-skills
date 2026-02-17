@@ -76,7 +76,7 @@ hide:
 
 <div class="hero">
   <h1>SDLC Workflow Skills</h1>
-  <p>SDLC workflow skills (Agent Skills format) that implement ASDLC workflows. Works in any Agent Skills–compatible environment (including Cursor) with MCP. Jira, Azure DevOps, and GitHub.</p>
+  <p>Skills that implement ASDLC workflows. Works in any Agent Skills–compatible environment (Claude, Codex, Cursor, etc.) with MCP tools for Jira, Azure DevOps, GitHub and more.</p>
   <p>
     <a href="getting-started/" class="md-button md-button--primary">Get Started</a>
     <a href="skills/" class="md-button">View Skills</a>

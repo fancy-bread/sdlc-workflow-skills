@@ -6,7 +6,7 @@ title: Skills Reference
 
 **SDLC workflow skills (Agent Skills format) for AI-assisted development.**
 
-The canonical skill definitions live in **`skills/`** at the repo root (each skill is `skills/<name>/SKILL.md`). This documentation describes what each skill does. For full instruction content, see the [repository `skills/` folder](https://github.com/fancy-bread/sdlc-workflow-skills/tree/main/skills). Skills are validated with `python schemas/validate.py skills/<name>/SKILL.md` (see [schemas/README](https://github.com/fancy-bread/sdlc-workflow-skills/blob/main/schemas/README.md)).
+The canonical skill definitions live in **`skills/`** (each skill is `skills/<name>/SKILL.md`). This documentation describes what each skill does. For full instruction content, see the [repository `skills/` folder](https://github.com/fancy-bread/sdlc-workflow-skills/tree/main/skills).
 
 [:octicons-zap-24: Quick Reference](quick-reference.md){ .md-button }
 

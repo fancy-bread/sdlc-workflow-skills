@@ -58,7 +58,7 @@ First time you use Jira, your environment may prompt for OAuth (e.g. Cursor prom
 
 ## Step 2: Install Skills
 
-This repo uses the [Agent Skills](https://agentskills.io) format. The same **`skills/`** layout and **`SKILL.md`** files work for **Cursor**, **Claude**, and **Codex**—each environment loads from its own skills directory (see table below). We recommend installing with the **npx skills** CLI; Cursor users can alternatively install from GitHub or copy from a release.
+SDLC Workflow Skills uses the [Agent Skills](https://agentskills.io) format. The same **`skills/`** layout and **`SKILL.md`** files work for **Cursor**, **Claude**, and **Codex**—each environment loads from its own skills directory (see table below). We recommend installing with the **npx skills** CLI; Cursor users can alternatively install from GitHub or copy from a release.
 
 | Environment | Project-level | User-level (global) |
 |-------------|----------------|---------------------|
@@ -86,13 +86,7 @@ For other agents or global install, see [vercel-labs/skills](https://github.com/
 
 The same layout works for all three: a top-level **`skills/`** directory; each skill is a subfolder containing **`SKILL.md`** with YAML frontmatter **`name`** (matching the folder name) and **`description`**. See [Cursor: Agent Skills](https://cursor.com/docs/context/skills#skillmd-file-format), [agentskills.io](https://agentskills.io), and [skills.sh](https://skills.sh).
 
-To verify locally:
-
-```bash
-python scripts/verify_github_install.py
-```
-
-If it prints `OK: repo ready for Cursor/Claude/Codex (N skills).`, the layout is correct. This check also runs in CI on every pull request.
+To verify the install: open your agent chat and type `/`—you should see the SDLC commands (e.g. `/create-task`, `/start-task`). Or run `/mcp-status` to confirm MCP connections.
 
 ### Option B: Download release and copy
 
